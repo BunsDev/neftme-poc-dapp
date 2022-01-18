@@ -20,7 +20,8 @@
         "react-native"
     ],
     "rules": {
-        "react/function-component-definition": "off"
+        "react/function-component-definition": "off",
+        "react/style-prop-object": "off"
     },
     "settings": {
         "import/resolver": {
