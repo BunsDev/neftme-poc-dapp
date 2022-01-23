@@ -10,8 +10,7 @@ import InstagramLogin from '../instagram_login';
 
 const Start = ({ navigation }) => {
   useEffect(async () => {
-    const auth = await getData('auth_token');
-    if (auth) {
+    if (await getData('auth_token')) {
       navigation.navigate('Home');
     }
   }, []);
