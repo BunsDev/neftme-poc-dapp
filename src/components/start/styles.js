@@ -11,7 +11,9 @@ export default StyleSheet.create({
     width: '65%',
     height: '49%',
   },
-  connectButton: {
+  buttonsContainer: {
+    width: '100%',
+    alignItems: 'center',
     marginTop: 50,
   },
   exploreButton: {
