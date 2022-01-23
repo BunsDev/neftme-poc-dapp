@@ -31,6 +31,13 @@ export default StyleSheet.create({
   profilePhoto: {
     width: 50,
     height: 50,
+    borderRadius: 50,
+  },
+  profilePhotoPlaceholder: {
+    backgroundColor: '#232630',
+    width: 50,
+    height: 50,
+    borderRadius: 50,
   },
   trendingContainer: {
     marginTop: '8%',
