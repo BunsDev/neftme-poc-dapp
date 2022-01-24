@@ -5,19 +5,19 @@ import styles from './styles';
 
 const ProfileCard = ({ profile }) => (
   <View style={styles.profileItem}>
-    <Image source={profile.header} style={styles.profileItemHeaderImage} />
+    <Image source={{ uri: profile.header }} style={styles.profileItemHeaderImage} />
     <Text style={styles.profileItemName}>{profile.name}</Text>
     <Text style={styles.profileItemFollowers}>{`${profile.followers} Followers`}</Text>
-    <Image source={profile.profilePhoto} style={styles.profileItemUserPhoto} />
+    <Image source={{ uri: profile.profilePhoto }} style={styles.profileItemUserPhoto} />
   </View>
 );
 
 ProfileCard.propTypes = {
   profile: PropTypes.shape({
-    header: PropTypes.number.isRequired,
+    header: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     followers: PropTypes.string.isRequired,
-    profilePhoto: PropTypes.number.isRequired,
+    profilePhoto: PropTypes.string.isRequired,
   }).isRequired,
 };
 

@@ -1,14 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  background: {
-    flex: 1,
+  scrollView: {
+    backgroundColor: '#141316',
   },
   mainView: {
-    flex: 1,
     marginTop: 54,
     marginLeft: 21,
   },
@@ -31,7 +27,7 @@ export default StyleSheet.create({
   profilePhoto: {
     width: 50,
     height: 50,
-    borderRadius: 50,
+    borderRadius: 45,
   },
   profilePhotoPlaceholder: {
     backgroundColor: '#232630',
@@ -59,15 +55,25 @@ export default StyleSheet.create({
     marginTop: '2%',
     flexDirection: 'row',
     height: 203,
+    width: '100%',
+  },
+  profilesListPlaceholder: {
+    backgroundColor: '#232630',
+    width: '100%',
+    justifyContent: 'center',
   },
   profileItem: {
-    width: '37%',
+    width: 145,
+    height: 203,
     backgroundColor: '#232630',
-    marginRight: '3%',
+    marginLeft: 11,
     borderRadius: 16,
   },
   profileItemHeaderImage: {
-    maxWidth: '100%',
+    width: 145,
+    height: 100,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   profileItemName: {
     color: '#FCFCFC',
@@ -87,20 +93,30 @@ export default StyleSheet.create({
     position: 'absolute',
     left: '25%',
     top: '31%',
+    width: 67,
+    height: 67,
+    borderRadius: 44,
   },
   timelineContainer: {
     marginTop: 98,
     marginRight: 21,
-    height: 651,
+  },
+  headerContainer: {
     backgroundColor: '#232630',
+    marginBottom: 69,
+    borderRadius: 16,
+    paddingTop: 31,
+    paddingBottom: 12,
   },
   postHeader: {
     flexDirection: 'row',
-    marginTop: 31,
   },
   postProfilePhoto: {
     marginLeft: 16,
     marginRight: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 60,
   },
   postHeaderTitle: {
     justifyContent: 'center',
@@ -119,7 +135,66 @@ export default StyleSheet.create({
     lineHeight: 20,
   },
   postNFTPhoto: {
-    maxWidth: '100%',
+    width: '100%',
+    height: 342,
     marginTop: 22,
+  },
+  detailsContainer: {
+    marginTop: 16,
+    marginHorizontal: 16,
+    marginBottom: 8,
+    flexDirection: 'row',
+  },
+  postTitle: {
+    fontSize: 24,
+    color: '#FCFCFC',
+    fontWeight: '700',
+  },
+  iconsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  mediaIcons: {
+    marginLeft: 10,
+  },
+  postDescription: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '400',
+    marginHorizontal: 16,
+  },
+  horizontalLine: {
+    height: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    marginVertical: 16,
+    marginHorizontal: 16,
+  },
+  stakedContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#EEB02A',
+    borderWidth: 1,
+    paddingVertical: 3,
+    marginHorizontal: 16,
+    borderRadius: 10,
+  },
+  stakedStyle: {
+    textTransform: 'uppercase',
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FCFCFC',
+    lineHeight: 32,
+    marginLeft: 4,
+  },
+  economicDetails: {
+    marginHorizontal: 16,
+    marginTop: 4,
+    textAlign: 'center',
+    color: '#FCFCFC',
+    lineHeight: 32,
+    fontSize: 15,
   },
 });

@@ -1,52 +1,50 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator, FlatList, Text, View,
+} from 'react-native';
+import { getFeaturedProfiles } from '@services/user';
 import styles from './styles';
 import ProfileCard from './profile_card';
 
-// Mocked data
-const header = require('@assets/prof_header.png');
-const profilePhoto = require('@assets/profile_photo.png');
+const FeaturedProfiles = () => {
+  const [profiles, setProfiles] = useState([]);
 
-const profiles = [
-  {
-    id: 1,
-    name: 'Savannah Nguy',
-    followers: '23k',
-    header,
-    profilePhoto,
-  },
-  {
-    id: 2,
-    name: 'Guy Hawkins',
-    followers: '1.3k',
-    header,
-    profilePhoto,
-  },
-  {
-    id: 3,
-    name: 'John Doe',
-    followers: '432k',
-    header,
-    profilePhoto,
-  },
-];
+  useEffect(async () => {
+    setProfiles(await getFeaturedProfiles());
+  }, []);
 
-const FeaturedProfiles = () => (
-  <>
-    <View style={styles.trendingContainer}>
-      <View style={styles.header}>
-        <View style={styles.subHeaderRight}>
-          <Text style={styles.trendingTitle}>Trending</Text>
-        </View>
-        <View style={styles.subHeaderLeft}>
-          <Text style={styles.seeAllText}>See All</Text>
+  return (
+    <>
+      <View style={styles.trendingContainer}>
+        <View style={styles.header}>
+          <View style={styles.subHeaderRight}>
+            <Text style={styles.trendingTitle}>Trending</Text>
+          </View>
+          <View style={styles.subHeaderLeft}>
+            <Text style={styles.seeAllText}>See All</Text>
+          </View>
         </View>
       </View>
-    </View>
-    <View style={styles.profilesList}>
-      {profiles.map((p) => <ProfileCard key={p.id} profile={p} />)}
-    </View>
-  </>
-);
+      <View style={styles.profilesList}>
+        {profiles.length === 0
+          ? (
+            <View style={styles.profilesListPlaceholder}>
+              <ActivityIndicator size="large" color="white" />
+            </View>
+          )
+          : (
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={profiles}
+              renderItem={({ item, index }) => (
+                <ProfileCard key={item.id} profile={item} index={index} />
+              )}
+            />
+          )}
+      </View>
+    </>
+  );
+};
 
 export default FeaturedProfiles;
