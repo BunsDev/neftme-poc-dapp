@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
@@ -8,13 +8,12 @@ import FeaturedProfiles from './featured_profiles';
 import Timeline from './timeline';
 
 const Home = () => (
-  <View style={styles.container}>
+  <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
     <StatusBar style="light" />
     <LinearGradient
       colors={['#303040', '#141316']}
       start={[0, 0]}
       end={{ x: 0, y: 0.1 }}
-      style={styles.background}
     >
       <View style={styles.mainView}>
         <Header />
@@ -22,7 +21,7 @@ const Home = () => (
         <Timeline />
       </View>
     </LinearGradient>
-  </View>
+  </ScrollView>
 );
 
 export default Home;

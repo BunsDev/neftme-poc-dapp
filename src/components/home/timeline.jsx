@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { getTimelineContent } from '@services/user';
 import styles from './styles';
 import Post from './post';
 
-// Mocked data
-const profilePhoto = require('@assets/profile_photo.png');
-const image = require('@assets/nft_user.png');
+const Timeline = () => {
+  const [posts, setPosts] = useState([]);
 
-const posts = [
-  {
-    id: 1,
-    profilePhoto,
-    name: 'Pawel Czerwinski',
-    followers: '1.3k',
-    image,
-  },
-];
+  useEffect(async () => {
+    setPosts(await getTimelineContent());
+  }, []);
 
-const Timeline = () => (
-  <View style={styles.timelineContainer}>
-    {posts.map((p) => <Post key={`post_${p.id}`} post={p} />)}
-  </View>
-);
+  return (
+    <View style={styles.timelineContainer}>
+      {posts.map((p) => <Post key={`post_${p.id}`} post={p} />)}
+    </View>
+  );
+};
 
 export default Timeline;
