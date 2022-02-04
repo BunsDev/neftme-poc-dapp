@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { View, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from '@library';
+import { Button, StatusBar } from '@library';
 import { getData } from '@services/storage';
 import styles from './styles';
 import Carousel from '../carousel';
@@ -17,7 +16,7 @@ const Start = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.mainView}>
-      <StatusBar style="light" />
+      <StatusBar backgroundColor="#100F12" />
       <View style={styles.slider}>
         <Carousel />
       </View>
