@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator, FlatList, Text, View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { getFeaturedProfiles } from '@services/user';
-import styles from './styles';
+import { SectionHeader } from '@library';
 import ProfileCard from './profile_card';
+import styles from './styles';
 
 const FeaturedProfiles = () => {
   const [profiles, setProfiles] = useState([]);
@@ -15,16 +14,7 @@ const FeaturedProfiles = () => {
 
   return (
     <>
-      <View style={styles.trendingContainer}>
-        <View style={styles.header}>
-          <View style={styles.subHeaderRight}>
-            <Text style={styles.trendingTitle}>Trending</Text>
-          </View>
-          <View style={styles.subHeaderLeft}>
-            <Text style={styles.seeAllText}>See All</Text>
-          </View>
-        </View>
-      </View>
+      <SectionHeader title="Trending" onSeeAllClick={() => { }} containerStyle={styles.headerContainerStyle} />
       <View style={styles.profilesList}>
         {profiles.length === 0
           ? (
