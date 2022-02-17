@@ -38,9 +38,6 @@ Nft.propTypes = {
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    staked: PropTypes.number.isRequired,
-    profitPercentage: PropTypes.number.isRequired,
-    supporters: PropTypes.number.isRequired,
   }).isRequired,
 };
 

@@ -6,6 +6,10 @@ export default StyleSheet.create({
     top: 96,
     marginLeft: 16,
   },
+  profilePicture: {
+    borderWidth: 3,
+    borderColor: '#222222',
+  },
   name: {
     textAlign: 'center',
     fontWeight: '700',

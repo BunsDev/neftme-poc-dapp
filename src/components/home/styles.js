@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#303040',
-  },
   mainView: {
     marginLeft: 16,
   },
@@ -42,7 +39,6 @@ export default StyleSheet.create({
   profilePhoto: {
     width: 50,
     height: 50,
-    borderRadius: 45,
   },
   profilePhotoPlaceholder: {
     backgroundColor: '#232630',

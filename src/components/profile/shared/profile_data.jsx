@@ -10,7 +10,7 @@ const ProfileData = ({
 }) => (
   <>
     <View style={styles.container}>
-      <ProfilePicture profilePictureUrl={profilePictureUrl} />
+      <ProfilePicture profilePictureUrl={profilePictureUrl} pictureStyle={styles.profilePicture} />
       <Text style={styles.name}>{profileName}</Text>
       <Text style={styles.wallet}>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(-5)}`}</Text>
     </View>
