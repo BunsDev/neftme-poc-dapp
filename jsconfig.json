@@ -8,12 +8,15 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@hocs": [
+        "src/hocs/index.js"
+      ],
       "@library": [
         "src/components/library/index.js"
       ],
       "@services/*": [
         "src/services/*"
-      ]
+      ],
     }
   },
   "include": [

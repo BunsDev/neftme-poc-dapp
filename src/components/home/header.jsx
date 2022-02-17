@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
+import { ProfilePicture } from '@library';
 import { getProfilePictureUrl } from '@services/user';
 import BellIcon from '@assets/icons/bell.svg';
 import styles from './styles';
@@ -24,7 +25,12 @@ const Header = () => {
             <View style={styles.notificationBadge} />
           </View>
           {profilePhotoUrl
-            ? <Image source={{ uri: profilePhotoUrl }} style={styles.profilePhoto} />
+            ? (
+              <ProfilePicture
+                profilePictureUrl={profilePhotoUrl}
+                pictureStyle={styles.profilePhoto}
+              />
+            )
             : <View style={styles.profilePhotoPlaceholder} />}
         </View>
       </View>
