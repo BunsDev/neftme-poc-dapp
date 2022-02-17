@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet, Text, View, ViewPropTypes,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
@@ -47,8 +49,7 @@ SectionHeader.defaultProps = {
 SectionHeader.propTypes = {
   title: PropTypes.string.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  containerStyle: PropTypes.object,
+  containerStyle: ViewPropTypes.style,
 };
 
 export default SectionHeader;
