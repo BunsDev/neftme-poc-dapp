@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import { getData } from './storage';
 
-export const getProfilePictureUrl = async () => {
+export const getProfileData = async () => {
   try {
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/me`, {
       method: 'GET',
@@ -17,7 +17,7 @@ export const getProfilePictureUrl = async () => {
       return '';
     }
 
-    return (await response.json())?.profile_picture;
+    return await response.json();
   } catch (err) {
     return '';
   }
