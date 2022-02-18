@@ -5,6 +5,7 @@ import { registerRootComponent } from 'expo';
 import Start from './start';
 import Home from './home';
 import CreatorProfile from './profile/creator_profile';
+import MyProfile from './profile/my_profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => (
       <Stack.Screen name="Start" component={Start} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="CreatorProfile" component={CreatorProfile} />
+      <Stack.Screen name="MyProfile" component={MyProfile} />
     </Stack.Navigator>
   </NavigationContainer>
 );
