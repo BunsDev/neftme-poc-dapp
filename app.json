@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "neftmedapp",
+    "name": "Neftme dApp",
     "slug": "neftmedapp",
     "owner": "neftme",
+    "description": "Neftme dApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +30,17 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Neftme dApp"
+    "extra": {
+      "apiUrl": "https://neftme-api.herokuapp.com",
+      "instagram": {
+        "apiUrl": "https://api.instagram.com",
+        "clientID": "531193358214631",
+        "redirectUrl": "https://neftme-api.herokuapp.com/instagram_oauth",
+        "oauthScopes": [
+          "user_profile",
+          "user_media"
+        ]
+      }
+    }
   }
 }
