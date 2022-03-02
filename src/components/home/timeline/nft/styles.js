@@ -36,7 +36,8 @@ export default StyleSheet.create({
   },
   saveFavoriteIcon: {
     position: 'absolute',
-    right: 0,
+    right: 12,
+    top: 16,
     zIndex: 1,
   },
   nftNFTPhoto: {
@@ -44,19 +45,24 @@ export default StyleSheet.create({
     height: 342,
   },
   detailsContainer: {
-    marginTop: 19,
+    marginTop: 18,
     marginBottom: 18,
+    marginLeft: 16,
     flexDirection: 'row',
     flex: 1,
-    justifyContent: 'center',
   },
   detailCenter: {
-    marginHorizontal: 25,
+    marginLeft: 16,
   },
   iconTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     color: '#FFFFFFB5',
+  },
+  shareContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginRight: 16,
   },
   detailText: {
     color: '#FFFFFFB5',
