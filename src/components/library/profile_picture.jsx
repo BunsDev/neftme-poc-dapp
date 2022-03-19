@@ -20,7 +20,7 @@ ProfilePicture.defaultProps = {
 
 ProfilePicture.propTypes = {
   profilePictureUrl: PropTypes.string.isRequired,
-  pictureStyle: ViewPropTypes.style,
+  pictureStyle: ViewPropTypes ? ViewPropTypes.style : PropTypes.Object,
 };
 
 export default ProfilePicture;

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import FacebookIcon from '@assets/icons/facebook.svg';
-import InstagramIcon from '@assets/icons/instagram.svg';
-import TwitterIcon from '@assets/icons/twitter.svg';
+import { Image, StyleSheet, View } from 'react-native';
+
+const facebookIcon = require('@assets/icons_web/facebook.png');
+const instagramIcon = require('@assets/icons_web/instagram.png');
+const twitterIcon = require('@assets/icons_web/twitter.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -16,12 +17,12 @@ const styles = StyleSheet.create({
 const SocialLinks = () => (
   <View style={styles.container}>
     <View style={{ marginRight: 41 }}>
-      <FacebookIcon width={21} height={19.88} />
+      <Image source={facebookIcon} style={{ width: 21, height: 19.88 }} />
     </View>
     <View style={{ marginRight: 41 }}>
-      <InstagramIcon width={19.25} height={18.23} />
+      <Image source={instagramIcon} style={{ width: 19.25, height: 18.23 }} />
     </View>
-    <TwitterIcon width={19.87} height={15.38} />
+    <Image source={twitterIcon} style={{ width: 19.87, height: 15.38 }} />
   </View>
 );
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import HomeIcon from '@assets/icons/home.svg';
-import CreateIcon from '@assets/icons/create_nft.svg';
-import SearchIcon from '@assets/icons/search.svg';
+import { Image, StyleSheet, View } from 'react-native';
+
+const homeIcon = require('@assets/icons_web/home.png');
+const createNftIcon = require('@assets/icons_web/create_nft.png');
+const searchIcon = require('@assets/icons_web/search.png');
 
 const styles = StyleSheet.create({
   bottomBar: {
@@ -15,16 +16,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  homeIcon: {
+    width: 24,
+    height: 25,
+  },
   createNftIcon: {
+    width: 43.35,
+    height: 44,
     marginHorizontal: 75,
+  },
+  searchIcon: {
+    width: 22.42,
+    height: 23.54,
   },
 });
 
 const BottomBar = () => (
   <View style={styles.bottomBar}>
-    <HomeIcon width={24} height={25} />
-    <CreateIcon style={styles.createNftIcon} width={43.35} height={44} />
-    <SearchIcon width={22.42} height={23.54} />
+    <Image source={homeIcon} style={styles.homeIcon} />
+    <Image source={createNftIcon} style={styles.createNftIcon} />
+    <Image source={searchIcon} style={styles.searchIcon} />
   </View>
 );
 

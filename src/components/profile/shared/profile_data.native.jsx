@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { ProfilePicture, TruncatedText } from '@library';
+import ShareIcon from '@assets/icons/share.svg';
 import styles from './profile_data_styles';
-
-const shareIcon = require('@assets/icons_web/share.png');
 
 const ProfileData = ({
   bio, followers, following, profileName, profilePictureUrl, walletAddress,
@@ -27,7 +26,7 @@ const ProfileData = ({
         </View>
       </View>
       <View style={styles.shareContainer}>
-        <Image source={shareIcon} style={{ width: 20, height: 18 }} />
+        <ShareIcon width={20} height={18} />
         <Text style={styles.shareText}>Share</Text>
       </View>
     </View>

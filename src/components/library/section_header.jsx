@@ -49,7 +49,7 @@ SectionHeader.defaultProps = {
 SectionHeader.propTypes = {
   title: PropTypes.string.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
-  containerStyle: ViewPropTypes.style,
+  containerStyle: ViewPropTypes ? ViewPropTypes.style : PropTypes.Object,
 };
 
 export default SectionHeader;

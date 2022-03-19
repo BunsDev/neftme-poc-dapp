@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import TokenIcon from '@assets/icons/token.svg';
 import styles from './styles';
-
-const tokenIcon = require('@assets/icons_web/token.png');
 
 const Tokenomics = ({ nft }) => (
   <View style={styles.tokenomicsContainer}>
     <View style={styles.stakedContainer}>
-      <Image source={tokenIcon} style={{ width: 34, height: 34 }} />
+      <TokenIcon width={34} height={34} />
       <View>
         <Text style={styles.stakedStyle}>staked</Text>
         <Text style={styles.neftsAmountStyle}>{`${nft.staked} nefts`}</Text>

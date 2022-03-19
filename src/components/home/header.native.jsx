@@ -3,10 +3,10 @@ import { Image, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ProfilePicture } from '@library';
 import { getProfileData } from '@services/user';
+import BellIcon from '@assets/icons/bell.svg';
 import styles from './styles';
 
 const logo = require('@assets/logo_home.webp');
-const bellIcon = require('@assets/icons/bell.svg');
 
 const Header = () => {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
@@ -24,7 +24,7 @@ const Header = () => {
       <View style={styles.subHeaderLeftContainer}>
         <View style={styles.subHeaderLeft}>
           <View>
-            <Image source={bellIcon} style={[styles.bellIcon, { width: 25, height: 22 }]} />
+            <BellIcon style={styles.bellIcon} width={25} height={22} />
             <View style={styles.notificationBadge} />
           </View>
           <Pressable onPress={() => navigation.navigate('MyProfile')}>

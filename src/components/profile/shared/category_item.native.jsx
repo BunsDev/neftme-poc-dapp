@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Image, Pressable, StyleSheet, Text, View,
+  Pressable, StyleSheet, Text, View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -10,44 +10,46 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'row',
+    height: 40,
   },
   itemName: {
-    fontSize: 15,
-    fontWeight: '400',
+    fontSize: 14,
     color: '#FFFFFF',
-    marginRight: 8,
+    opacity: 0.71,
+    marginLeft: 8,
   },
   selected: {
-    backgroundColor: '#F6C138',
-    height: 4,
+    backgroundColor: '#B389FC',
+    opacity: 1,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    height: 5,
     width: '100%',
-    marginTop: 12.5,
   },
 });
 
-const CarouselItem = ({
+const CategoryItem = ({
   index, item, selectedCategory, setSelectedCategory,
 }) => (
   <View key={`icon_profile_${index}`} style={styles.container}>
     <Pressable style={styles.item} onPress={() => setSelectedCategory(item.id)}>
+      <item.Icon width={item.width} height={item.height} />
       <Text style={styles.itemName}>{item.name}</Text>
-      <Image source={item.Icon} style={{ width: item.width, height: item.height }} />
     </Pressable>
     {item.id === selectedCategory && <View style={styles.selected} />}
   </View>
 );
 
-CarouselItem.propTypes = {
+CategoryItem.propTypes = {
   index: PropTypes.number.isRequired,
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    Icon: PropTypes.string.isRequired,
   }).isRequired,
   selectedCategory: PropTypes.string.isRequired,
   setSelectedCategory: PropTypes.func.isRequired,
 };
 
-export default CarouselItem;
+export default CategoryItem;

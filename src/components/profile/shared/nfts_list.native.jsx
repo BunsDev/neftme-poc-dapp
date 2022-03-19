@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
-import categories from './categories_web';
+import categories from './categories';
 import CategoryItem from './category_item';
 import NftItem from './nft_item';
 

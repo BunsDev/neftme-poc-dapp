@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Image, Pressable, StyleSheet, View,
 } from 'react-native';
-
-const backIcon = require('@assets/icons_web/back.png');
+import BackIcon from '@assets/icons/back.svg';
 
 const styles = StyleSheet.create({
   coverImage: {
@@ -22,7 +21,7 @@ const ProfileHeader = ({ coverPictureUrl, goBack }) => (
   <View>
     <Image style={styles.coverImage} source={{ uri: coverPictureUrl }} />
     <Pressable style={styles.backIcon} onPress={goBack}>
-      <Image source={backIcon} style={{ width: 30, height: 30 }} />
+      <BackIcon width={30} height={30} />
     </Pressable>
   </View>
 );

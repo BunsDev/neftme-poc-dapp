@@ -4,14 +4,13 @@ import {
   FlatList, Image, Pressable, ScrollView, Text, View,
 } from 'react-native';
 import { getNFT } from '@services/nft';
+import BackIcon from '@assets/icons/back.svg';
 import styles from './styles';
 import SocialInfo from '../home/timeline/nft/social_info';
 import Tokenomics from '../home/timeline/nft/tokenomics';
 import CarouselItem from './carousel_item';
 import NftItem from './nft_item';
-import categories from './nft_categories_web';
-
-const backIcon = require('@assets/icons_web/back.png');
+import categories from './nft_categories';
 
 const NFTDetail = ({ route: { params }, navigation }) => {
   const [nftData, setNftData] = useState(null);
@@ -25,7 +24,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
   return (
     <ScrollView style={styles.scrollView}>
       <Pressable style={styles.backIcon} onPress={() => navigation.goBack()}>
-        <Image source={backIcon} style={{ width: 18.67, height: 18.67 }} />
+        <BackIcon width={18.67} height={18.67} />
       </Pressable>
       <Image source={{ uri: nftData.image }} style={styles.image} />
       <View>

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Text, View } from 'react-native';
+import TokenIcon from '@assets/icons/token.svg';
 import styles from './styles';
-
-const tokenIcon = require('@assets/icons_web/token.png');
 
 const RankingItem = ({ item }) => (
   <View style={styles.rakingItemContainer}>
@@ -12,7 +11,7 @@ const RankingItem = ({ item }) => (
     <View>
       <Text style={styles.itemNameText}>{item.name}</Text>
       <View style={styles.stakeContainer}>
-        <Image source={tokenIcon} style={{ width: 17, height: 17 }} />
+        <TokenIcon width={17} height={17} />
         <Text style={styles.itemStakedText}>
           {`${item.staked} STAKED`}
         </Text>

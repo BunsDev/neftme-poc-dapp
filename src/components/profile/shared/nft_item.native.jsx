@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Image, StyleSheet, Text, View,
 } from 'react-native';
-
-const tokenIcon = require('@assets/icons_web/token.png');
+import TokenIcon from '@assets/icons/token.svg';
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -39,7 +38,7 @@ const NftItem = ({ nft }) => (
     <Image source={{ uri: nft.image }} style={styles.image} />
     {nft?.value && (
       <View style={styles.tokenContainer}>
-        <Image source={tokenIcon} style={{ width: 17, height: 17 }} />
+        <TokenIcon width={17} height={17} />
         <Text style={styles.tokenValue}>{`${nft.value} NEFTS`}</Text>
       </View>
     )}

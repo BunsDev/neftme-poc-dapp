@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Image, Pressable, StyleSheet, Text, View,
+  Pressable, StyleSheet, Text, View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ const CarouselItem = ({
   <View key={`icon_profile_${index}`} style={styles.container}>
     <Pressable style={styles.item} onPress={() => setSelectedCategory(item.id)}>
       <Text style={styles.itemName}>{item.name}</Text>
-      <Image source={item.Icon} style={{ width: item.width, height: item.height }} />
+      <item.Icon width={item.width} height={item.height} />
     </Pressable>
     {item.id === selectedCategory && <View style={styles.selected} />}
   </View>
@@ -44,7 +44,6 @@ CarouselItem.propTypes = {
     name: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    Icon: PropTypes.string.isRequired,
   }).isRequired,
   selectedCategory: PropTypes.string.isRequired,
   setSelectedCategory: PropTypes.func.isRequired,
