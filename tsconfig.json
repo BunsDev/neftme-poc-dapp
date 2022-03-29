@@ -1,12 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "jsx": "react",
-    "noEmit": true,
-    "paths": {
-      "crypto": [
-        "../../node_modules/crypto-browserify"
-      ]
-    }
+    "strict": true
   }
 }
