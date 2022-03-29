@@ -1,0 +1,400 @@
+/* Wallet */
+
+@import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@500&display=swap");
+
+p {
+  margin: 0;
+}
+
+.clip-contents {
+  overflow: hidden;
+}
+
+.flex-col-hstart-vstart {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-row-vstart-hstart {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-row-vcenter-hend {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flex-hcenter {
+  justify-content: center;
+}
+
+.flex-col-hcenter-vcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-vcenter-hstart {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex-col-hstart-vcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.flex-hend {
+  justify-content: flex-end;
+}
+
+.flex-row-vcenter-hcenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.wallet {
+  padding: 0px 0px 64px 0px;
+  box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    rgba(48, 48, 64, 1) 0%,
+    rgba(20, 19, 22, 1) 100%
+  );
+  width: 375px;
+  height: 812px;
+}
+
+.frame-600 {
+  width: 100%;
+  height: 100%;
+}
+
+.frame-625 {
+  width: 100%;
+  height: 100%;
+}
+
+.status-bar {
+  padding: 15px 15px 10px 29px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.txt-397 {
+  font-size: 16px;
+  font-family: Epilogue, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(252, 252, 252, 1);
+  word-wrap: break-word;
+  margin-right: 227px;
+}
+
+.mobile-signal {
+  width: 18px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.wifi {
+  width: 15.27px;
+  height: 10.97px;
+  margin-right: 6px;
+}
+
+.battery {
+  width: 26.98px;
+  height: 13px;
+}
+
+.frame-643 {
+  padding: 0px 7px 0px 0px;
+  box-sizing: border-box;
+  height: 51px;
+  width: 100%;
+}
+
+.frame-644 {
+  display: flex;
+  flex: 1;
+  padding: 9px;
+  box-sizing: border-box;
+  width: 367px;
+  height: 100%;
+}
+
+.txt-482 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(135, 135, 135, 1);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.frame-623 {
+  padding: 12px 0px 0px 0px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.union {
+  width: 82.03px;
+  height: 81.42px;
+}
+
+.frame-622 {
+  padding: 63px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.frame-646 {
+  height: 100%;
+}
+
+.frame-602 {
+  margin-bottom: 32px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.frame-641 {
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.frame-597 {
+  width: 100%;
+  height: 100%;
+}
+
+.frame-577 {
+  display: flex;
+  flex: 1;
+  padding: 6px 13px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.frame-576 {
+  width: 100%;
+  height: 100%;
+}
+
+.frame-328 {
+  width: 30px;
+  margin-right: 8px;
+  height: 100%;
+}
+
+.txt-272 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.frame-646 {
+  width: 100%;
+}
+
+.txt-589 {
+  font-size: 14px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 400;
+  line-height: 179%;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  word-wrap: break-word;
+  margin-bottom: 8px;
+}
+
+.frame-600 {
+  width: 100%;
+}
+
+.frame-5971 {
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  height: 48px;
+  width: 100%;
+}
+
+.frame-577 {
+  display: flex;
+  flex: 1;
+  padding: 6px 13px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.frame-576 {
+  width: 100%;
+  height: 100%;
+}
+
+.frame-328 {
+  width: 30px;
+  margin-right: 8px;
+  height: 100%;
+}
+
+.txt-272 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.frame-598 {
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.frame-577 {
+  display: flex;
+  flex: 1;
+  padding: 6px 13px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.frame-576 {
+  width: 100%;
+}
+
+.rectangle-1492 {
+  width: 32px;
+  margin-right: 8px;
+  height: 100%;
+}
+
+.txt-272 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.frame-586 {
+  width: 100%;
+}
+
+.frame-5771 {
+  padding: 6px 13px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.frame-576 {
+  width: 100%;
+}
+
+.rectangle-1492 {
+  width: 32px;
+  margin-right: 8px;
+  height: 100%;
+}
+
+.txt-469 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(0, 0, 0, 1);
+  text-align: right;
+  word-wrap: break-word;
+}
+
+.frame-646 {
+  width: 100%;
+}
+
+.frame-616 {
+  padding: 6px 13px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(65, 65, 74, 0.4);
+  height: 48px;
+  width: 100%;
+}
+
+.frame-5761 {
+  width: fit-content;
+}
+
+.txt-2721 {
+  font-size: 16px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.frame-601 {
+  width: fit-content;
+}
+
+.txt-787 {
+  font-size: 14px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 400;
+  line-height: 157%;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  word-wrap: break-word;
+  margin-right: 8px;
+}
+
+.txt-1028 {
+  font-size: 14px;
+  font-family: SF Pro Text, sans-serif;
+  font-weight: 400;
+  line-height: 157%;
+  color: rgba(246, 193, 56, 1);
+  text-align: center;
+  word-wrap: break-word;
+}

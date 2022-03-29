@@ -3,6 +3,14 @@
     "module:metro-react-native-babel-preset"
   ],
   "plugins": [
+    ["babel-plugin-rewrite-require", {
+      "aliases": {
+        "crypto": "crypto-browserify",
+        "fs":"react-native-fs",
+        "http":"react-native-http",
+        "https":"react-native-https"
+      }
+    }],
     [
       "module-resolver",
       {
@@ -24,7 +32,7 @@
           "@components": "./src/components",
           "@hocs": "./src/hocs/index.js",
           "@library": "./src/components/library/index.js",
-          "@services": "./src/services",
+          "@services": "./src/services"
         }
       }
     ]

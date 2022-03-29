@@ -2,6 +2,7 @@
   "expo": {
     "name": "Neftme dApp",
     "slug": "neftmedapp",
+    "scheme":"neftme",
     "owner": "neftme",
     "description": "Neftme dApp",
     "version": "1.0.0",
