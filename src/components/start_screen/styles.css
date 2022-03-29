@@ -1,0 +1,72 @@
+/* Startscreen */
+
+@import url("https://fonts.googleapis.com/css2?family=MuseoModerno:wght@500&display=swap");
+
+p {
+  margin: 0;
+}
+
+.clip-contents {
+  overflow: hidden;
+}
+
+.flex-col-hstart-vstart {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.start-screen {
+  background: linear-gradient(
+    -7.010000000000005deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(48, 48, 64, 0) 100%
+  );
+  backdrop-filter: blur(0px);
+  width: 375px;
+  height: 812px;
+}
+
+.home-screen {
+  padding: 107.57px 59.57px 0px 0px;
+  box-sizing: border-box;
+  background: linear-gradient(
+      -7.030000000000001deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(48, 48, 64, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(34, 34, 34, 1), rgba(34, 34, 34, 1));
+  backdrop-filter: blur(0px);
+  height: 100%;
+}
+
+.group-7107 {
+  padding: 229px 67px 799px 816px;
+  box-sizing: border-box;
+  background: url(https://firebasestorage.googleapis.com/v0/b/unify-bc2ad.appspot.com/o/p7vo5cpu4s-2%3A184?alt=media&token=e8d72cda-1d7a-46d6-83c1-de0f76e4b426);
+  background-size: 100% 100%;
+  width: 1002px;
+  height: 1194px;
+}
+
+.group-323 {
+  padding: 94px 0px 17.7px 27px;
+  box-sizing: border-box;
+  background: url(https://firebasestorage.googleapis.com/v0/b/unify-bc2ad.appspot.com/o/p7vo5cpu4s-2%3A188?alt=media&token=3bd6725e-2e89-406d-84f2-023e1ab2e483);
+  background-size: 100% 100%;
+  width: 117.47px;
+  height: 100%;
+}
+
+.txt-7610 {
+  font-size: 22.7px;
+  font-family: MuseoModerno, display;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 1.36px;
+  color: rgba(255, 255, 255, 1);
+  width: 91px;
+  height: 52px;
+  word-wrap: break-word;
+}
