@@ -23,7 +23,7 @@ const CreatorProfile = () => {
   return (
     <View>
       <ProfileHeader
-        coverPictureUrl={profileData.coverImage}
+        coverImage={profileData.coverImage}
         profileColor={profileData.profileColor}
         goBack={navigation.goBack}
       />
@@ -31,8 +31,8 @@ const CreatorProfile = () => {
         bio={profileData.bio}
         followers={profileData.followers}
         following={profileData.following}
-        profileName={profileData.name}
-        profilePictureUrl={profileData.profileImage}
+        name={profileData.name}
+        profileImage={profileData.profileImage}
         walletAddress={profileData.walletAddress}
         profileColor={profileData.profileColor}
       />
@@ -40,10 +40,10 @@ const CreatorProfile = () => {
       <View style={styles.buttonsContainer}>
         <Button
           text="Edit Profile"
-          style={styles.marginRight18}
+          buttonStyle={styles.marginRight5}
           onPress={() => navigation.navigate('EditProfile', { profileData })}
         />
-        <Button text="My Stats" />
+        <Button text="My Stats" primary={false} buttonStyle={styles.marginLeft5} />
       </View>
       <NftsList nfts={profileData.nfts} />
     </View>

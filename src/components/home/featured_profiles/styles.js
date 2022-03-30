@@ -22,9 +22,16 @@ export default StyleSheet.create({
     marginRight: 11,
     borderRadius: 16,
   },
+  profileItemHeaderImageWrapper: {
+    width: 145,
+    height: '50%',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    overflow: 'hidden',
+  },
   profileItemHeaderImage: {
     width: 145,
-    height: 100,
+    height: '50%',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
@@ -42,12 +49,24 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
   },
-  profileItemUserPhoto: {
+  profileItemUserView: {
     position: 'absolute',
-    left: '25%',
-    top: '31%',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileImageContainer: {
     width: 67,
     height: 67,
-    borderRadius: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileImage: {
+    width: 67,
+    height: 67,
+  },
+  profileCoverImageGradient: {
+    height: '100%',
   },
 });

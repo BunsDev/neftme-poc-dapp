@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image, Pressable, StyleSheet, View,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable, StyleSheet, View } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
+import { CoverImage } from '@library';
 
 const styles = StyleSheet.create({
+  coverImageWrapper: {
+    width: '100%',
+    height: 235,
+  },
   coverImage: {
     width: '100%',
     height: 235,
+  },
+  coverImageGradient: {
+    height: '100%',
   },
   backIcon: {
     position: 'absolute',
@@ -18,17 +23,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileHeader = ({ coverPictureUrl, profileColor, goBack }) => (
+const ProfileHeader = ({ coverImage, profileColor, goBack }) => (
   <View>
-    {coverPictureUrl && <Image style={styles.coverImage} source={{ uri: coverPictureUrl }} />}
-    {!coverPictureUrl && (
-      <LinearGradient
-        colors={[profileColor, '#141316']}
-        start={[0, 0]}
-        end={{ x: 0, y: 1 }}
-        style={styles.coverImage}
-      />
-    )}
+    <CoverImage
+      coverImage={coverImage}
+      coverImageWrapperStyle={styles.coverImageWrapper}
+      coverImageStyle={styles.coverImage}
+      coverGradientStyle={styles.coverImageGradient}
+      profileColor={profileColor}
+      bottomCoverColor="#141316"
+    />
     <Pressable style={styles.backIcon} onPress={goBack}>
       <BackIcon width={30} height={30} />
     </Pressable>
@@ -36,11 +40,11 @@ const ProfileHeader = ({ coverPictureUrl, profileColor, goBack }) => (
 );
 
 ProfileHeader.defaultProps = {
-  coverPictureUrl: null,
+  coverImage: '',
 };
 
 ProfileHeader.propTypes = {
-  coverPictureUrl: PropTypes.string,
+  coverImage: PropTypes.string,
   profileColor: PropTypes.string.isRequired,
   goBack: PropTypes.func.isRequired,
 };

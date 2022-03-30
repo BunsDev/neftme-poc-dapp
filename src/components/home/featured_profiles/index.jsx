@@ -27,9 +27,8 @@ const FeaturedProfiles = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={profiles}
-              renderItem={({ item, index }) => (
-                <ProfileCard key={item.id} profile={item} index={index} />
-              )}
+              keyExtractor={(item) => item.username}
+              renderItem={({ item, index }) => <ProfileCard profile={item} index={index} />}
             />
           )}
       </View>

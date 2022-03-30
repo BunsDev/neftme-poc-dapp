@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { withMainScrollView } from '@hocs';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCreatorProfile } from '@services/creator';
 import { Button } from '@library';
 import styles from './styles';
@@ -15,32 +15,39 @@ import NftsList from '../shared/nfts_list';
 
 const CreatorProfile = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const [profileData, setProfileData] = useState({});
+
   useEffect(async () => {
-    setProfileData(await getCreatorProfile(12));
+    setProfileData(await getCreatorProfile(route.params.profileUsername));
   }, []);
 
   if (Object.keys(profileData).length === 0) return null;
 
   return (
     <View>
-      <ProfileHeader coverPictureUrl={profileData.cover_photo} goBack={navigation.goBack} />
+      <ProfileHeader
+        coverImage={profileData.coverImage}
+        profileColor={profileData.profileColor}
+        goBack={navigation.goBack}
+      />
       <ProfileData
         bio={profileData.bio}
         followers={profileData.followers}
         following={profileData.following}
-        profileName={profileData.name}
-        profilePictureUrl={profileData.profile_photo}
-        walletAddress={profileData.wallet_address}
+        name={profileData.name}
+        profileImage={profileData.profileImage}
+        profileColor={profileData.profileColor}
+        walletAddress={profileData.walletAddress}
       />
       <SocialLinks />
       <SharedFollowers
-        sharedFollowers={profileData.shared_followers}
-        totalSharedFollowers={profileData.total_shared_followers}
+        sharedFollowers={profileData.sharedFollowers}
+        totalSharedFollowers={profileData.totalSharedFollowers}
       />
       <View style={styles.buttonsContainer}>
-        <Button text="Follow" style={styles.marginRight18} />
-        <Button text="Message" />
+        <Button text="Follow" buttonStyle={styles.marginRight5} />
+        <Button text="Message" primary={false} buttonStyle={styles.marginLeft5} />
       </View>
       <Stats stats={profileData.stats} />
       <NftsList nfts={profileData.nfts} />
@@ -48,4 +55,4 @@ const CreatorProfile = () => {
   );
 };
 
-export default withMainScrollView(true, true)(CreatorProfile);
+export default withMainScrollView(false, true)(CreatorProfile);

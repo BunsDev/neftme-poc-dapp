@@ -5,6 +5,7 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 180,
     marginLeft: 16,
+    alignItems: 'center',
   },
   profilePicture: {
     borderWidth: 3,
