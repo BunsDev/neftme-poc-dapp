@@ -3,13 +3,13 @@ import { View } from 'react-native';
 import { withMainScrollView } from '@hocs';
 import { useNavigation } from '@react-navigation/native';
 import { getCreatorProfile } from '@services/creator';
+import { Button } from '@library';
 import styles from './styles';
 // Components
 import ProfileHeader from '../shared/profile_header';
 import ProfileData from '../shared/profile_data';
 import SocialLinks from '../shared/social_links';
 import SharedFollowers from './shared_followers';
-import ProfileButton from '../shared/button';
 import Stats from './stats';
 import NftsList from '../shared/nfts_list';
 
@@ -39,8 +39,8 @@ const CreatorProfile = () => {
         totalSharedFollowers={profileData.total_shared_followers}
       />
       <View style={styles.buttonsContainer}>
-        <ProfileButton text="Follow" style={styles.marginRight18} />
-        <ProfileButton text="Message" />
+        <Button text="Follow" style={styles.marginRight18} />
+        <Button text="Message" />
       </View>
       <Stats stats={profileData.stats} />
       <NftsList nfts={profileData.nfts} />
@@ -48,4 +48,4 @@ const CreatorProfile = () => {
   );
 };
 
-export default withMainScrollView(CreatorProfile);
+export default withMainScrollView(true, true)(CreatorProfile);

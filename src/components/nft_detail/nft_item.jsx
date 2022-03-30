@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ProfilePicture } from '@library';
+import { ProfileImage } from '@library';
 import { StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -28,7 +28,12 @@ const styles = StyleSheet.create({
 
 const NftItem = ({ nft }) => (
   <View style={styles.itemContainer}>
-    <ProfilePicture profilePictureUrl={nft.image} pictureStyle={styles.image} />
+    <ProfileImage
+      profileImage={nft.image}
+      imageStyle={styles.image}
+      avatarWidth={30}
+      avatarHeight={30}
+    />
     <Text style={styles.name}>{nft.name}</Text>
   </View>
 );

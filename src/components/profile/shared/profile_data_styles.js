@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 96,
+    top: 180,
     marginLeft: 16,
   },
   profilePicture: {
@@ -78,5 +78,12 @@ export default StyleSheet.create({
   bioText: {
     fontSize: 24,
     color: '#FCFCFC',
+  },
+  profileImageContainer: {
+    padding: 24,
+  },
+  profileImageStyles: {
+    width: 112,
+    height: 112,
   },
 });

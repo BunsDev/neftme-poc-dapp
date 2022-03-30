@@ -37,13 +37,19 @@ export default StyleSheet.create({
     top: -2,
   },
   profilePhoto: {
-    width: 50,
-    height: 50,
+    width: 48,
+    height: 48,
+  },
+  profileImageContainer: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profilePhotoPlaceholder: {
     backgroundColor: '#232630',
-    width: 50,
-    height: 50,
+    width: 48,
+    height: 48,
     borderRadius: 50,
   },
 });
