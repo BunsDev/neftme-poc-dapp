@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ProfilePicture } from '@library';
+import { ProfileImage } from '@library';
 import { getProfileData } from '@services/user';
 import BellIcon from '@assets/icons/bell.svg';
 import styles from './styles';
@@ -9,11 +9,11 @@ import styles from './styles';
 const logo = require('@assets/logo_home.webp');
 
 const Header = () => {
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
+  const [profileData, setProfileData] = useState(null);
   const navigation = useNavigation();
 
   useEffect(async () => {
-    setProfilePhotoUrl((await getProfileData())?.profile_picture);
+    setProfileData(await getProfileData());
   }, []);
 
   return (
@@ -28,14 +28,18 @@ const Header = () => {
             <View style={styles.notificationBadge} />
           </View>
           <Pressable onPress={() => navigation.navigate('MyProfile')}>
-            {profilePhotoUrl
-              ? (
-                <ProfilePicture
-                  profilePictureUrl={profilePhotoUrl}
-                  pictureStyle={styles.profilePhoto}
-                />
-              )
-              : <View style={styles.profilePhotoPlaceholder} />}
+            {profileData ? (
+              <ProfileImage
+                profileImage={profileData?.profileImage}
+                containerStyle={{
+                  ...styles.profileImageContainer,
+                  backgroundColor: profileData?.profileColor,
+                }}
+                imageStyle={styles.profilePhoto}
+                avatarWidth={30}
+                avatarHeight={30}
+              />
+            ) : <View style={styles.profilePhotoPlaceholder} />}
           </Pressable>
         </View>
       </View>

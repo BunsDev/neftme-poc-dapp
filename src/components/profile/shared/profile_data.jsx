@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
-import { ProfilePicture, TruncatedText } from '@library';
+import { ProfileImage, TruncatedText } from '@library';
 import ShareIcon from '@assets/icons/share.svg';
 import styles from './profile_data_styles';
 
 const ProfileData = ({
-  bio, followers, following, profileName, profilePictureUrl, walletAddress,
+  bio, followers, following, profileName, profilePictureUrl, walletAddress, profileColor,
 }) => (
   <>
     <View style={styles.container}>
-      <ProfilePicture profilePictureUrl={profilePictureUrl} pictureStyle={styles.profilePicture} />
+      <ProfileImage
+        profileImage={profilePictureUrl}
+        containerStyle={{ ...styles.profileImageContainer, backgroundColor: profileColor }}
+        imageStyle={styles.profileImageStyles}
+        avatarWidth={64}
+        avatarHeight={64}
+      />
       <Text style={styles.name}>{profileName}</Text>
-      <Text style={styles.wallet}>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(-5)}`}</Text>
+      {walletAddress && <Text style={styles.wallet}>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(-5)}`}</Text>}
     </View>
     <View style={styles.socialContainer}>
       <View style={styles.followsContainer}>
@@ -32,18 +38,24 @@ const ProfileData = ({
     </View>
     <View style={styles.bioContainer}>
       <Text style={styles.bioText}>Bio</Text>
-      <TruncatedText text={bio} />
+      {bio && <TruncatedText text={bio} />}
     </View>
   </>
 );
+
+ProfileData.defaultProps = {
+  profilePictureUrl: null,
+  walletAddress: '',
+};
 
 ProfileData.propTypes = {
   bio: PropTypes.string.isRequired,
   followers: PropTypes.string.isRequired,
   following: PropTypes.string.isRequired,
   profileName: PropTypes.string.isRequired,
-  profilePictureUrl: PropTypes.string.isRequired,
-  walletAddress: PropTypes.string.isRequired,
+  profilePictureUrl: PropTypes.string,
+  walletAddress: PropTypes.string,
+  profileColor: PropTypes.string.isRequired,
 };
 
 export default ProfileData;

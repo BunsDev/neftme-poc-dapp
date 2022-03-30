@@ -23,7 +23,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
 
   return (
     <ScrollView style={styles.scrollView}>
-      <Pressable style={styles.backIcon} onPress={() => navigation.goBack()}>
+      <Pressable style={styles.backIcon} onPress={navigation.goBack}>
         <BackIcon width={18.67} height={18.67} />
       </Pressable>
       <Image source={{ uri: nftData.image }} style={styles.image} />

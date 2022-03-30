@@ -14,4 +14,4 @@ const Home = () => (
   </View>
 );
 
-export default withMainScrollView(Home);
+export default withMainScrollView(true, true)(Home);
