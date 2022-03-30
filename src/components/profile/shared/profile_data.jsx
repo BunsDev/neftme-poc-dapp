@@ -6,18 +6,18 @@ import ShareIcon from '@assets/icons/share.svg';
 import styles from './profile_data_styles';
 
 const ProfileData = ({
-  bio, followers, following, profileName, profilePictureUrl, walletAddress, profileColor,
+  bio, followers, following, name, profileImage, walletAddress, profileColor,
 }) => (
   <>
     <View style={styles.container}>
       <ProfileImage
-        profileImage={profilePictureUrl}
+        profileImage={profileImage}
         containerStyle={{ ...styles.profileImageContainer, backgroundColor: profileColor }}
         imageStyle={styles.profileImageStyles}
         avatarWidth={64}
         avatarHeight={64}
       />
-      <Text style={styles.name}>{profileName}</Text>
+      <Text style={styles.name}>{name}</Text>
       {walletAddress && <Text style={styles.wallet}>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(-5)}`}</Text>}
     </View>
     <View style={styles.socialContainer}>
@@ -38,22 +38,23 @@ const ProfileData = ({
     </View>
     <View style={styles.bioContainer}>
       <Text style={styles.bioText}>Bio</Text>
-      {bio && <TruncatedText text={bio} />}
+      {bio ? <TruncatedText text={bio} /> : <Text />}
     </View>
   </>
 );
 
 ProfileData.defaultProps = {
-  profilePictureUrl: null,
+  profileImage: '',
   walletAddress: '',
+  bio: '',
 };
 
 ProfileData.propTypes = {
-  bio: PropTypes.string.isRequired,
+  bio: PropTypes.string,
   followers: PropTypes.string.isRequired,
   following: PropTypes.string.isRequired,
-  profileName: PropTypes.string.isRequired,
-  profilePictureUrl: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  profileImage: PropTypes.string,
   walletAddress: PropTypes.string,
   profileColor: PropTypes.string.isRequired,
 };

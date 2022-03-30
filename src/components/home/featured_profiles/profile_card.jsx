@@ -1,30 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Pressable, Image } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CoverImage, ProfileImage } from '@library';
 import styles from './styles';
 
 const ProfileCard = ({ profile }) => {
   const navigation = useNavigation();
-  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileId: profile.id });
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileUsername: profile.username });
 
   return (
     <Pressable style={styles.profileItem} onPress={navigateToProfile}>
-      <Image source={{ uri: profile.header }} style={styles.profileItemHeaderImage} />
+      <CoverImage
+        coverImage={profile.coverImage}
+        coverImageWrapperStyle={styles.profileItemHeaderImageWrapper}
+        coverImageStyle={styles.profileItemHeaderImage}
+        coverGradientStyle={styles.profileCoverImageGradient}
+        profileColor={profile.profileColor}
+        bottomCoverColor="#232630"
+      />
       <Text style={styles.profileItemName}>{profile.name}</Text>
       <Text style={styles.profileItemFollowers}>{`${profile.followers} Followers`}</Text>
-      <Image source={{ uri: profile.profilePhoto }} style={styles.profileItemUserPhoto} />
+      <View style={styles.profileItemUserView}>
+        <ProfileImage
+          profileImage={profile.profileImage}
+          containerStyle={{
+            ...styles.profileImageContainer,
+            backgroundColor: profile.profileColor,
+          }}
+          imageStyle={styles.profileImage}
+          avatarWidth={35}
+          avatarHeight={35}
+        />
+      </View>
     </Pressable>
   );
 };
 
 ProfileCard.propTypes = {
   profile: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    header: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    followers: PropTypes.string.isRequired,
-    profilePhoto: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    username: PropTypes.string,
+    coverImage: PropTypes.string,
+    followers: PropTypes.string,
+    profileImage: PropTypes.string,
+    profileColor: PropTypes.string,
   }).isRequired,
 };
 

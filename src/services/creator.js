@@ -2,9 +2,9 @@ import Constants from 'expo-constants';
 import { getData } from './storage';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getCreatorProfile = async (creatorId) => {
+export const getCreatorProfile = async (username) => {
   try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/creator_profile/${creatorId}`, {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/creator_profile/${username}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
