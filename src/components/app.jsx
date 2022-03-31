@@ -7,6 +7,7 @@ import CreatorProfile from './profile/creator_profile';
 import EditProfile from './profile/edit_profile';
 import MyProfile from './profile/my_profile';
 import NFTDetail from './nft_detail';
+import CreateNFT from './create_nft';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default () => (
       <Stack.Screen name="MyProfile" component={MyProfile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="NFTDetail" component={NFTDetail} />
+      <Stack.Screen name="CreateNFT" component={CreateNFT} />
     </Stack.Navigator>
   </NavigationContainer>
 );
