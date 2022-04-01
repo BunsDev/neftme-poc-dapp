@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileTextInput = ({
-  inputStyle, value, inputPlaceholder, onChangeText, ...rest
+const CustomTextInput = ({
+  inputStyle, value, inputPlaceholder, onChangeText, keyboardType, ...rest
 }) => (
   <TextInput
     style={[styles.textInput, inputStyle]}
@@ -26,20 +26,22 @@ const ProfileTextInput = ({
     placeholder={inputPlaceholder}
     onChangeText={onChangeText}
     placeholderTextColor="rgba(248, 248, 248, 0.5)"
+    keyboardType={keyboardType}
     {...rest}
   />
 );
 
-ProfileTextInput.defaultProps = {
+CustomTextInput.defaultProps = {
   inputStyle: {},
   value: '',
 };
 
-ProfileTextInput.propTypes = {
+CustomTextInput.propTypes = {
   inputStyle: PropTypes.instanceOf(Object),
   value: PropTypes.string,
+  keyboardType: PropTypes.string.isRequired,
   onChangeText: PropTypes.func.isRequired,
   inputPlaceholder: PropTypes.string.isRequired,
 };
 
-export default ProfileTextInput;
+export default CustomTextInput;

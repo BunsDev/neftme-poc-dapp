@@ -5,10 +5,11 @@ import {
 import { useRoute } from '@react-navigation/native';
 import { getCategories } from '@services/categories';
 import { updateProfileData } from '@services/user';
-import { FavoriteCategories, ProfileImage, StatusBar } from '@library';
+import {
+  FavoriteCategories, InputField, ProfileImage, StatusBar,
+} from '@library';
 import CoverImage from './cover_image';
 import ImageSection from './image_section';
-import InputField from './input_field';
 import Header from './header';
 import SocialMediaLinksField from './social_media_links_field';
 import styles from './styles';
@@ -104,18 +105,21 @@ const EditProfile = () => {
             value={profileFields.name}
             onFieldChange={(value) => setFieldValue('name', value)}
             inputPlaceholder="Enter your name"
+            containerStyle={styles.marginTop16}
           />
           <InputField
             labelName="Username"
             value={profileFields.username}
             onFieldChange={(value) => setFieldValue('username', value)}
             inputPlaceholder="Enter your username"
+            containerStyle={styles.marginTop16}
           />
           <InputField
             labelName="Email"
             value={profileFields.email}
             onFieldChange={(value) => setFieldValue('email', value)}
             inputPlaceholder="Enter your email"
+            containerStyle={styles.marginTop16}
           />
           <InputField
             labelName="Bio"
@@ -126,6 +130,7 @@ const EditProfile = () => {
             numberOfLines={Platform.OS === 'ios' ? null : 6}
             minHeight={Platform.OS === 'ios' ? 120 : null}
             inputStyle={{ paddingTop: 16 }}
+            containerStyle={styles.marginTop16}
           />
           <SocialMediaLinksField
             socialMediaLinks={profileFields.socialMediaLinks}

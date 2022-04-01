@@ -52,23 +52,23 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 50,
   },
-centeredView: {
+  centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
     margin: 10,
     padding: 35,
-    alignItems: "center",
+    alignItems: 'center',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   buttonClose: {
     alignSelf: 'flex-end',
@@ -76,17 +76,17 @@ centeredView: {
     paddingRight: 10,
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: 'center',
   },
-container: {
+  container: {
     flex: 1,
     paddingTop: 20,
     paddingLeft: 20,
-    },
+  },
 });

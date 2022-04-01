@@ -13,12 +13,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginBottom: 80,
   },
 });
 
-const Gallery = ({ setSelectedImage }) => {
+const Gallery = ({ onCameraPress, setSelectedImage }) => {
   const [cameraRollStatus, setCameraRollStatus] = useState({});
   const [images, setImages] = useState([]);
+  const [after, setAfter] = useState(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
 
   const getPermissionsAsync = async () => {
     await ImagePicker.requestCameraPermissionsAsync();
@@ -38,12 +41,23 @@ const Gallery = ({ setSelectedImage }) => {
 
   const getImages = () => {
     const params = {
+      first: 100,
       mediaType: [MediaLibrary.MediaType.photo],
       sortBy: [MediaLibrary.SortBy.creationTime],
     };
+    if (after) params.after = after;
+    if (!hasNextPage) return;
     MediaLibrary
       .getAssetsAsync(params)
-      .then((data) => setImages(data.assets));
+      .then((data) => {
+        if (cameraRollStatus?.accessPrivileges !== 'limited') {
+          setImages(images.concat(data.assets));
+        } else {
+          setImages(data.assets);
+        }
+        setAfter(data.endCursor);
+        setHasNextPage(data.hasNextPage);
+      });
   };
 
   useEffect(async () => {
@@ -56,10 +70,24 @@ const Gallery = ({ setSelectedImage }) => {
     getImages();
   }, []);
 
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 200;
+    return layoutMeasurement.height + contentOffset.y
+      >= contentSize.height - paddingToBottom;
+  };
+
   return (
-    <ScrollView>
+    <ScrollView
+      onScroll={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          getImages();
+        }
+      }}
+      showsVerticalScrollIndicator={false}
+      scrollEventThrottle={400}
+    >
       <View style={styles.container}>
-        <Camera />
+        <Camera onCameraPress={onCameraPress} />
         {images.map((i) => <ImageTile key={`img_${i.id}`} image={i} onPress={setSelectedImage} />)}
         {cameraRollStatus?.accessPrivileges === 'limited' ? (
           <SelectMore onPress={MediaLibrary.presentPermissionsPickerAsync} />
@@ -71,6 +99,7 @@ const Gallery = ({ setSelectedImage }) => {
 
 Gallery.propTypes = {
   setSelectedImage: PropTypes.func.isRequired,
+  onCameraPress: PropTypes.func.isRequired,
 };
 
 export default Gallery;

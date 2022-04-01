@@ -5,7 +5,7 @@ import {
   Pressable, StyleSheet, Text, View,
 } from 'react-native';
 import CloseIcon from '@assets/icons/close_input.svg';
-import ProfileTextInput from './profile_text_input';
+import { CustomTextInput } from '@library';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +45,7 @@ const SocialMediaLinksField = ({
     <Text style={styles.label}>Social media links</Text>
     {socialMediaLinks.map((s, index) => (
       <View key={`social_media_links_${index}`}>
-        <ProfileTextInput
+        <CustomTextInput
           value={s}
           onChangeText={(text) => onSocialMediaLinksChange(text, index)}
           inputPlaceholder="Enter your social media link"

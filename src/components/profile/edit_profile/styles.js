@@ -25,4 +25,7 @@ export default StyleSheet.create({
     height: 112,
     marginVertical: 16,
   },
+  marginTop16: {
+    marginTop: 16,
+  },
 });
