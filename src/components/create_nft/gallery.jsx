@@ -36,20 +36,24 @@ const styles = StyleSheet.create({
 const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const navigation = useNavigation();
-  const goNext = (imageUri) => navigation.navigate('CreateNFT', { screen: 'CreateNFTDetails', params: { nftImage: imageUri } });
+  const goToNextStep = (imageUri) => navigation.navigate('CreateNFT', { screen: 'CreateNFTDetails', params: { nftImage: imageUri } });
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
     });
     if (!photo.cancelled && photo.uri) {
-      goNext(photo.uri);
+      goToNextStep(photo.uri);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
+      <Header
+        showNext
+        onPress={selectedImage ? () => goToNextStep(selectedImage.uri) : null}
+        step={1}
+      />
       {selectedImage ? (
         <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
       ) : null}

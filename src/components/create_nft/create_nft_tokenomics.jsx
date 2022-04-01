@@ -53,9 +53,30 @@ const styles = StyleSheet.create({
 });
 
 const CreateNFTTokenomics = () => {
-  const route = useRoute(); // POST route.params.nft + price + communityPercentage
+  const route = useRoute();
   const [price, setPrice] = useState('');
   const [communityPercentage, setCommunityPercentage] = useState(0);
+  const postNft = async () => {
+    const filename = route.params.nft.image.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    const type = match ? `image/${match[1]}` : 'image';
+
+    const formData = new FormData();
+    formData.append('title', route.params.nft.title);
+    formData.append('description', route.params.nft.description);
+    formData.append('price', price);
+    formData.append('communityPercentage', communityPercentage);
+    formData.append('image', { uri: route.params.nft.image, name: filename, type });
+
+    const res = await fetch('http://192.168.1.101:3000/nft', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    });
+    res.url;
+  };
 
   return (
     <View style={styles.container}>
@@ -96,7 +117,7 @@ const CreateNFTTokenomics = () => {
           <Button
             text="Mint NFT"
             buttonStyle={price ? {} : { backgroundColor: '#41414A' }}
-            onPress={() => { }}
+            onPress={postNft}
             textStyle={{}}
           />
         </View>
