@@ -23,3 +23,37 @@ export const getNFT = async (nftID) => {
     return {};
   }
 };
+
+export const postNft = async (route) => {
+    
+  const filename = route.params.nft.image.split('/').pop();
+  const match = /\.(\w+)$/.exec(filename);
+  const type = match ? `image/${match[1]}` : 'image';
+
+  const formData = new FormData();
+  formData.append('title', route.params.nft.title);
+  formData.append('description', route.params.nft.description);
+  formData.append('price', price);
+  formData.append('communityPercentage', communityPercentage);
+  formData.append('image', { uri: route.params.nft.image, name: filename, type });
+
+  const res = await fetch( Constants.manifest.extra.apiUrl + '/nft', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  });
+  return await res.json();
+};
+
+export const bindTokenId = async (tokenId) => {
+
+  const res = await fetch( Constants.manifest.extra.apiUrl + '/nft/' + tokenId, {
+    method: 'PATCH',
+    body: formData,
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  });
+};

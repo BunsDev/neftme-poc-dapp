@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+// Tem de ser SEMPRE esta a ordem de IMPORT (random values -> shims -> ethers)
+import "react-native-get-random-values";
+import "@ethersproject/shims";
+import { ethers } from "ethers";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import nftABI from "../../abi/neftme.json";
+import { getUserTokenIDs } from "../../services/nft";
+/////////////////////////////////
 import {
-  Modal,
-  TextInput,
-  Button,
   FlatList,
   Image,
   Pressable,
   ScrollView,
   Text,
-  View
+  View,
+  Modal,
+  TextInput
 } from "react-native";
 import { getNFT } from "@services/nft";
 import BackIcon from "@assets/icons/back.svg";
@@ -19,6 +27,9 @@ import Tokenomics from "../home/timeline/nft/tokenomics";
 import CarouselItem from "./carousel_item";
 import NftItem from "./nft_item";
 import categories from "./nft_categories";
+import BigNumber from 'big-number';
+import Constants from 'expo-constants';
+
 
 const NFTDetail = ({ route: { params }, navigation }) => {
   const [nftData, setNftData] = useState(null);
@@ -28,11 +39,61 @@ const NFTDetail = ({ route: { params }, navigation }) => {
   const [tokensToStake, setTokensToSkake] = useState(mTokens);
 
   const buttonStakeActive = false;
+  const [neftBalance, setNeftBalance] = useState(0);
+
   useEffect(async () => {
     setNftData(await getNFT(params.nftID));
-  }, []);
+    getNEFTBalance()
+  }, [connector]);
 
   if (nftData === null) return <View />;
+
+  const connector = useWalletConnect();
+
+  //Replicated code -> Change to Common library after MVP
+  //Config for Celo Testnet -> Alfajores | After MVP config to dynamic way
+  const provider = new WalletConnectProvider({
+    rpc: {
+      44787: Constants.manifest.extra.alfajores_rpc_url,
+    },
+    chainId: 44787,
+    connector: connector,
+    //qrcode has to be false otherwise there are problems
+    qrcode: false,
+  });
+
+  function convertToETH18(amount){
+    return BigNumber(amount *10**18);
+  }
+
+  async function getNEFTBalance() {
+
+    await provider.enable();
+
+    const ethers_provider = new ethers.providers.Web3Provider(provider);
+    const signer = ethers_provider.getSigner();
+    const neftme = new ethers.Contract(
+      Constants.manifest.extra.neftme_erc20_NEFT_address,
+      nftABI,
+      signer
+    );
+    setNeftBalance(await neftme.balanceOf(connector.accounts[0]));
+  }
+ 
+  async function stakeNEFT() {
+
+    await provider.enable();
+
+    const ethers_provider = new ethers.providers.Web3Provider(provider);
+    const signer = ethers_provider.getSigner();
+    const neftme = new ethers.Contract(
+      Constants.manifest.extra.neftme_erc721_address,
+      nftABI,
+      signer
+    );
+
+    await neftme.stake(nftData.tokenId, convertToETH18(tokensToStake) /*amount*/);
+  }
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -100,7 +161,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
                           marginBottom: 10
                         }}
                       >
-                        Available: {mTokens} $NEFT
+                        Available: {neftBalance} $NEFT
                       </Text>
                     </View>
 
@@ -155,7 +216,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
                     >
                       <Pressable
                         style={[styles.stakeButtonAction]}
-                        onPress={() => alert("Staking goes here")}
+                        onPress={stakeNEFT}
                       >
                         <Text style={styles.stakeText}>Stake $NEFT</Text>
                       </Pressable>
@@ -200,7 +261,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
       </View>
       <View style={styles.horizontalBar} />
       <View style={styles.nftDetailView}>
-        {nftData.usersData[selectedCategory]?.map(nft => (
+        {nftData.usersData[selectedCategory]?.map((nft) => (
           <NftItem
             nft={nft}
             key={`nft_${selectedCategory}_item_${nft.image}`}
