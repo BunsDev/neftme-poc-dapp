@@ -76,6 +76,13 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
       >= contentSize.height - paddingToBottom;
   };
 
+  const onSelectedImage = async (image) => {
+    const info = await MediaLibrary.getAssetInfoAsync(image.id);
+    setSelectedImage({
+      uri: info.localUri,
+    });
+  };
+
   return (
     <ScrollView
       onScroll={({ nativeEvent }) => {
@@ -88,7 +95,9 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
     >
       <View style={styles.container}>
         <Camera onCameraPress={onCameraPress} />
-        {images.map((i) => <ImageTile key={`img_${i.id}`} image={i} onPress={setSelectedImage} />)}
+        {images.map((i) => (
+          <ImageTile key={`img_${i.id}`} image={i} onPress={onSelectedImage} />
+        ))}
         {cameraRollStatus?.accessPrivileges === 'limited' ? (
           <SelectMore onPress={MediaLibrary.presentPermissionsPickerAsync} />
         ) : null}

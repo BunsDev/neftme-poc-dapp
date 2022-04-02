@@ -24,36 +24,47 @@ export const getNFT = async (nftID) => {
   }
 };
 
-export const postNft = async (route) => {
-    
-  const filename = route.params.nft.image.split('/').pop();
+export const postNft = async (nft) => {
+  const filename = nft.image.split('/').pop();
   const match = /\.(\w+)$/.exec(filename);
   const type = match ? `image/${match[1]}` : 'image';
 
   const formData = new FormData();
-  formData.append('title', route.params.nft.title);
-  formData.append('description', route.params.nft.description);
-  formData.append('price', price);
-  formData.append('communityPercentage', communityPercentage);
-  formData.append('image', { uri: route.params.nft.image, name: filename, type });
+  formData.append('title', nft.title);
+  formData.append('description', nft.description);
+  formData.append('price', nft.price);
+  formData.append('communityPercentage', nft.communityPercentage);
+  formData.append('image', { uri: nft.image, name: filename, type });
 
-  const res = await fetch( Constants.manifest.extra.apiUrl + '/nft', {
+  const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft`, {
     method: 'POST',
     body: formData,
     headers: {
-      'content-type': 'multipart/form-data',
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${await getData('auth_token')}`,
     },
   });
-  return await res.json();
+
+  if (response?.status !== 200) return null;
+
+  return response.json();
 };
 
-export const bindTokenId = async (tokenId) => {
-
-  const res = await fetch( Constants.manifest.extra.apiUrl + '/nft/' + tokenId, {
+export const bindTokenId = async (id, tokenId) => {
+  const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${id}`, {
     method: 'PATCH',
-    body: formData,
+    body: JSON.stringify({ tokenId }),
     headers: {
-      'content-type': 'multipart/form-data',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${await getData('auth_token')}`,
     },
   });
+
+  if (response?.status !== 200) return false;
+
+  return true;
 };
