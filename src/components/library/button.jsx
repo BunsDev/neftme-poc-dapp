@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
   button: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 const Button = ({
   primary, buttonStyle, onPress, text, textStyle, Icon, iconStyle,
 }) => (
-  <Pressable
+  <TouchableOpacity
     style={[styles.button, primary ? styles.primary : styles.secondary, buttonStyle]}
     onPress={onPress}
   >
@@ -40,7 +40,7 @@ const Button = ({
     <Text style={[styles.buttonText, primary ? styles.primaryTxt : styles.secondaryTxt, textStyle]}>
       {text}
     </Text>
-  </Pressable>
+  </TouchableOpacity>
 );
 
 Button.defaultProps = {

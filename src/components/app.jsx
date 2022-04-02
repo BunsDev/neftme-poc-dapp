@@ -8,8 +8,7 @@ import EditProfile from './profile/edit_profile';
 import MyProfile from './profile/my_profile';
 import NFTDetail from './nft_detail';
 import CreateNFT from './create_nft';
-import Wallet from './wallet'
-
+import Wallet from './wallet';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,4 +26,4 @@ export default () => (
       <Stack.Screen name="CreateNFT" component={CreateNFT} />
     </Stack.Navigator>
   </NavigationContainer>
-  );
+);
