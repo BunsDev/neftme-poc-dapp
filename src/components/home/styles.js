@@ -56,19 +56,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 10,
-    padding: 35,
-    alignItems: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    marginTop: 20,
   },
   buttonClose: {
     alignSelf: 'flex-end',

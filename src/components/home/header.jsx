@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Modal, Text, Image, Pressable, View,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { ProfileImage } from '@library';
-import { getProfileData } from '@services/user';
-import BellIcon from '@assets/icons/bell.svg';
-import styles from './styles';
+import React, { useEffect, useState } from "react";
+import { Modal, Text, Image, Pressable, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { ProfileImage } from "@library";
+import { getProfileData } from "@services/user";
+import BellIcon from "@assets/icons/bell.svg";
+import styles from "./styles";
 
-const logo = require('@assets/logo_home.webp');
+const logo = require("@assets/logo_home.webp");
 
 const Header = () => {
   const [profileData, setProfileData] = useState(null);
@@ -33,27 +31,27 @@ const Header = () => {
           <View style={styles.centeredView}>
             <View
               style={{
-                width: '80%',
-                height: '80%',
-                backgroundColor: '#2B2F3A',
+                width: "80%",
+                height: "70%",
+                backgroundColor: "#2B2F3A",
                 borderWidth: 1,
-                borderRadius: 20,
-                borderColor: '#555555',
+                borderRadius: 10,
+                borderColor: "#555555"
               }}
             >
               <Pressable
                 style={styles.buttonClose}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text style={{ fontSize: 30, color: '#fff' }}>X</Text>
+                <Text style={{ fontSize: 30, color: "#fff" }}>X</Text>
               </Pressable>
 
-              <View style={[styles.container, { flexDirection: 'row' }]}>
+              <View style={[styles.container, { flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
                   <Image
                     source={{
                       uri:
-                        'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
+                        "https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png"
                     }}
                     style={{
                       width: 68,
@@ -62,7 +60,7 @@ const Header = () => {
                       borderBottomRightRadius: 15,
                       borderTopRightRadius: 15,
                       borderTopLeftRadius: 15,
-                      overflow: 'hidden',
+                      overflow: "hidden"
                     }}
                   />
                 </View>
@@ -70,23 +68,17 @@ const Header = () => {
                   <Text
                     style={{
                       fontSize: 14,
-                      color: '#fff',
-                      fontWeight: 'bold',
+                      color: "#fff",
+                      fontWeight: "bold"
                     }}
                   >
                     NEFTs received
                   </Text>
-                  <Text
-                    style={{ fontSize: 12, color: 'white', paddingTop: 5 }}
-                  >
-                    Tokens on your wallet
-                    {' '}
+                  <Text style={{ fontSize: 12, color: "white", paddingTop: 5 }}>
+                    Tokens on your wallet{" "}
                   </Text>
-                  <Text
-                    style={{ fontSize: 12, color: 'white', paddingTop: 5 }}
-                  >
-                    3 hours ago
-                    {' '}
+                  <Text style={{ fontSize: 12, color: "white", paddingTop: 5 }}>
+                    3 hours ago{" "}
                   </Text>
                 </View>
               </View>
@@ -106,13 +98,13 @@ const Header = () => {
                 <View style={styles.notificationBadge} />
               </View>
             </Pressable>
-            <Pressable onPress={() => navigation.navigate('MyProfile')}>
+            <Pressable onPress={() => navigation.navigate("MyProfile")}>
               {profileData ? (
                 <ProfileImage
                   profileImage={profileData?.profileImage}
                   containerStyle={{
                     ...styles.profileImageContainer,
-                    backgroundColor: profileData?.profileColor,
+                    backgroundColor: profileData?.profileColor
                   }}
                   imageStyle={styles.profilePhoto}
                   avatarWidth={30}

@@ -86,4 +86,54 @@ export default StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 16,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  buttonClose: {
+    alignSelf: 'flex-end',
+    paddingTop: 10,
+    paddingRight: 10,
+  },
+  stakeTitle: {
+    color: 'rgba(255, 255, 255, 1)',
+    fontSize: 14,
+    fontWeight: '400',
+    marginHorizontal: 16,
+    lineHeight: 21,
+  },
+  stakeContainer: {
+    width: "90%",
+    height: "auto",
+    backgroundColor: "#41414A",
+    borderRadius: 10,
+    marginLeft: "5%",
+    marginTop: 10,
+    alignItems: 'center', justifyContent: 'center'
+  },
+  stakePercentageButton: {
+    borderRadius: 8,
+    paddingVertical: 13,
+    flex: 0.25,
+    backgroundColor: '#41414A',
+    marginTop: 10,
+    margin: 5
+  },
+  stakePercentageButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  stakeButtonAction: {
+    borderRadius: 8,
+    paddingVertical: 13,
+    margin: "1%",
+    marginTop: 20,
+    flex: 1,
+    backgroundColor: '#F6C138',
+  },
 });
