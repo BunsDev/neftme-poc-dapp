@@ -13,9 +13,13 @@ const Timeline = () => {
     setContent(await getTimelineContent());
   }, []);
 
+  const refreshClick = async () => {
+    setContent(await getTimelineContent());
+  };
+
   return (
     <View style={styles.timelineContainer}>
-      <SectionHeader title="Following" onSeeAllClick={() => { }} containerStyle={styles.headerStyle} />
+      <SectionHeader title="Following" onSeeAllClick={refreshClick} containerStyle={styles.headerStyle} />
       {content.map((c) => {
         if (c.type === 'NFT') {
           return <Nft key={`nft_${c.content.id}`} nft={c.content} />;

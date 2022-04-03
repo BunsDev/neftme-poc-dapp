@@ -36,7 +36,9 @@ const SectionHeader = ({ title, onSeeAllClick, containerStyle }) => (
         <Text style={styles.trendingTitle}>{title}</Text>
       </View>
       <View style={styles.subHeaderLeftContainer}>
-        <Text style={styles.seeAllText} onPress={onSeeAllClick}>See All</Text>
+        <Text style={styles.seeAllText} onPress={onSeeAllClick}>
+          {onSeeAllClick ? 'Refresh' : 'See All'}
+        </Text>
       </View>
     </View>
   </View>
@@ -44,11 +46,12 @@ const SectionHeader = ({ title, onSeeAllClick, containerStyle }) => (
 
 SectionHeader.defaultProps = {
   containerStyle: {},
+  onSeeAllClick: null,
 };
 
 SectionHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  onSeeAllClick: PropTypes.func.isRequired,
+  onSeeAllClick: PropTypes.func,
   containerStyle: ViewPropTypes.style,
 };
 

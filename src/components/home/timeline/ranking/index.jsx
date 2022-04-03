@@ -9,7 +9,6 @@ const Ranking = ({ ranking }) => (
   <View style={styles.rankingContainer}>
     <SectionHeader
       title={ranking.label}
-      onSeeAllClick={() => { }}
       containerStyle={styles.headerStyle}
     />
     {ranking.values.map((item) => (

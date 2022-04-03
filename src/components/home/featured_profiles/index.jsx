@@ -14,7 +14,7 @@ const FeaturedProfiles = () => {
 
   return (
     <>
-      <SectionHeader title="Trending" onSeeAllClick={() => { }} containerStyle={styles.headerContainerStyle} />
+      <SectionHeader title="Trending" containerStyle={styles.headerContainerStyle} />
       <View style={styles.profilesList}>
         {profiles.length === 0
           ? (
