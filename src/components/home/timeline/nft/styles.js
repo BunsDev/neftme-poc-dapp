@@ -11,6 +11,14 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 8,
   },
+  profileImageContainer: {
+    width: 48,
+    height: 48,
+    alignContent: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
   nftProfilePhoto: {
     marginLeft: 16,
     marginRight: 16,

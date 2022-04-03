@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import CameraIcon from '@assets/icons/camera_yellow.svg';
 
 const styles = StyleSheet.create({
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
 });
 
 const Camera = ({ onCameraPress }) => (
-  <Pressable style={styles.chip}>
+  <TouchableOpacity style={styles.chip}>
     <CameraIcon width={34.7} height={27.8} onPress={onCameraPress} />
     <Text style={styles.text}>Take Photo</Text>
-  </Pressable>
+  </TouchableOpacity>
 );
 
 Camera.propTypes = {

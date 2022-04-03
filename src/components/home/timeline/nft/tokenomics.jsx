@@ -27,7 +27,7 @@ const Tokenomics = ({ nft }) => (
 Tokenomics.propTypes = {
   nft: PropTypes.shape({
     staked: PropTypes.number.isRequired,
-    profitPercentage: PropTypes.number.isRequired,
+    profitPercentage: PropTypes.string.isRequired,
     supporters: PropTypes.number.isRequired,
   }).isRequired,
 };

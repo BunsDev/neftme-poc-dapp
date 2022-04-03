@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
+import { ProfileImage } from '@library';
 import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
@@ -15,7 +16,16 @@ const Nft = ({ nft }) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.nftHeader}>
-        <Image source={{ uri: nft.profilePhoto }} style={styles.nftProfilePhoto} />
+        <ProfileImage
+          profileImage={nft.profilePhoto}
+          containerStyle={{
+            ...styles.profileImageContainer,
+            backgroundColor: nft.profileColor,
+          }}
+          imageStyle={styles.nftProfilePhoto}
+          avatarWidth={30}
+          avatarHeight={30}
+        />
         <View style={styles.nftHeaderTitle}>
           <Text style={styles.nftHeaderName}>{nft.name}</Text>
           <Text style={styles.nftHeaderFollowers}>{`${nft.followers} Followers`}</Text>
@@ -45,6 +55,7 @@ Nft.propTypes = {
     name: PropTypes.string.isRequired,
     followers: PropTypes.string.isRequired,
     profilePhoto: PropTypes.string.isRequired,
+    profileColor: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
