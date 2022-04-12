@@ -100,11 +100,9 @@ const CreateNFTTokenomics = () => {
 
     const arr = [];
     arr.push(number);
-    // console.log("NUMERO DE NFTS OWNED "+String(arr[0]));
 
     for (let i = 0; i < number; i++) {
       tokenIdArr.push(await neftme.tokenOfOwnerByIndex(address, i));
-      // console.log("TOKEN ID DO nº " +i+ ": " + tokenIdArr[i]);
     }
     return tokenIdArr;
   };
@@ -145,17 +143,18 @@ const CreateNFTTokenomics = () => {
         signer,
       );
 
-      await neftme.mint(
+      let tokenID = await neftme.mint(
         connector.accounts[0],
         nftInfo.url,
         convertToNFTAmount(communityPercentage),
       );
-
+      //console.log("alo");
+      //console.log(tokenID);
       // Chamar get token id
-      const arrayTokens = await getUserTokenIDs(connector.accounts[0]);
-      const lastTokenId = arrayTokens[arrayTokens.length - 1];
+      //const arrayTokens = await getUserTokenIDs(connector.accounts[0]);
+      //const lastTokenId = arrayTokens[arrayTokens.length - 1];
       setShowLoading(false);
-      if (await bindTokenId(nftInfo.id, lastTokenId.hex)) {
+      if (await bindTokenId(nftInfo.id, tokenID)) {
         Alert.alert('NFT Minted', 'Your NFT was successfully minted', [
           { text: 'OK', onPress: () => navigation.navigate('Home') },
         ]);

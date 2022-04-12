@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 // Tem de ser SEMPRE esta a ordem de IMPORT (random values -> shims -> ethers)
-import 'react-native-get-random-values';
-import '@ethersproject/shims';
-import { ethers } from 'ethers';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import "react-native-get-random-values";
+import "@ethersproject/shims";
+import { ethers } from "ethers";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import {
   FlatList,
   Image,
@@ -15,19 +15,19 @@ import {
   View,
   Modal,
   TextInput,
-} from 'react-native';
-import { getNFT, getUserTokenIDs } from '@services/nft';
-import BackIcon from '@assets/icons/back.svg';
-import BigNumber from 'big-number';
-import Constants from 'expo-constants';
-import nftABI from '../../abi/neftme.json';
+} from "react-native";
+import { getNFT } from "@services/nft";
+import BackIcon from "@assets/icons/back.svg";
+import BigNumber from "big-number";
+import Constants from "expo-constants";
+import nftABI from "../../abi/neftme.json";
 /// //////////////////////////////
-import styles from './styles';
-import SocialInfo from '../home/timeline/nft/social_info';
-import Tokenomics from '../home/timeline/nft/tokenomics';
-import CarouselItem from './carousel_item';
-import NftItem from './nft_item';
-import categories from './nft_categories';
+import styles from "./styles";
+import SocialInfo from "../home/timeline/nft/social_info";
+import Tokenomics from "../home/timeline/nft/tokenomics";
+import CarouselItem from "./carousel_item";
+import NftItem from "./nft_item";
+import categories from "./nft_categories";
 
 const NFTDetail = ({ route: { params }, navigation }) => {
   const [nftData, setNftData] = useState(null);
@@ -41,23 +41,32 @@ const NFTDetail = ({ route: { params }, navigation }) => {
 
   const connector = useWalletConnect();
 
-  // Replicated code -> Change to Common library after MVP
-  // Config for Celo Testnet -> Alfajores | After MVP config to dynamic way
-  const provider = new WalletConnectProvider({
-    rpc: {
-      44787: Constants.manifest.extra.alfajores_rpc_url,
-    },
-    chainId: 44787,
-    connector,
-    // qrcode has to be false otherwise there are problems
-    qrcode: false,
-  });
+  useEffect(async () => {
+    setNftData(await getNFT(params.nftID));
+    getNEFTBalance();
+  }, [connector]);
 
   function convertToETH18(amount) {
     return BigNumber(amount * 10 ** 18);
   }
+  
+  function convertFromStringBigNumber(stringNumber){
+    return parseInt(stringNumber) * 10**-18
+  }
 
   async function getNEFTBalance() {
+    // Replicated code -> Change to Common library after MVP
+    // Config for Celo Testnet -> Alfajores | After MVP config to dynamic way
+    const provider = new WalletConnectProvider({
+      rpc: {
+        44787: Constants.manifest.extra.alfajores_rpc_url,
+      },
+      chainId: 44787,
+      connector,
+      // qrcode has to be false otherwise there are problems
+      qrcode: false,
+    });
+
     await provider.enable();
 
     const ethers_provider = new ethers.providers.Web3Provider(provider);
@@ -65,12 +74,31 @@ const NFTDetail = ({ route: { params }, navigation }) => {
     const neftme = new ethers.Contract(
       Constants.manifest.extra.neftme_erc20_NEFT_address,
       nftABI,
-      signer,
+      signer
     );
-    setNeftBalance(await neftme.balanceOf(connector.accounts[0]));
+    //console.log("aloaslodasd");
+    //console.log(await neftme.balanceOf(connector.accounts[0]));
+
+    const number = await neftme.balanceOf(connector.accounts[0])
+    const arr = [];
+    arr.push(number);
+    
+    setNeftBalance(convertFromStringBigNumber(number.toString()));
   }
 
   const stakeNEFT = async () => {
+    // Replicated code -> Change to Common library after MVP
+    // Config for Celo Testnet -> Alfajores | After MVP config to dynamic way
+    const provider = new WalletConnectProvider({
+      rpc: {
+        44787: Constants.manifest.extra.alfajores_rpc_url,
+      },
+      chainId: 44787,
+      connector,
+      // qrcode has to be false otherwise there are problems
+      qrcode: false,
+    });
+
     await provider.enable();
 
     const ethers_provider = new ethers.providers.Web3Provider(provider);
@@ -78,16 +106,16 @@ const NFTDetail = ({ route: { params }, navigation }) => {
     const neftme = new ethers.Contract(
       Constants.manifest.extra.neftme_erc721_address,
       nftABI,
-      signer,
+      signer
     );
 
-    await neftme.stake(nftData.tokenId, convertToETH18(tokensToStake) /* amount */);
+    await neftme.stake(
+      nftData.tokenId,
+      convertToETH18(tokensToStake) /* amount */
+    );
   };
 
-  useEffect(async () => {
-    setNftData(await getNFT(params.nftID));
-    getNEFTBalance();
-  }, [connector]);
+  
 
   if (nftData === null) return <View />;
 
@@ -117,19 +145,19 @@ const NFTDetail = ({ route: { params }, navigation }) => {
               <View style={styles.centeredView}>
                 <View
                   style={{
-                    width: '100%',
-                    height: '70%',
-                    backgroundColor: '#2B2F3A',
+                    width: "100%",
+                    height: "70%",
+                    backgroundColor: "#2B2F3A",
                     borderWidth: 1,
                     borderRadius: 10,
-                    borderColor: '#2B2F3A',
+                    borderColor: "#2B2F3A",
                   }}
                 >
                   <Pressable
                     style={styles.buttonClose}
                     onPress={() => setStakeModalVisible(!stakeModalVisible)}
                   >
-                    <Text style={{ fontSize: 30, color: '#fff' }}>X</Text>
+                    <Text style={{ fontSize: 30, color: "#fff" }}>X</Text>
                   </Pressable>
 
                   <View>
@@ -144,37 +172,33 @@ const NFTDetail = ({ route: { params }, navigation }) => {
                         style={{
                           fontSize: 30,
                           marginTop: 10,
-                          color: 'white',
+                          color: "white",
                         }}
                         defaultValue="0"
-                        value={tokensToStake}
+                        value="2"
                       />
                       <Text
                         style={{
                           fontSize: 12,
-                          color: 'white',
+                          color: "white",
                           marginTop: 30,
                           marginBottom: 10,
                         }}
                       >
-                        Available:
-                        {' '}
-                        {neftBalance}
-                        {' '}
-                        $NEFT
+                        Available: {neftBalance} $NEFT
                       </Text>
                     </View>
 
                     <View
                       style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
+                        flexDirection: "row",
+                        justifyContent: "center",
                         marginHorizontal: 16,
                       }}
                     >
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('25000')}
+                        onPress={() => setTokensToSkake("25000")}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           25%
@@ -182,7 +206,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
                       </Pressable>
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('50000')}
+                        onPress={() => setTokensToSkake("50000")}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           50%
@@ -190,7 +214,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
                       </Pressable>
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('75000')}
+                        onPress={() => setTokensToSkake("75000")}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           75%
@@ -199,7 +223,7 @@ const NFTDetail = ({ route: { params }, navigation }) => {
 
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('100000')}
+                        onPress={() => setTokensToSkake("100000")}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           100%
@@ -209,8 +233,8 @@ const NFTDetail = ({ route: { params }, navigation }) => {
 
                     <View
                       style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
+                        flexDirection: "row",
+                        justifyContent: "center",
                         marginHorizontal: 16,
                       }}
                     >

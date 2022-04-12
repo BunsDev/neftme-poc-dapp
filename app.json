@@ -61,7 +61,7 @@
       "secret_access_key_aws": "GSUEINTnoptxhyQBxvK+sF01FtsW9NTnFH6Kee+7",
       "bucket_name_aws": "neftme-test-bucket",
       "alfajores_rpc_url": "https://alfajores-forno.celo-testnet.org",
-      "neftme_erc721_address": "0x00D4Ef3c6EC048cda452dD91630c3399DB6141Bd",
+      "neftme_erc721_address": "0x51b831793f20B5eF639DF6Bc164C6f84dc81e19a",
       "neftme_erc20_NEFT_address": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB"
     }
   }
