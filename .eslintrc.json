@@ -21,7 +21,8 @@
   ],
   "rules": {
     "react/function-component-definition": "off",
-    "react/style-prop-object": "off"
+    "react/style-prop-object": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "import/resolver": {
@@ -38,6 +39,10 @@
           [
             "@hocs",
             "./src/hocs/index.js"
+          ],
+          [
+            "@hooks",
+            "./src/hooks/index.js"
           ],
           [
             "@library",

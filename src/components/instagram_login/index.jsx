@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   ActivityIndicator, Alert, Modal, View,
 } from 'react-native';
 import { Button } from '@library';
+import InstagramAssetIcon from '@assets/icons/instagram_coloured.svg';
+import { useNavigation } from '@react-navigation/native';
 import InstagramModal from './login_modal';
 import styles from './styles';
 
-const InstagramLogin = ({ navigation }) => {
+const InstagramIcon = (props) => <InstagramAssetIcon width={29} height={29} {...props} />;
+
+const InstagramLogin = () => {
   const [showInstagramModal, setShowInstagramModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const navigation = useNavigation();
 
   const onLoginSuccess = () => {
     setShowLoading(false);
-    navigation.navigate('Home');
+    navigation.navigate('Start', {
+      screen: 'Wallet',
+    });
   };
 
   const onLoginFailure = () => {
@@ -39,9 +45,12 @@ const InstagramLogin = ({ navigation }) => {
         </Modal>
       )}
       <Button
-        text="SIGN IN WITH INSTAGRAM"
+        text="Log in with Instagram"
+        textStyle={styles.instagramButtonText}
         buttonStyle={styles.instagramButton}
         onPress={() => setShowInstagramModal(true)}
+        Icon={InstagramIcon}
+        iconStyle={styles.instagramIcon}
       />
       <InstagramModal
         modalVisible={showInstagramModal}
@@ -52,12 +61,6 @@ const InstagramLogin = ({ navigation }) => {
       />
     </>
   );
-};
-
-InstagramLogin.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default InstagramLogin;

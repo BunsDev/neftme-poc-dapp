@@ -49,6 +49,7 @@ export const doInstagramLogin = async (code) => {
     const body = await response.json();
     return {
       success: await setData('auth_token', body.token),
+      newUser: await setData('newUser', String(body.newUser)),
     };
   } catch (err) {
     return {

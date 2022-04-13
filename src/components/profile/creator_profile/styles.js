@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  marginRight5: {
+  followButton: {
+    flex: 1,
     marginRight: 5,
   },
-  marginLeft5: {
+  messageButton: {
+    flex: 1,
     marginLeft: 5,
   },
   buttonsContainer: {

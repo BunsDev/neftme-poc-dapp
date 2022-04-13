@@ -11,6 +11,9 @@
       "@hocs": [
         "src/hocs/index.js"
       ],
+      "@hooks": [
+        "src/hooks/index.js"
+      ],
       "@library": [
         "src/components/library/index.js"
       ],

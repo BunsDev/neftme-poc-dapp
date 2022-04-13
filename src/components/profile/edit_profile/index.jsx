@@ -138,6 +138,7 @@ const EditProfile = () => {
             removeSocialIndex={removeSocialIndex}
           />
           <FavoriteCategories
+            title
             allCategories={allCategories}
             userCategories={profileFields.favoriteCategories}
             onCategorySelect={onCategorySelect}

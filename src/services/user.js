@@ -1,6 +1,14 @@
 import Constants from 'expo-constants';
 import { getData } from './storage';
 
+export const isNewUser = async () => {
+  try {
+    return (await getData('newUser')) === 'true';
+  } catch (err) {
+    return true;
+  }
+};
+
 export const getProfileData = async () => {
   try {
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/me`, {
@@ -14,7 +22,10 @@ export const getProfileData = async () => {
     });
 
     if (response?.status !== 200) {
-      return {};
+      return {
+        error: true,
+        status: response?.status,
+      };
     }
 
     return await response.json();
