@@ -9,13 +9,14 @@ import MyProfile from './profile/my_profile';
 import NFTDetail from './nft_detail';
 import CreateNFT from './create_nft';
 import Wallet from './wallet';
+import Search from './search';
 
 const Stack = createNativeStackNavigator();
 
 export default () => (
 
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Search" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Start" component={Start} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Wallet" component={Wallet} />
@@ -24,6 +25,7 @@ export default () => (
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="NFTDetail" component={NFTDetail} />
       <Stack.Screen name="CreateNFT" component={CreateNFT} />
+      <Stack.Screen name="Search" component={Search} />
     </Stack.Navigator>
   </NavigationContainer>
 );

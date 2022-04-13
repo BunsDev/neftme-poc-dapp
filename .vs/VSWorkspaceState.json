@@ -4,10 +4,8 @@
     "\\src",
     "\\src\\components",
     "\\src\\components\\home",
-    "\\src\\components\\home\\featured_profiles",
-    "\\src\\components\\profile\\my_profile",
-    "\\src\\components\\profile\\shared"
+    "\\src\\components\\nft_detail",
+    "\\src\\components\\search"
   ],
-  "SelectedNode": "\\src\\components\\home\\featured_profiles\\profile_card.jsx",
   "PreviewInSolutionExplorer": false
 }

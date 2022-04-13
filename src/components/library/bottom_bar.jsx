@@ -25,9 +25,9 @@ const BottomBar = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.bottomBar}>
-      <HomeIcon width={24} height={25} onPress={() => navigation.navigate('Home')} />
+      <HomeIcon width={32} height={33} onPress={() => navigation.navigate('Home')} />
       <CreateIcon style={styles.createNftIcon} width={43.35} height={44} onPress={() => navigation.navigate('CreateNFT')} />
-      <SearchIcon width={22.42} height={23.54} />
+      <SearchIcon width={32} height={33} onPress={() => navigation.navigate('Search')} />
     </View>
   );
 };
