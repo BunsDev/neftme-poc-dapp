@@ -9,7 +9,6 @@ import EditProfile from './profile/edit_profile';
 import MyProfile from './profile/my_profile';
 import NFTDetail from './nft_detail';
 import CreateNFT from './create_nft';
-import Wallet from './wallet';
 import Search from './search';
 
 const Stack = createNativeStackNavigator();
