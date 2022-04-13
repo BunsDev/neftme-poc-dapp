@@ -40,10 +40,10 @@ const CreatorProfile = () => {
       <View style={styles.buttonsContainer}>
         <Button
           text="Edit Profile"
-          buttonStyle={styles.marginRight5}
+          buttonStyle={styles.editProfileStyle}
           onPress={() => navigation.navigate('EditProfile', { profileData })}
         />
-        <Button text="My Stats" primary={false} buttonStyle={styles.marginLeft5} />
+        <Button text="My Stats" primary={false} buttonStyle={styles.myStatsStyle} />
       </View>
       <NftsList nfts={profileData.nfts} />
     </View>

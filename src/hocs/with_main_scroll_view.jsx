@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { BottomBar, StatusBar } from '@library';
 import { LinearGradient } from 'expo-linear-gradient';

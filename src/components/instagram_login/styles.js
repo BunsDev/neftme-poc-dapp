@@ -2,7 +2,16 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   instagramButton: {
-    backgroundColor: '#E33E5C',
+    backgroundColor: '#fff',
+    width: 252,
+  },
+  instagramIcon: {
+    marginVertical: 10,
+    marginRight: 8,
+  },
+  instagramButtonText: {
+    fontWeight: '500',
+    fontSize: 16,
   },
   modalBackground: {
     flex: 1,
