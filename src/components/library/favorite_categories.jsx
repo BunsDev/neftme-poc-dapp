@@ -49,10 +49,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const FavoriteCategories = ({ allCategories, userCategories, onCategorySelect }) => (
+const FavoriteCategories = ({
+  title, allCategories, userCategories, onCategorySelect, listContainerStyle,
+}) => (
   <View style={styles.container}>
-    <Text style={styles.header}>Favorite Categories</Text>
-    <View style={styles.listContainer}>
+    {title && <Text style={styles.header}>Favorite Categories</Text>}
+    <View style={[styles.listContainer, listContainerStyle]}>
       {allCategories.map(({ id, category }) => (
         <Pressable
           style={[styles.category, userCategories.includes(id) ? styles.selectedContainer : {}]}
@@ -70,13 +72,19 @@ const FavoriteCategories = ({ allCategories, userCategories, onCategorySelect })
   </View>
 );
 
+FavoriteCategories.defaultProps = {
+  listContainerStyle: {},
+};
+
 FavoriteCategories.propTypes = {
+  title: PropTypes.bool.isRequired,
   allCategories: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     category: PropTypes.string.isRequired,
   })).isRequired,
   userCategories: PropTypes.arrayOf(PropTypes.number).isRequired,
   onCategorySelect: PropTypes.func.isRequired,
+  listContainerStyle: PropTypes.instanceOf(Object),
 };
 
 export default FavoriteCategories;

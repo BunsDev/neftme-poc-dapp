@@ -46,8 +46,8 @@ const CreatorProfile = () => {
         totalSharedFollowers={profileData.totalSharedFollowers}
       />
       <View style={styles.buttonsContainer}>
-        <Button text="Follow" buttonStyle={styles.marginRight5} />
-        <Button text="Message" primary={false} buttonStyle={styles.marginLeft5} />
+        <Button text="Follow" buttonStyle={styles.followButton} />
+        <Button text="Message" primary={false} buttonStyle={styles.messageButton} />
       </View>
       <Stats stats={profileData.stats} />
       <NftsList nfts={profileData.nfts} />
