@@ -1,0 +1,34 @@
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Constants from 'expo-constants';
+import Web3 from 'web3';
+import nftABI from '../abi/neftme.json';
+
+const configs = Constants.manifest.extra;
+
+const useSmartContract = () => {
+  const connector = useWalletConnect();
+  const provider = new WalletConnectProvider({
+    rpc: {
+      [configs.alfajoresChainId]: configs.alfajoresRpcUrl,
+    },
+    connector,
+    qrcode: false,
+  });
+
+  const getContractMethods = async (contractAddress) => {
+    await provider.enable();
+
+    const web3 = new Web3(provider);
+    const contract = new web3.eth.Contract(
+      nftABI,
+      contractAddress,
+    );
+
+    return contract.methods;
+  };
+
+  return { getContractMethods };
+};
+
+export default useSmartContract;
