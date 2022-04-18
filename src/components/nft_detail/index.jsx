@@ -22,6 +22,7 @@ import Tokenomics from '../home/timeline/nft/tokenomics';
 import CarouselItem from './carousel_item';
 import NftItem from './nft_item';
 import categories from './nft_categories';
+import Web3 from 'web3';
 
 const NFTDetail = () => {
   const connector = useWalletConnect();
@@ -40,7 +41,7 @@ const NFTDetail = () => {
       Constants.manifest.extra.neftmeErc20NEFTAddress,
     );
     contractMethods.balanceOf(connector.accounts[0]).call({ from: connector.accounts[0] })
-      .then(setNeftBalance);
+      .then(a => {setNeftBalance(a *10**-18)});
   };
 
   useEffect(async () => {
@@ -55,8 +56,26 @@ const NFTDetail = () => {
           Constants.manifest.extra.neftmeErc721Address,
         );
         contractMethods.stake(
-          nftData.tokenId,
-          convertToETH18(1),
+          2,
+          convertToETH18(3),
+        ).send({ from: connector.accounts[0] })
+          .then((err, msg) => console.log('ok: ', err, msg))
+          .catch((err, msg) => console.log('err: ', err, msg));
+      }
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
+
+  const approveNeft = async () => {
+    try {
+      if (tokensToStake > 0) {
+        const contractMethods = await getContractMethods(
+          Constants.manifest.extra.neftmeErc20NEFTAddress,
+        );
+        contractMethods.approve(
+          Constants.manifest.extra.neftmeErc721Address,
+          convertToETH18(5),
         ).send({ from: connector.accounts[0] })
           .then((err, msg) => console.log('ok: ', err, msg))
           .catch((err, msg) => console.log('err: ', err, msg));
@@ -153,7 +172,7 @@ const NFTDetail = () => {
                     >
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('25000')}
+                        onPress={() => setTokensToStake('25000')}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           25%
@@ -161,7 +180,7 @@ const NFTDetail = () => {
                       </Pressable>
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('50000')}
+                        onPress={() => setTokensToStake('50000')}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           50%
@@ -169,7 +188,7 @@ const NFTDetail = () => {
                       </Pressable>
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('75000')}
+                        onPress={() => setTokensToStake('75000')}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           75%
@@ -178,7 +197,7 @@ const NFTDetail = () => {
 
                       <Pressable
                         style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToSkake('100000')}
+                        onPress={() => setTokensToStake('100000')}
                       >
                         <Text style={styles.stakePercentageButtonText}>
                           100%
@@ -193,6 +212,12 @@ const NFTDetail = () => {
                         marginHorizontal: 16,
                       }}
                     >
+                      <Pressable
+                        style={[styles.stakeButtonAction]}
+                        onPress={approveNeft}
+                      >
+                        <Text style={styles.stakeText}>Approve</Text>
+                      </Pressable>
                       <Pressable
                         style={[styles.stakeButtonAction]}
                         onPress={stakeNEFT}
