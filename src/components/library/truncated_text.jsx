@@ -23,15 +23,20 @@ const prepareText = (text) => (
   showMoreLabel(text) ? `${text.trim().slice(0, TEXT_SIZE)}...` : text.trim()
 );
 
-const TruncatedText = ({ text }) => (
-  <Text style={styles.textStyle}>
+const TruncatedText = ({ text, textStyle }) => (
+  <Text style={[styles.textStyle, textStyle]}>
     {prepareText(text)}
     {showMoreLabel(text) && <Text style={styles.more}> more</Text>}
   </Text>
 );
 
+TruncatedText.defaultProps = {
+  textStyle: {},
+};
+
 TruncatedText.propTypes = {
   text: PropTypes.string.isRequired,
+  textStyle: PropTypes.instanceOf(Object),
 };
 
 export default TruncatedText;

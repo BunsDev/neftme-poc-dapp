@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {
   Image, Pressable, Text, View,
 } from 'react-native';
-import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
+// import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
-import { ProfileImage } from '@library';
+import { ProfileImage, TruncatedText } from '@library';
 import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
@@ -32,17 +32,15 @@ const Nft = ({ nft }) => {
         </View>
       </View>
       <View>
-        <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} />
+        {/* TODO: ADD Save Favorite feature;
+        <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
         <Pressable onPress={() => navigation.navigate('NFTDetail', { nftID: nft.id })}>
           <Image source={{ uri: nft.image }} style={styles.nftNFTPhoto} />
         </Pressable>
       </View>
       <SocialInfo nft={nft} />
       <Text style={styles.nftTitle}>{nft.title}</Text>
-      <Text style={styles.nftDescription}>
-        {nft.description}
-        <Text style={styles.readMoreText}> more</Text>
-      </Text>
+      <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />
       <Tokenomics nft={nft} />
     </View>
