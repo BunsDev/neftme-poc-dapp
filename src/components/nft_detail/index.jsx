@@ -22,7 +22,6 @@ import Tokenomics from '../home/timeline/nft/tokenomics';
 import CarouselItem from './carousel_item';
 import NftItem from './nft_item';
 import categories from './nft_categories';
-import Web3 from 'web3';
 
 const NFTDetail = () => {
   const connector = useWalletConnect();
@@ -41,7 +40,7 @@ const NFTDetail = () => {
       Constants.manifest.extra.neftmeErc20NEFTAddress,
     );
     contractMethods.balanceOf(connector.accounts[0]).call({ from: connector.accounts[0] })
-      .then(a => {setNeftBalance(a *10**-18)});
+      .then((a) => { setNeftBalance(a * 10 ** -18); });
   };
 
   useEffect(async () => {
@@ -87,7 +86,6 @@ const NFTDetail = () => {
 
   if (nftData === null) return <View />;
 
-  console.log('tokensToStake: ', tokensToStake);
   return (
     <ScrollView style={styles.scrollView}>
       <Pressable style={styles.backIcon} onPress={navigation.goBack}>

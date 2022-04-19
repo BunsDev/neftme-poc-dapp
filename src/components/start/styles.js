@@ -29,6 +29,9 @@ export default StyleSheet.create({
     fontWeight: '500',
     fontSize: 16,
   },
+  disabledButton: {
+    opacity: 0.2,
+  },
   startTitle: {
     fontSize: 17,
     fontWeight: '700',
