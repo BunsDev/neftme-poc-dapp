@@ -84,7 +84,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         );
         contractMethods.stake(
           Number(nftTokenId),
-          convertToETH18(Number(tokensToStake)),
+          convertToETH18(tokensToStake),
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);

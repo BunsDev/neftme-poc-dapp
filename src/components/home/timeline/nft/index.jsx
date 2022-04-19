@@ -52,7 +52,7 @@ Nft.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     followers: PropTypes.string.isRequired,
-    profilePhoto: PropTypes.string.isRequired,
+    profilePhoto: PropTypes.string,
     profileColor: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
