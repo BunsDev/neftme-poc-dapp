@@ -1,95 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import {
+  Alert,
   FlatList,
   Image,
   Pressable,
   ScrollView,
   Text,
   View,
-  Modal,
-  TextInput,
-  Alert,
 } from 'react-native';
 import { getNFT } from '@services/nft';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useSmartContract } from '@hooks';
-import { convertToETH18 } from '@utils/nft';
-import Constants from 'expo-constants';
-import { Button } from '@library';
+import { Button, Loading, TruncatedText } from '@library';
 import styles from './styles';
 import SocialInfo from '../home/timeline/nft/social_info';
 import Tokenomics from '../home/timeline/nft/tokenomics';
 import CarouselItem from './carousel_item';
 import NftItem from './nft_item';
 import categories from './nft_categories';
+import StakeModal from './stake_modal';
 
 const NFTDetail = () => {
-  const connector = useWalletConnect();
   const navigation = useNavigation();
   const route = useRoute();
-  const { getContractMethods } = useSmartContract();
   const [nftData, setNftData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [stakeModalVisible, setStakeModalVisible] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  const [tokensToStake, setTokensToStake] = useState(1);
-  const [neftBalance, setNeftBalance] = useState(0);
-
-  const getNEFTBalance = async () => {
-    const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc20NEFTAddress,
-    );
-    contractMethods.balanceOf(connector.accounts[0]).call({ from: connector.accounts[0] })
-      .then((a) => { setNeftBalance(a * 10 ** -18); });
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(async () => {
+    setIsLoading(true);
     setNftData(await getNFT(route.params.nftID));
-    getNEFTBalance();
-  }, [connector]);
-
-  const stakeNEFT = async () => {
-    try {
-      if (tokensToStake > 0) {
-        const contractMethods = await getContractMethods(
-          Constants.manifest.extra.neftmeErc721Address,
-        );
-        contractMethods.stake(
-          2,
-          convertToETH18(3),
-        ).send({ from: connector.accounts[0] })
-          .then((err, msg) => console.log('ok: ', err, msg))
-          .catch((err, msg) => console.log('err: ', err, msg));
-      }
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  };
-
-  const approveNeft = async () => {
-    try {
-      if (tokensToStake > 0) {
-        const contractMethods = await getContractMethods(
-          Constants.manifest.extra.neftmeErc20NEFTAddress,
-        );
-        contractMethods.approve(
-          Constants.manifest.extra.neftmeErc721Address,
-          convertToETH18(5),
-        ).send({ from: connector.accounts[0] })
-          .then((err, msg) => console.log('ok: ', err, msg))
-          .catch((err, msg) => console.log('err: ', err, msg));
-      }
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  };
+    setIsLoading(false);
+  }, []);
 
   if (nftData === null) return <View />;
 
   return (
     <ScrollView style={styles.scrollView}>
+      <Loading visible={isLoading} />
       <Pressable style={styles.backIcon} onPress={navigation.goBack}>
         <BackIcon width={18.67} height={18.67} />
       </Pressable>
@@ -97,142 +46,14 @@ const NFTDetail = () => {
       <View>
         <SocialInfo nft={nftData} />
         <Text style={styles.nftTitle}>{nftData.title}</Text>
-        <Text style={styles.nftDescription}>
-          {nftData.description}
-          <Text style={styles.readMoreText}> more</Text>
-        </Text>
+        <TruncatedText text={nftData.description} textStyle={styles.nftDescription} />
         <View style={styles.tokenomicsContainer}>
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="slide"
-              transparent
-              visible={stakeModalVisible}
-              onRequestClose={() => {
-                setStakeModalVisible(!stakeModalVisible);
-              }}
-            >
-              <View style={styles.centeredView}>
-                <View
-                  style={{
-                    width: '100%',
-                    height: '70%',
-                    backgroundColor: '#2B2F3A',
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    borderColor: '#2B2F3A',
-                  }}
-                >
-                  <Pressable
-                    style={styles.buttonClose}
-                    onPress={() => setStakeModalVisible(!stakeModalVisible)}
-                  >
-                    <Text style={{ fontSize: 30, color: '#fff' }}>X</Text>
-                  </Pressable>
-
-                  <View>
-                    <Text style={styles.stakeTitle}>
-                      How much $NEFT you want to stake?
-                    </Text>
-
-                    <View style={styles.stakeContainer}>
-                      <TextInput
-                        underlineColorAndroid="transparent"
-                        keyboardType="numeric"
-                        style={{
-                          fontSize: 30,
-                          marginTop: 10,
-                          color: 'white',
-                        }}
-                        defaultValue="0"
-                        value={tokensToStake}
-                        onChange={setTokensToStake}
-                      />
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          color: 'white',
-                          marginTop: 30,
-                          marginBottom: 10,
-                        }}
-                      >
-                        Available:
-                        {' '}
-                        {neftBalance}
-                        {' '}
-                        $NEFT
-                      </Text>
-                    </View>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        marginHorizontal: 16,
-                      }}
-                    >
-                      <Pressable
-                        style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToStake('25000')}
-                      >
-                        <Text style={styles.stakePercentageButtonText}>
-                          25%
-                        </Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToStake('50000')}
-                      >
-                        <Text style={styles.stakePercentageButtonText}>
-                          50%
-                        </Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToStake('75000')}
-                      >
-                        <Text style={styles.stakePercentageButtonText}>
-                          75%
-                        </Text>
-                      </Pressable>
-
-                      <Pressable
-                        style={[styles.stakePercentageButton]}
-                        onPress={() => setTokensToStake('100000')}
-                      >
-                        <Text style={styles.stakePercentageButtonText}>
-                          100%
-                        </Text>
-                      </Pressable>
-                    </View>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        marginHorizontal: 16,
-                      }}
-                    >
-                      <Pressable
-                        style={[styles.stakeButtonAction]}
-                        onPress={approveNeft}
-                      >
-                        <Text style={styles.stakeText}>Approve</Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.stakeButtonAction]}
-                        onPress={stakeNEFT}
-                      >
-                        <Text style={styles.stakeText}>Stake $NEFT</Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-          </View>
-
+          <StakeModal
+            nftTokenId={nftData.tokenId}
+            stakeModalVisible={stakeModalVisible}
+            setStakeModalVisible={setStakeModalVisible}
+          />
           <Tokenomics nft={nftData} />
-
           <View style={styles.tokenomicsCard}>
             <Button
               buttonStyle={styles.stakeButton}
