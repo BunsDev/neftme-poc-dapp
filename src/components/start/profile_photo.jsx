@@ -6,7 +6,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { removeData } from '@services/storage';
-import { updateProfileData } from '@services/user';
+import { getProfileData, updateProfileData } from '@services/user';
 import { Button, Loading } from '@library';
 import { useSmartContract } from '@hooks';
 import { withOnboardingView } from '@hocs';
@@ -21,6 +21,15 @@ const ProfilePhoto = () => {
   const { getContractMethods } = useSmartContract();
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    const profileData = await getProfileData();
+    if (profileData?.profileImage) {
+      setProfilePhoto(profileData.profileImage);
+    }
+    setIsLoading(false);
+  }, []);
 
   useEffect(async () => {
     await removeData('newUser');
@@ -49,8 +58,8 @@ const ProfilePhoto = () => {
     try {
       setIsLoading(true);
       const nft = {
-        title: route.params.nft.title,
-        description: route.params.nft.description,
+        title: route?.params?.nft?.title || 'My Profile Photo',
+        description: route?.params?.nft?.description || 'My Profile Photo',
         price: 0,
         communityPercentage: 0,
         image: profilePhoto,
