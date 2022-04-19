@@ -12,7 +12,7 @@ const ChooseLogin = () => (
     <Button
       text="Create new account"
       textStyle={styles.newAccountButtonText}
-      buttonStyle={styles.newAccountButton}
+      buttonStyle={[styles.newAccountButton, styles.disabledButton]}
       onPress={() => { }}
     />
   </View>

@@ -30,16 +30,31 @@ const CreateNFTDetails = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const onNextPress = () => {
-    navigation.navigate('CreateNFT', {
-      screen: 'CreateNFTTokenomics',
-      params: {
-        nft: {
-          image: route.params.nftImage,
-          title,
-          description,
+    if (route.params.origin?.profilePhoto) {
+      if (route.params.origin?.returnTo === 'startProfilePhoto') {
+        navigation.navigate('Start', {
+          screen: 'ProfilePhoto',
+          params: {
+            nft: {
+              image: route.params.nftImage,
+              title,
+              description,
+            },
+          },
+        });
+      }
+    } else {
+      navigation.navigate('CreateNFT', {
+        screen: 'CreateNFTTokenomics',
+        params: {
+          nft: {
+            image: route.params.nftImage,
+            title,
+            description,
+          },
         },
-      },
-    });
+      });
+    }
   };
 
   return (

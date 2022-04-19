@@ -3,7 +3,7 @@ import {
   Dimensions, Image, StyleSheet, View,
 } from 'react-native';
 import { Gallery } from '@library';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import Header from './header';
 
@@ -36,7 +36,13 @@ const styles = StyleSheet.create({
 const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const navigation = useNavigation();
-  const goNext = (imageUri) => navigation.navigate('CreateNFT', { screen: 'CreateNFTDetails', params: { nftImage: imageUri } });
+  const route = useRoute();
+  const goNext = (imageUri) => {
+    navigation.navigate('CreateNFT', {
+      screen: 'CreateNFTDetails',
+      params: { nftImage: imageUri, origin: route.params },
+    });
+  };
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
