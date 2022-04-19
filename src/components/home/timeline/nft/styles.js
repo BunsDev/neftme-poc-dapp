@@ -59,9 +59,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
-  detailCenter: {
-    marginLeft: 16,
-  },
   iconTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -88,11 +85,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     marginHorizontal: 16,
-    lineHeight: 21,
-  },
-  readMoreText: {
-    color: '#feda79',
-    fontWeight: 'bold',
+    marginTop: 8,
   },
   horizontalLine: {
     height: 1,

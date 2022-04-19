@@ -9,6 +9,7 @@ import {
   View,
   Modal,
   TextInput,
+  Alert,
 } from 'react-native';
 import { getNFT } from '@services/nft';
 import BackIcon from '@assets/icons/back.svg';
@@ -16,6 +17,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSmartContract } from '@hooks';
 import { convertToETH18 } from '@utils/nft';
 import Constants from 'expo-constants';
+import { Button } from '@library';
 import styles from './styles';
 import SocialInfo from '../home/timeline/nft/social_info';
 import Tokenomics from '../home/timeline/nft/tokenomics';
@@ -232,16 +234,19 @@ const NFTDetail = () => {
           <Tokenomics nft={nftData} />
 
           <View style={styles.tokenomicsCard}>
-            <Pressable
-              style={[styles.tokenomicsBaseButton, styles.stakeButton]}
+            <Button
+              buttonStyle={styles.stakeButton}
               onPress={() => setStakeModalVisible(true)}
-            >
-              <Text style={styles.stakeText}>Stake $NEFT</Text>
-            </Pressable>
-
-            <View style={[styles.tokenomicsBaseButton, styles.makeOfferButton]}>
-              <Text style={styles.makeOfferText}>Make an Offer</Text>
-            </View>
+              text="Stake $NEFT"
+              textStyle={styles.stakeText}
+            />
+            <Button
+              primary={false}
+              buttonStyle={styles.makeOfferButton}
+              onPress={() => Alert.alert('Available soon')}
+              text="Make an Offer"
+              textStyle={styles.makeOfferText}
+            />
           </View>
         </View>
       </View>

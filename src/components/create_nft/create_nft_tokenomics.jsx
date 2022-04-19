@@ -91,7 +91,7 @@ const CreateNFTTokenomics = () => {
           <Button
             text="Mint NFT"
             buttonStyle={price ? {} : { backgroundColor: '#41414A' }}
-            onPress={onMintNFTPress}
+            onPress={price ? onMintNFTPress : () => { }}
             textStyle={{}}
           />
         </View>

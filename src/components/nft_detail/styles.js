@@ -45,31 +45,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 16,
   },
-  tokenomicsBaseButton: {
-    borderRadius: 8,
-    paddingVertical: 13,
-    marginRight: 5,
-    flex: 0.5,
-  },
   stakeButton: {
-    backgroundColor: '#F6C138',
+    marginRight: 10,
+    flex: 0.5,
   },
   stakeText: {
     color: '#22222B',
     fontWeight: 'bold',
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
   },
   makeOfferButton: {
-    backgroundColor: '#41414A',
+    flex: 0.5,
   },
   makeOfferText: {
     color: '#FCFCFC',
     fontWeight: '500',
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
   },
   carouselContainer: {
     marginTop: 42,
@@ -105,13 +94,14 @@ export default StyleSheet.create({
     lineHeight: 21,
   },
   stakeContainer: {
-    width: "90%",
-    height: "auto",
-    backgroundColor: "#41414A",
+    width: '90%',
+    height: 'auto',
+    backgroundColor: '#41414A',
     borderRadius: 10,
-    marginLeft: "5%",
+    marginLeft: '5%',
     marginTop: 10,
-    alignItems: 'center', justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   stakePercentageButton: {
     borderRadius: 8,
@@ -119,7 +109,7 @@ export default StyleSheet.create({
     flex: 0.25,
     backgroundColor: '#41414A',
     marginTop: 10,
-    margin: 5
+    margin: 5,
   },
   stakePercentageButtonText: {
     color: 'white',
@@ -131,7 +121,7 @@ export default StyleSheet.create({
   stakeButtonAction: {
     borderRadius: 8,
     paddingVertical: 13,
-    margin: "1%",
+    margin: '1%',
     marginTop: 20,
     flex: 1,
     backgroundColor: '#F6C138',
