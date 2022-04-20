@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import {
   Alert, Platform, ScrollView, View,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { getCategories } from '@services/categories';
-import { updateProfileData } from '@services/user';
+import { saveProfilePhoto, updateProfileData } from '@services/user';
+import { mintNFT } from '@services/nft';
+import { useSmartContract } from '@hooks';
 import {
-  FavoriteCategories, InputField, ProfileImage, StatusBar,
+  FavoriteCategories, InputField, Loading, ProfileImage, StatusBar,
 } from '@library';
 import CoverImage from './cover_image';
 import ImageSection from './image_section';
@@ -16,14 +19,40 @@ import styles from './styles';
 
 const EditProfile = () => {
   const route = useRoute();
+  const navigation = useNavigation();
+  const connector = useWalletConnect();
+  const { getContractMethods } = useSmartContract();
+
   const [profileFields, setProfileFields] = useState({
     ...route.params.profileData,
     socialMediaLinks: route?.params?.profileData?.socialMediaLinks || [],
   });
   const [allCategories, setAllCategories] = useState([]);
+  const [newProfileImage, setNewProfileImage] = useState(null);
+  const [newCoverImage, setNewCoverImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(async () => {
     setAllCategories(await getCategories());
   }, []);
+
+  useEffect(() => {
+    if (route?.params?.nft?.image) {
+      if (route?.params?.type === 'profile') {
+        setNewProfileImage({
+          title: route.params.nft.title,
+          description: route.params.nft.description,
+          image: route.params.nft.image,
+        });
+      } else if (route?.params?.type === 'cover') {
+        setNewCoverImage({
+          title: route.params.nft.title,
+          description: route.params.nft.description,
+          image: route.params.nft.image,
+        });
+      }
+    }
+  }, [route]);
 
   const onSocialMediaLinksChange = (text, index) => {
     const newArray = Array.from(profileFields.socialMediaLinks);
@@ -51,16 +80,55 @@ const EditProfile = () => {
       [field]: value,
     }));
   };
+
   const onSavePress = async () => {
+    setIsLoading(true);
+    let { profileImage, coverImage } = profileFields;
+    if (newProfileImage !== null) {
+      profileImage = await saveProfilePhoto(
+        newProfileImage.title,
+        newProfileImage.description,
+        newProfileImage.image,
+        getContractMethods,
+        mintNFT,
+        connector,
+      );
+      if (!profileImage) {
+        setIsLoading(false);
+        Alert.alert('Error', 'Something went wrong. Please try again');
+        return;
+      }
+      setNewProfileImage(null);
+      setFieldValue('profileImage', profileImage);
+    }
+    if (newCoverImage !== null) {
+      coverImage = await saveProfilePhoto(
+        newCoverImage.title,
+        newCoverImage.description,
+        newCoverImage.image,
+        getContractMethods,
+        mintNFT,
+        connector,
+      );
+      if (!coverImage) {
+        setIsLoading(false);
+        Alert.alert('Error', 'Something went wrong. Please try again');
+        return;
+      }
+      setNewCoverImage(null);
+      setFieldValue('coverImage', coverImage);
+    }
     const response = await updateProfileData({
       name: profileFields.name,
       username: profileFields.username,
       email: profileFields.email,
       bio: profileFields.bio,
+      profileImage,
+      coverImage,
       socialMediaLinks: profileFields.socialMediaLinks,
       favoriteCategories: profileFields.favoriteCategories,
     });
-
+    setIsLoading(false);
     Alert.alert('Profile', response ? 'Profile was successfully saved' : 'Something went wrong, please try again');
   };
 
@@ -78,16 +146,33 @@ const EditProfile = () => {
     });
   };
 
+  const onUploadPhotoPress = (type) => {
+    navigation.navigate('CreateNFT', {
+      screen: 'Gallery',
+      params: {
+        returnTo: 'editProfilePhoto',
+        profilePhoto: true,
+        type,
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar />
       <Header onSavePress={onSavePress} />
+      <Loading visible={isLoading} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.horizontalRow} />
         <View style={styles.padHor16}>
-          <ImageSection title="Profile Image (NFT)">
+          <ImageSection
+            title="Profile Image (NFT)"
+            onUploadPhotoPress={() => onUploadPhotoPress('profile')}
+            newImage={newProfileImage !== null}
+            clearImage={() => setNewProfileImage(null)}
+          >
             <ProfileImage
-              profileImage={profileFields.profileImage}
+              profileImage={newProfileImage?.image || profileFields.profileImage}
               containerStyle={{
                 ...styles.profileImageContainer,
                 backgroundColor: profileFields.profileColor,
@@ -97,8 +182,13 @@ const EditProfile = () => {
               avatarHeight={62}
             />
           </ImageSection>
-          <ImageSection title="Cover Image (NFT)">
-            <CoverImage coverImage={profileFields.coverImage} />
+          <ImageSection
+            title="Cover Image (NFT)"
+            onUploadPhotoPress={() => onUploadPhotoPress('cover')}
+            newImage={newCoverImage !== null}
+            clearImage={() => setNewCoverImage(null)}
+          >
+            <CoverImage coverImage={newCoverImage?.image || profileFields.coverImage} />
           </ImageSection>
           <InputField
             labelName="Name"

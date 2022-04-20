@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, Text, View,
+  StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -36,13 +36,13 @@ const Header = ({ onSavePress }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.centerHorVert} onPress={navigation.goBack}>
+      <TouchableOpacity style={styles.centerHorVert} onPress={navigation.goBack}>
         <Text style={styles.button}>Cancel</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text style={styles.title}>Edit profile</Text>
-      <Pressable style={styles.centerHorVert} onPress={onSavePress}>
+      <TouchableOpacity style={styles.centerHorVert} onPress={onSavePress}>
         <Text style={[styles.button, styles.saveButton]}>Save</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -100,3 +100,30 @@ export const updateProfileData = async (data) => {
     return false;
   }
 };
+
+export const saveProfilePhoto = async (
+  title,
+  description,
+  image,
+  getContractMethods,
+  mintNFT,
+  connector,
+) => {
+  try {
+    const nft = {
+      title,
+      description,
+      price: 0,
+      communityPercentage: 0,
+      image,
+    };
+
+    const contractMethods = await getContractMethods(
+      Constants.manifest.extra.neftmeErc721Address,
+    );
+    const mintedNFT = await mintNFT(contractMethods, nft, connector.accounts[0]);
+    return mintedNFT?.success ? mintedNFT.url : false;
+  } catch (err) {
+    return false;
+  }
+};
