@@ -14,7 +14,7 @@ const useCheckUserSession = () => {
   useEffect(async () => {
     if (await getData('auth_token')) {
       const user = await getProfileData();
-      if (user.error && user.status === 401) {
+      if (user.error && (user.status === 401 || user.status === 403)) {
         await removeData('auth_token');
         navigateToLogin();
       } else {
