@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
   border: {
     borderRadius: 70,
   },
+  centerAvatar: {
+    alignSelf: 'center',
+  },
 });
 
 const ProfileImage = ({
@@ -15,7 +18,7 @@ const ProfileImage = ({
   <>
     {!profileImage ? (
       <View style={[styles.border, containerStyle]}>
-        <Avatar width={avatarWidth} height={avatarHeight} />
+        <Avatar width={avatarWidth} height={avatarHeight} style={styles.centerAvatar} />
       </View>
     ) : null}
     {profileImage

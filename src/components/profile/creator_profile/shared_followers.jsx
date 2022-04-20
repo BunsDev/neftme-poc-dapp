@@ -6,7 +6,7 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 42,
+    marginTop: 26,
     flexDirection: 'row',
     marginHorizontal: 16,
     alignItems: 'center',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   followedBy: {
-    color: '#F8F8F8',
+    color: 'rgba(255, 255, 255, 0.6)',
   },
   followersNames: {
     color: '#FCFCFC',
@@ -46,7 +46,7 @@ const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
       ))}
     </View>
     <View style={styles.flex}>
-      <Text style={styles.followedBy}>Followed by:</Text>
+      <Text style={styles.followedBy}>Mutual friends following</Text>
       <Text style={styles.followersNames}>
         {`${sharedFollowers.map((p) => p.name).join(', ')} and ${totalSharedFollowers} others`}
       </Text>

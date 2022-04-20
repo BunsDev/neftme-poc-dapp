@@ -7,13 +7,13 @@ import NftItem from './nft_item';
 
 const styles = StyleSheet.create({
   menuContainer: {
-    marginTop: 43.5,
+    marginTop: 24,
     marginLeft: 16,
     flexDirection: 'row',
   },
   horizontalBar: {
     height: 1,
-    backgroundColor: '#8C8A8A',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     marginHorizontal: 16,
     flex: 1,
   },

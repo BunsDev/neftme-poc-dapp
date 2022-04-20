@@ -6,24 +6,26 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 30,
+    marginRight: 32,
   },
   item: {
+    flex: 1,
     flexDirection: 'row',
-    height: 40,
+    marginBottom: 10,
   },
   itemName: {
     fontSize: 14,
     color: '#FFFFFF',
-    opacity: 0.71,
-    marginLeft: 8,
+    fontWeight: '400',
+    marginRight: 8,
+    letterSpacing: 1,
+  },
+  alignCenter: {
+    alignSelf: 'center',
   },
   selected: {
-    backgroundColor: '#B389FC',
-    opacity: 1,
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
-    height: 5,
+    backgroundColor: '#F6C138',
+    height: 2,
     width: '100%',
   },
 });
@@ -33,8 +35,8 @@ const CategoryItem = ({
 }) => (
   <View key={`icon_profile_${index}`} style={styles.container}>
     <Pressable style={styles.item} onPress={() => setSelectedCategory(item.id)}>
-      <item.Icon width={item.width} height={item.height} />
       <Text style={styles.itemName}>{item.name}</Text>
+      <item.Icon width={item.width} height={item.height} style={styles.alignCenter} />
     </Pressable>
     {item.id === selectedCategory && <View style={styles.selected} />}
   </View>
