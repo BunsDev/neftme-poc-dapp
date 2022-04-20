@@ -49,6 +49,7 @@ const SocialMediaLinksField = ({
           value={s}
           onChangeText={(text) => onSocialMediaLinksChange(text, index)}
           inputPlaceholder="Enter your social media link"
+          keyboardType="default"
         />
         <CloseIcon style={styles.closeIcon} onPress={() => removeSocialIndex(index)} />
       </View>

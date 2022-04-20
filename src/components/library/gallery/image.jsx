@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Pressable } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 
 const ImageTile = ({ image, onPress }) => (
   image ? (
-    <Pressable onPress={() => onPress(image)}>
+    <TouchableOpacity onPress={() => onPress(image)}>
       <Image
         style={{
           width: 103, height: 103, borderRadius: 8, margin: 8,
         }}
         source={{ uri: image.uri }}
       />
-    </Pressable>
+    </TouchableOpacity>
   ) : null
 );
 

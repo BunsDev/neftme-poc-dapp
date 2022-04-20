@@ -42,6 +42,15 @@ const CreateNFTDetails = () => {
             },
           },
         });
+      } else if (route.params.origin?.returnTo === 'editProfilePhoto') {
+        navigation.navigate('EditProfile', {
+          type: route.params.origin?.type,
+          nft: {
+            image: route.params.nftImage,
+            title,
+            description,
+          },
+        });
       }
     } else {
       navigation.navigate('CreateNFT', {
