@@ -12,6 +12,6 @@ export default StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     marginHorizontal: 16,
-    marginTop: 40,
+    marginTop: 31,
   },
 });

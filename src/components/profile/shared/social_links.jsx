@@ -1,28 +1,41 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
 import FacebookIcon from '@assets/icons/facebook.svg';
 import InstagramIcon from '@assets/icons/instagram.svg';
 import TwitterIcon from '@assets/icons/twitter.svg';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 24,
-    marginHorizontal: 16,
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+  marginLeft8: {
+    marginLeft: 8,
   },
 });
 
-const SocialLinks = () => (
-  <View style={styles.container}>
-    <View style={{ marginRight: 41 }}>
-      <FacebookIcon width={21} height={19.88} />
+const getLink = (links, socialNetwork) => links.find((l) => l.indexOf(socialNetwork) >= 0);
+
+const SocialLinks = ({ socialMediaLinks }) => {
+  if (!socialMediaLinks) return null;
+
+  const facebookLink = getLink(socialMediaLinks, 'facebook');
+  const instagramLink = getLink(socialMediaLinks, 'instagram');
+  const twitterLink = getLink(socialMediaLinks, 'twitter');
+  return (
+    <View style={styles.container}>
+      {facebookLink ? <FacebookIcon width={20} height={20} onPress={() => Linking.openURL(facebookLink)} /> : null}
+      {instagramLink ? <InstagramIcon width={20} height={20} style={styles.marginLeft8} onPress={() => Linking.openURL(instagramLink)} /> : null}
+      {twitterLink ? <TwitterIcon width={20} height={20} style={styles.marginLeft8} onPress={() => Linking.openURL(twitterLink)} /> : null}
     </View>
-    <View style={{ marginRight: 41 }}>
-      <InstagramIcon width={19.25} height={18.23} />
-    </View>
-    <TwitterIcon width={19.87} height={15.38} />
-  </View>
-);
+  );
+};
+
+SocialLinks.propTypes = {
+  socialMediaLinks: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default SocialLinks;

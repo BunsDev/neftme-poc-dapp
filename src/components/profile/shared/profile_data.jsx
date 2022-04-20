@@ -1,62 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View } from 'react-native';
+import { ProfileDataDefaultProps, ProfileDataPropTypes } from '@utils/proptypes';
+import {
+  Alert, Pressable, Text, View,
+} from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { ProfileImage, TruncatedText } from '@library';
-import ShareIcon from '@assets/icons/share.svg';
+import CopyIcon from '@assets/icons/copy.svg';
 import styles from './profile_data_styles';
+import SocialLinks from './social_links';
 
-const ProfileData = ({
-  bio, followers, following, name, profileImage, walletAddress, profileColor,
-}) => (
-  <>
-    <View style={styles.container}>
-      <ProfileImage
-        profileImage={profileImage}
-        containerStyle={{ ...styles.profileImageContainer, backgroundColor: profileColor }}
-        imageStyle={styles.profileImageStyles}
-        avatarWidth={64}
-        avatarHeight={64}
-      />
-      <Text style={styles.name}>{name}</Text>
-      {walletAddress && <Text style={styles.wallet}>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(-5)}`}</Text>}
-    </View>
-    <View style={styles.socialContainer}>
+const ProfileData = ({ profile, ProfileButton }) => {
+  const copyWalletAddress = () => {
+    Clipboard.setString(profile.walletAddress);
+    Alert.alert('Wallet address copied successfully');
+  };
+
+  return (
+    <>
+      <View style={styles.profileContainer}>
+        <ProfileImage
+          profileImage={profile.profileImage}
+          containerStyle={{
+            ...styles.profileImageContainer,
+            backgroundColor: profile.profileColor,
+          }}
+          imageStyle={styles.profileImageStyles}
+          avatarWidth={64}
+          avatarHeight={64}
+        />
+        <ProfileButton profile={profile} />
+      </View>
       <View style={styles.followsContainer}>
         <View style={styles.followers}>
-          <Text style={styles.totalFollow}>{followers}</Text>
-          <Text style={styles.followLabel}>followers</Text>
+          <Text style={styles.amount}>{profile.followers}</Text>
+          <Text style={styles.followLabel}>Followers</Text>
         </View>
-        <View style={styles.following}>
-          <Text style={styles.totalFollow}>{following}</Text>
-          <Text style={styles.followLabel}>following</Text>
+        <View style={styles.flexDirectionRow}>
+          <Text style={styles.amount}>{profile.following}</Text>
+          <Text style={styles.followLabel}>Following</Text>
+        </View>
+        <SocialLinks socialMediaLinks={profile.socialMediaLinks} />
+      </View>
+      <View style={styles.nameWalletContainer}>
+        <Text style={styles.name}>{profile.name}</Text>
+        <View style={[styles.flexDirectionRow, styles.usernameWalletView]}>
+          <Text style={styles.nameSubtext}>{`@${profile.username}`}</Text>
+          {profile.walletAddress ? (
+            <>
+              <Text style={[styles.nameSubtext, styles.separatorText]}>.</Text>
+              <Text style={styles.walletAddress}>{`${profile.walletAddress.slice(0, 5)}...${profile.walletAddress.slice(-5)}`}</Text>
+              <Pressable onPress={copyWalletAddress}>
+                <CopyIcon width={12.67} height={14.67} />
+              </Pressable>
+            </>
+          ) : null}
         </View>
       </View>
-      <View style={styles.shareContainer}>
-        <ShareIcon width={20} height={18} />
-        <Text style={styles.shareText}>Share</Text>
-      </View>
-    </View>
-    <View style={styles.bioContainer}>
-      <Text style={styles.bioText}>Bio</Text>
-      {bio ? <TruncatedText text={bio} /> : <Text />}
-    </View>
-  </>
-);
-
-ProfileData.defaultProps = {
-  profileImage: '',
-  walletAddress: '',
-  bio: '',
+      {profile.bio ? (
+        <View style={styles.bioContainer}>
+          <TruncatedText text={profile.bio} />
+        </View>
+      ) : null}
+    </>
+  );
 };
 
+ProfileData.defaultProps = ProfileDataDefaultProps;
 ProfileData.propTypes = {
-  bio: PropTypes.string,
-  followers: PropTypes.string.isRequired,
-  following: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  profileImage: PropTypes.string,
-  walletAddress: PropTypes.string,
-  profileColor: PropTypes.string.isRequired,
+  ...ProfileDataPropTypes,
+  ProfileButton: PropTypes.func.isRequired,
 };
 
 export default ProfileData;

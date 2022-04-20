@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text } from 'react-native';
 
@@ -9,11 +9,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.71)',
     fontSize: 14,
     fontWeight: '400',
-    lineHeight: 21,
   },
   more: {
     color: '#feda79',
-    fontWeight: 'bold',
   },
 });
 
@@ -23,12 +21,17 @@ const prepareText = (text) => (
   showMoreLabel(text) ? `${text.trim().slice(0, TEXT_SIZE)}...` : text.trim()
 );
 
-const TruncatedText = ({ text, textStyle }) => (
-  <Text style={[styles.textStyle, textStyle]}>
-    {prepareText(text)}
-    {showMoreLabel(text) && <Text style={styles.more}> more</Text>}
-  </Text>
-);
+const TruncatedText = ({ text, textStyle }) => {
+  const [showTruncatedText, setShowTruncatedText] = useState(showMoreLabel(text));
+  return showTruncatedText ? (
+    <Text style={[styles.textStyle, textStyle]}>
+      {prepareText(text)}
+      <Text style={styles.more} onPress={() => setShowTruncatedText(false)}> more</Text>
+    </Text>
+  ) : (
+    <Text style={[styles.textStyle, textStyle]}>{text}</Text>
+  );
+};
 
 TruncatedText.defaultProps = {
   textStyle: {},

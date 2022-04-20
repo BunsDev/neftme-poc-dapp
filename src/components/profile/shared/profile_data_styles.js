@@ -1,90 +1,90 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  profileContainer: {
     position: 'absolute',
     top: 180,
-    marginLeft: 16,
-    alignItems: 'center',
+    marginHorizontal: 16,
+    alignItems: 'flex-end',
+    flexDirection: 'row',
   },
   profilePicture: {
     borderWidth: 3,
     borderColor: '#222222',
   },
-  name: {
-    textAlign: 'center',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 18,
-    color: '#FCFCFC',
-    marginTop: 10,
-  },
-  wallet: {
-    textAlign: 'center',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 18,
-    color: '#FFFFFF',
-    marginTop: 10,
-  },
-  socialContainer: {
-    alignItems: 'flex-end',
-  },
   followsContainer: {
+    flex: 1,
     flexDirection: 'row',
-    marginTop: 41.5,
+    marginTop: 96,
+    marginHorizontal: 16,
   },
   followers: {
-    marginRight: 51,
+    marginRight: 16,
+    flexDirection: 'row',
   },
-  totalFollow: {
+  amount: {
     color: '#FCFCFC',
     fontWeight: '700',
     fontSize: 16,
-    lineHeight: 16,
-    textAlign: 'center',
+    lineHeight: 18,
   },
   followLabel: {
     color: '#FFFFFF',
     opacity: 0.6,
     fontWeight: '400',
-    fontSize: 13,
-    lineHeight: 13,
-    textAlign: 'center',
+    fontSize: 14,
+    lineHeight: 16,
+    marginLeft: 4,
+    alignSelf: 'center',
   },
-  following: {
-    marginRight: 35.5,
-  },
-  shareContainer: {
+  flexDirectionRow: {
     flexDirection: 'row',
-    paddingHorizontal: 38,
-    paddingVertical: 6,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: '#FCFCFC',
-    marginRight: 33,
-    borderRadius: 16,
-    marginTop: 24,
   },
-  shareText: {
-    marginLeft: 20,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FCFCFC',
+  usernameWalletView: {
+    marginTop: 4,
+    alignItems: 'center',
   },
-  bioContainer: {
-    marginTop: 36.5,
+  nameWalletContainer: {
+    marginTop: 32,
     marginHorizontal: 16,
   },
-  bioText: {
-    fontSize: 24,
+  name: {
+    fontWeight: '700',
+    fontSize: 26,
     color: '#FCFCFC',
+  },
+  nameSubtext: {
+    fontWeight: '400',
+    fontSize: 14,
+    textTransform: 'lowercase',
+    color: '#FFFFFF',
+  },
+  separatorText: {
+    color: '#FCFCFC',
+    fontWeight: '600',
+    lineHeight: 0,
+    marginHorizontal: 8,
+    top: -3,
+  },
+  walletAddress: {
+    fontWeight: '400',
+    fontSize: 14,
+    color: '#FFFFFF',
+    opacity: 0.7,
+    marginRight: 4,
+  },
+
+  bioContainer: {
+    marginTop: 20,
+    marginHorizontal: 16,
   },
   profileImageContainer: {
     padding: 24,
   },
   profileImageStyles: {
-    width: 112,
-    height: 112,
+    width: 116,
+    height: 116,
+    borderWidth: 4,
+    borderColor: '#2C2C39',
   },
 });

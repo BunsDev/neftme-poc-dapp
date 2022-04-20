@@ -3,7 +3,7 @@ import { Image, View, Text } from 'react-native';
 import { Button } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useNavigation } from '@react-navigation/native';
-import { isNewUser } from '@services/user';
+import { isNewUser, updateProfileData } from '@services/user';
 import Constants from 'expo-constants';
 import { withOnboardingView } from '@hocs';
 import styles from './wallet_styles';
@@ -35,8 +35,10 @@ const Wallet = () => {
       // TODO: LOG ERRORS;
     }
   }, [connector]);
+
   useEffect(async () => {
     if (connector?.connected && connector?.chainId === Constants.manifest.extra.chainId) {
+      await updateProfileData({ walletAddress: connector.accounts[0] });
       if (await isNewUser()) {
         navigation.navigate('Start', {
           screen: 'Categories',
