@@ -70,8 +70,12 @@ export default StyleSheet.create({
     marginRight: 16,
   },
   detailText: {
-    color: '#FFFFFFB5',
+    color: 'rgba(255, 255, 255, 0.71)',
     marginLeft: 10,
+  },
+  shareText: {
+    color: 'rgba(255, 255, 255, 0.71)',
+    marginRight: 8,
   },
   nftTitle: {
     fontSize: 24,

@@ -44,7 +44,7 @@ const NFTDetail = () => {
       </Pressable>
       <Image source={{ uri: nftData.image }} style={styles.image} />
       <View>
-        <SocialInfo nft={nftData} />
+        <SocialInfo nft={nftData} setNft={setNftData} />
         <Text style={styles.nftTitle}>{nftData.title}</Text>
         <TruncatedText text={nftData.description} textStyle={styles.nftDescription} />
         <View style={styles.tokenomicsContainer}>
