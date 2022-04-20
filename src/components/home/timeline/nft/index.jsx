@@ -10,7 +10,7 @@ import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
 
-const Nft = ({ nft }) => {
+const Nft = ({ nft, setNft }) => {
   const navigation = useNavigation();
 
   return (
@@ -38,7 +38,7 @@ const Nft = ({ nft }) => {
           <Image source={{ uri: nft.image }} style={styles.nftNFTPhoto} />
         </Pressable>
       </View>
-      <SocialInfo nft={nft} />
+      <SocialInfo nft={nft} setNft={setNft} />
       <Text style={styles.nftTitle}>{nft.title}</Text>
       <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />
@@ -58,6 +58,7 @@ Nft.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
+  setNft: PropTypes.func.isRequired,
 };
 
 export default Nft;
