@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import {
-  Image, View, Text, Alert,
+  Alert, Image, View, Text,
 } from 'react-native';
 import { Button } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
@@ -31,7 +31,7 @@ const goToNextStep = async (navigation) => {
 const Wallet = () => {
   const connector = useWalletConnect();
   const navigation = useNavigation();
-  const { changeToAlfajores, currentChainId, addNEFTtoWallet } = useChainCheck();
+  const { addNEFTtoWallet, changeToAlfajores, currentChainId } = useChainCheck();
 
   const connectWallet = useCallback(() => {
     try {
@@ -43,17 +43,16 @@ const Wallet = () => {
 
   useEffect(async () => {
     if (connector) {
-      if (connector.connected && currentChainId === Constants.manifest.extra.chainId) {
+      if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
         if (await isNewUser()) {
-          addNEFTtoWallet().then(
-            navigation.navigate('Start', {
-              screen: 'Categories',
-            }),
-          );
+          await addNEFTtoWallet();
+          navigation.navigate('Start', {
+            screen: 'Categories',
+          });
         } else {
           navigation.navigate('Home');
         }
-      } else if (connector.connected && currentChainId !== Constants.manifest.extra.chainId) {
+      } else if (connector.connected && connector.chainId !== Constants.manifest.extra.chainId) {
         Alert.alert(
           'Wrong blockchain',
           'You are not connected to the Alfajores Testnet. To proceed, please switch network',

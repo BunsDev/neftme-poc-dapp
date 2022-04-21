@@ -66,12 +66,12 @@ const useChainCheck = () => {
       await web3.currentProvider.send({
         method: 'wallet_watchAsset',
         params: {
-          type: 'ERC20', // Initially only supports ERC20, but eventually more!
+          type: 'ERC20',
           options: {
             address: Constants.manifest.extra.neftmeErc20NEFTAddress,
             symbol: 'NEFT',
             decimals: 18,
-          // TODO Enter image URL
+            image: Constants.manifest.extra.neftTokenImageUrl,
           },
         },
       });

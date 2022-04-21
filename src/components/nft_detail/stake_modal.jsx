@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
-import { useChainCheck } from '@hooks';
 import { Button, Loading } from '@library';
 import { convertToETH18 } from '@utils/nft';
 import Constants from 'expo-constants';
@@ -52,7 +51,6 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         const contractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeErc20NEFTAddress,
         );
-        setIsLoading(false);
         contractMethods.approve(
           Constants.manifest.extra.neftmeErc721Address,
           convertToETH18(NEFTS_TO_APPROVE),

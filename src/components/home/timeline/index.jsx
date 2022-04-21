@@ -5,11 +5,9 @@ import { SectionHeader } from '@library';
 import Nft from './nft';
 import Ranking from './ranking';
 import styles from './styles';
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 const Timeline = () => {
   const [content, setContent] = useState([]);
-  const connector = useWalletConnect();
 
   useEffect(async () => {
     setContent(await getTimelineContent());
