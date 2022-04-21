@@ -20,7 +20,6 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import styles from './stake_modal_styles';
 
 const STAKE_PERCENTAGES = [25, 50, 75, 100];
-const NEFTS_TO_APPROVE = 5;
 
 const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => {
   const [tokensToStake, setTokensToStake] = useState('0');
@@ -28,6 +27,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
   const [transactionApproved, setTransactionApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [neftBalance, setNeftBalance] = useState(0);
+  const [stakedAmount, setStakedAmount] = useState(0);
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
 
@@ -53,7 +53,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         );
         contractMethods.approve(
           Constants.manifest.extra.neftmeErc721Address,
-          convertToETH18(NEFTS_TO_APPROVE),
+          convertToETH18(tokensToStake),
         ).send({ from: connector.accounts[0] })
           .then((receipt) => {
             setIsLoading(false);
@@ -82,6 +82,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         const contractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeErc721Address,
         );
+
         contractMethods.stake(
           Number(nftTokenId),
           convertToETH18(tokensToStake),
