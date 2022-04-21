@@ -31,7 +31,6 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
   const [neftBalance, setNeftBalance] = useState(0);
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
-  const { checkChain } = useChainCheck();
 
   const getNEFTBalance = async () => {
     const contractMethods = await getContractMethods(
@@ -43,7 +42,6 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
 
   useEffect(async () => {
     setIsLoading(true);
-    //checkChain();
     getNEFTBalance().then(() => setIsLoading(false));
   }, [connector]);
 

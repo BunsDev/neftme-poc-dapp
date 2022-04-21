@@ -8,8 +8,7 @@ const configs = Constants.manifest.extra;
 
 const useSmartContract = () => {
   const connector = useWalletConnect();
-  console.log("hook");
-  console.log(connector.chainId);
+
   const provider = new WalletConnectProvider({
     rpc: {
       [configs.alfajoresChainId]: configs.alfajoresRpcUrl,
