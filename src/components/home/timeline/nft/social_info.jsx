@@ -7,6 +7,7 @@ import { Loading } from '@library';
 // import CommentIcon from '@assets/icons/comment.svg';
 import ShareIcon from '@assets/icons/share.svg';
 import HeartIcon from '@assets/icons/heart.svg';
+import HeartFilledIcon from '@assets/icons/heart_filled.svg';
 import { addLike, removeLike } from '@services/nft_like';
 import styles from './styles';
 
@@ -45,7 +46,7 @@ const SocialInfo = ({ nft, setNft }) => {
       <View style={styles.iconTextContainer}>
         <TouchableOpacity onPress={onLikePress}>
           {nft.currentUserLike
-            ? <ShareIcon width={12.8} heigth={16} />
+            ? <HeartFilledIcon width={18.34} heigth={16} />
             : <HeartIcon width={18.34} height={16} />}
         </TouchableOpacity>
         <Text style={styles.detailText}>{nft.likes}</Text>
