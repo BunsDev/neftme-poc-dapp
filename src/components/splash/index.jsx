@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import SplashImage from '@assets/splash.svg';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { isNewUser } from '@services/user';
+import { getData, removeData, setData } from '@services/storage';
 import { useCheckUserSession } from '@hooks';
 import Constants from 'expo-constants';
 
@@ -13,7 +14,15 @@ const Splash = () => {
 
   useEffect(async () => {
     if (connector && sessionChecked) {
-      if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
+      if (await getData('cleanup_session') !== 'done') {
+        connector.killSession();
+        await removeData('auth_token');
+        await setData('cleanup_session', 'done');
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Start' }],
+        }));
+      } else if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
         if (await isNewUser()) {
           navigation.navigate('Start', {
             screen: 'Categories',

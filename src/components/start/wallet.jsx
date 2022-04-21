@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
-import { Image, View, Text } from 'react-native';
+import {
+  Alert, Image, View, Text,
+} from 'react-native';
 import { Button } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useNavigation } from '@react-navigation/native';
 import { isNewUser, updateProfileData } from '@services/user';
 import Constants from 'expo-constants';
+import { useChainCheck } from '@hooks';
 import { withOnboardingView } from '@hocs';
 import styles from './wallet_styles';
 
@@ -28,6 +31,8 @@ const goToNextStep = async (navigation) => {
 const Wallet = () => {
   const connector = useWalletConnect();
   const navigation = useNavigation();
+  const { addNEFTtoWallet, changeToAlfajores, currentChainId } = useChainCheck();
+
   const connectWallet = useCallback(() => {
     try {
       connector.connect().catch(() => { });
@@ -37,17 +42,26 @@ const Wallet = () => {
   }, [connector]);
 
   useEffect(async () => {
-    if (connector?.connected && connector?.chainId === Constants.manifest.extra.chainId) {
-      await updateProfileData({ walletAddress: connector.accounts[0] });
-      if (await isNewUser()) {
-        navigation.navigate('Start', {
-          screen: 'Categories',
-        });
-      } else {
-        navigation.navigate('Home');
+    if (connector) {
+      if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
+        await updateProfileData({ walletAddress: connector.accounts[0] });
+        if (await isNewUser()) {
+          await addNEFTtoWallet();
+          navigation.navigate('Start', {
+            screen: 'Categories',
+          });
+        } else {
+          navigation.navigate('Home');
+        }
+      } else if (connector.connected && connector.chainId !== Constants.manifest.extra.chainId) {
+        Alert.alert(
+          'Wrong blockchain',
+          'You are not connected to the Alfajores Testnet. To proceed, please switch network',
+          [{ text: 'Switch', onPress: changeToAlfajores }],
+        );
       }
     }
-  }, [connector]);
+  }, [connector, currentChainId]);
 
   return (
     <View style={styles.container}>

@@ -61,7 +61,8 @@
       "neftmeErc721Address": "0x51b831793f20B5eF639DF6Bc164C6f84dc81e19a",
       "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
       "alfajoresChainId": 44787,
-      "chainId": 44787
+      "chainId": 44787,
+      "neftTokenImageUrl": "https://neftme.com/logo_color.png"
     }
   }
 }
