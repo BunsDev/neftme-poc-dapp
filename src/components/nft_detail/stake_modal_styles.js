@@ -61,6 +61,9 @@ export default StyleSheet.create({
   stakeButtonAction: {
     flex: 0.5,
   },
+  unstakeButtonAction: {
+    flex: 1,
+  },
   marginLeft10: {
     marginLeft: 10,
   },

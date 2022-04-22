@@ -30,7 +30,7 @@ export default StyleSheet.create({
     backgroundColor: '#2B2F3A',
     paddingTop: 16,
     borderRadius: 16,
-    paddingBottom: 29,
+    paddingBottom: 16,
     marginHorizontal: 16,
   },
   tokenomicsCard: {
@@ -38,8 +38,18 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 16,
   },
+  tokenomicsCardUnstake: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginHorizontal: 16,
+    marginTop: 16,
+  },
   stakeButton: {
     marginRight: 10,
+    flex: 0.5,
+  },
+  unstakeButton: {
+    marginLeft: 10,
     flex: 0.5,
   },
   stakeText: {
@@ -48,6 +58,11 @@ export default StyleSheet.create({
   },
   makeOfferButton: {
     flex: 0.5,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  makeOfferButtonUnstake: {
+    flex: 1,
   },
   makeOfferText: {
     color: '#FCFCFC',
