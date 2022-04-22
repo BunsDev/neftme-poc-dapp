@@ -42,7 +42,7 @@ const Tokenomics = ({ nft }) => {
         <Text style={styles.fontWeight700}>{`${nft.profitPercentage}% `}</Text>
         <Text>goes to</Text>
       </Text>
-      <Text style={[styles.economicDetails, styles.fontWeight700]}>{` ${nft.supporters} supporters`}</Text>
+      <Text style={[styles.economicDetails, styles.fontWeight700]}>{`- supporters`}</Text>
     </View>
   </View>);
 
