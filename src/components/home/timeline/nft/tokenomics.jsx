@@ -13,7 +13,7 @@ const Tokenomics = ({ nft }) => {
   const [supporterNumber, setSupporterNumber] = useState(0);
   const { getContractMethods } = useSmartContract();
 
-  var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+  var SI_SYMBOL = ["", "k", "M", "B", "T", "P", "E"];
 
   function abbreviateNumber(number){
   
