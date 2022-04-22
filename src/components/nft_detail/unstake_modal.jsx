@@ -49,7 +49,7 @@ const UnstakeModal = ({
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
-            Alert.alert('Your $NEFT were successfully unstaked');
+            Alert.alert('Success!', 'Your $NEFT were successfully unstaked', [{ text: 'Ok', onPress: setUnstakeModalVisible(false) }]);
           })
           .catch(() => {
             setIsLoading(false);

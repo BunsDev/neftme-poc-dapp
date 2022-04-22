@@ -88,7 +88,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
-            Alert.alert('Your $NEFT were successfully staked');
+            Alert.alert('Success!','Your $NEFT were successfully staked', [{ text: 'Ok', onPress: setStakeModalVisible(false) }]);
           })
           .catch(() => {
             setIsLoading(false);
