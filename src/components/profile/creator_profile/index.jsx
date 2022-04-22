@@ -19,7 +19,7 @@ const CreatorProfile = () => {
   const [profileData, setProfileData] = useState({});
 
   useEffect(async () => {
-    setProfileData(await getCreatorProfile(route.params.profileUsername));
+    setProfileData(await getCreatorProfile(route.params.profileId));
   }, []);
 
   if (Object.keys(profileData).length === 0) return null;

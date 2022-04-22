@@ -7,7 +7,7 @@ import styles from './styles';
 
 const ProfileCard = ({ profile }) => {
   const navigation = useNavigation();
-  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileUsername: profile.username });
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileId: profile.id });
 
   return (
     <Pressable style={styles.profileItem} onPress={navigateToProfile}>
@@ -39,6 +39,7 @@ const ProfileCard = ({ profile }) => {
 
 ProfileCard.propTypes = {
   profile: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.string,
     username: PropTypes.string,
     coverImage: PropTypes.string,
