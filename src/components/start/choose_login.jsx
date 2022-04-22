@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { Button, Loading, StatusBar } from '@library';
 import { doLogin } from '@services/login';
+import { removeData } from '@services/storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import NeftmeLogo from '@assets/icons/neftme_grey.svg';
 import { useNavigation } from '@react-navigation/native';
@@ -19,9 +20,8 @@ const ChooseLogin = () => {
       const response = await doLogin('guest@neftme.com', 'neftmeTest');
       if (response?.success) {
         setIsLoading(false);
-        navigation.navigate('Start', {
-          screen: 'Wallet',
-        });
+        await removeData('newUser');
+        navigation.navigate('Home');
       } else {
         setIsLoading(false);
         Alert.alert('Something went wrong, please try again');

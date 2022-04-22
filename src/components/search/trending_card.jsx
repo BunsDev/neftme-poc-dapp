@@ -8,7 +8,6 @@ import styles from './stylesheet';
 
 const TrendingCard = ({ trending }) => {
   const navigation = useNavigation();
-  console.log('trending: 2 ', trending);
   const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileId: trending.id });
 
   return (
