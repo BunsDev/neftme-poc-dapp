@@ -30,7 +30,7 @@ export default StyleSheet.create({
     backgroundColor: '#2B2F3A',
     paddingTop: 16,
     borderRadius: 16,
-    paddingBottom: 29,
+    paddingBottom: 16,
     marginHorizontal: 16,
   },
   tokenomicsCard: {
