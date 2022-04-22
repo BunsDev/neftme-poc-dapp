@@ -19,6 +19,7 @@ export const doLogin = async (email, password) => {
       };
     }
     const body = await response.json();
+    await setData('newUser', 'true');
     return {
       success: await setData('auth_token', body.token),
     };

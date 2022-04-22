@@ -15,7 +15,6 @@ export const getProfileData = async () => {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${await getData('auth_token')}`,
       },
