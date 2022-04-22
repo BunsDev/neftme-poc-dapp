@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import TokenIcon from '@assets/icons/token.svg';
 import Constants from 'expo-constants';
+import { abbreviateNumber } from '@utils/numbers';
 import styles from './styles';
 import { useSmartContract } from '../../../../hooks';
 
 const Tokenomics = ({ nft }) => {
   const [stakedAmount, setStakedAmount] = useState(0);
+  const [supporterNumber, setSupporterNumber] = useState(0);
   const { getContractMethods } = useSmartContract();
 
   const getNFTTotalStakedAmount = async () => {
@@ -15,8 +17,12 @@ const Tokenomics = ({ nft }) => {
       Constants.manifest.extra.neftmeErc721Address,
     );
     try {
-      contractMethods.nftTotalStaked(nft?.tokenId).call()
-        .then((a) => { setStakedAmount(a * 10 ** -18); });
+      contractMethods.nftTotalStaked(nft?.tokenId).call().then(
+        (a) => { setStakedAmount(abbreviateNumber(a * 10 ** -18)); },
+      );
+      contractMethods.nftStakers(nft?.tokenId).call().then(
+        (a) => { setSupporterNumber(a); },
+      );
     } catch (err) {
       // log errors
     }
@@ -32,7 +38,7 @@ const Tokenomics = ({ nft }) => {
         <TokenIcon width={34} height={34} />
         <View>
           <Text style={styles.stakedStyle}>staked</Text>
-          <Text style={styles.neftsAmountStyle}>{`${stakedAmount} nefts`}</Text>
+          <Text style={styles.neftsAmountStyle}>{stakedAmount}</Text>
         </View>
       </View>
       <View style={styles.verticalLine} />
@@ -41,7 +47,7 @@ const Tokenomics = ({ nft }) => {
           <Text style={styles.fontWeight700}>{`${nft.profitPercentage}% `}</Text>
           <Text>goes to</Text>
         </Text>
-        <Text style={[styles.economicDetails, styles.fontWeight700]}>- supporters</Text>
+        <Text style={[styles.economicDetails, styles.fontWeight700]}>{`${supporterNumber} supporters`}</Text>
       </View>
     </View>
   );

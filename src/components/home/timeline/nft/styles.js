@@ -128,7 +128,7 @@ export default StyleSheet.create({
   },
   neftsAmountStyle: {
     textTransform: 'uppercase',
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '700',
     color: '#FCFCFC',
     lineHeight: 22,
