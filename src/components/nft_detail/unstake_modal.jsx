@@ -42,13 +42,13 @@ const UnstakeModal = ({ nftTokenId, unstakeModalVisible, setUnstakeModalVisible,
           Constants.manifest.extra.neftmeErc721Address,
         );
 
-        contractMethods.unstake(
+        contractMethods.unstake( 
           Number(nftTokenId),
           convertToETH18(tokensToUnstake),
         ).send({ from: connector.accounts[0] })
-          .then(() => {
-            setIsLoading(false);
-            Alert.alert('Your $NEFT were successfully unstaked');
+          .then(() => { 
+            setIsLoading(false) 
+            Alert.alert('Success!','Your $NEFT were successfully unstaked',[{ text: 'Ok', onPress: setUnstakeModalVisible(false) }]);
           })
           .catch(() => {
             setIsLoading(false);

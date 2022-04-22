@@ -57,7 +57,7 @@ const NFTDetail = () => {
       } else {
         return false;
       }
-    } catch (err){ 
+    } catch (err){   
       //log error :) or not
     }
     return false
@@ -65,7 +65,7 @@ const NFTDetail = () => {
 
   if (nftData === null) return <View />;
 
-  return (
+  return ( 
     <>{!isLoading && 
       <ScrollView style={styles.scrollView}>
         <Loading visible={isLoading} />
