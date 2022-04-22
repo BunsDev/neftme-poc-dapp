@@ -50,7 +50,7 @@
       "apiUrl": "https://neftme-api.herokuapp.com",
       "instagram": {
         "apiUrl": "https://api.instagram.com",
-        "clientID": "531193358214631",
+        "clientID": "1018284459067306",
         "redirectUrl": "https://neftme-api.herokuapp.com/instagram_oauth",
         "oauthScopes": [
           "user_profile",
