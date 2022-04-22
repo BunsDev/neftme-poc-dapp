@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
 
 const CarouselItem = ({ item }) => (
   <View style={styles.imageContainer}>
-    <Image style={styles.image} source={item.image} />
+    <Image style={styles.image} source={item.image} resizeMode="contain" />
     <View style={{
-      width: slideWidth, paddingHorizontal: 16, alignItems: 'center', marginTop: 32,
+      width: slideWidth, paddingHorizontal: 16, alignItems: 'center', marginTop: 12,
     }}
     >
       <Text style={styles.text}>{item.desc}</Text>
