@@ -21,74 +21,35 @@ import styles from './stake_modal_styles';
 
 const STAKE_PERCENTAGES = [25, 50, 75, 100];
 
-const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => {
-  const [tokensToStake, setTokensToStake] = useState('0');
+const UnstakeModal = ({
+  nftTokenId, unstakeModalVisible, setUnstakeModalVisible, stakedAmount,
+}) => {
+  const [tokensToUnstake, setTokensToUnstake] = useState('0');
   const [selectedPercentage, setSelectedPercentage] = useState(null);
-  const [transactionApproved, setTransactionApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [neftBalance, setNeftBalance] = useState(0);
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
 
-  const getNEFTBalance = async () => {
-    const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc20NEFTAddress,
-    );
-    return contractMethods.balanceOf(connector.accounts[0]).call({ from: connector.accounts[0] })
-      .then((a) => { setNeftBalance(a * 10 ** -18); });
-  };
-
   useEffect(async () => {
     setIsLoading(true);
-    getNEFTBalance().then(() => setIsLoading(false));
+    setIsLoading(false);
   }, [connector]);
 
-  const approveNeft = async () => {
+  const unstakeNEFT = async () => {
     try {
-      if (tokensToStake > 0) {
-        setIsLoading(true);
-        const contractMethods = await getContractMethods(
-          Constants.manifest.extra.neftmeErc20NEFTAddress,
-        );
-        contractMethods.approve(
-          Constants.manifest.extra.neftmeErc721Address,
-          convertToETH18(tokensToStake),
-        ).send({ from: connector.accounts[0] })
-          .then((receipt) => {
-            setIsLoading(false);
-            if (receipt?.status) {
-              Alert.alert('Transaction approved, you can now stake your $NEFT');
-              setTransactionApproved(true);
-            } else {
-              Alert.alert('Transaction not approved, please try again');
-            }
-          })
-          .catch(() => {
-            setIsLoading(false);
-            Alert.alert('Something went wrong, please try again');
-          });
-      }
-    } catch (err) {
-      setIsLoading(false);
-      Alert.alert('Something went wrong, please try again');
-    }
-  };
-
-  const stakeNEFT = async () => {
-    try {
-      if (tokensToStake > 0) {
+      if (tokensToUnstake > 0) {
         setIsLoading(true);
         const contractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeErc721Address,
         );
 
-        contractMethods.stake(
+        contractMethods.unstake(
           Number(nftTokenId),
-          convertToETH18(tokensToStake),
+          convertToETH18(tokensToUnstake),
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
-            Alert.alert('Your $NEFT were successfully staked');
+            Alert.alert('Your $NEFT were successfully unstaked');
           })
           .catch(() => {
             setIsLoading(false);
@@ -102,23 +63,23 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
   };
 
   const onPercentagePress = (value) => {
-    setTokensToStake(String(neftBalance * (value / 100)));
+    setTokensToUnstake(String(stakedAmount * (value / 100)));
     setSelectedPercentage(value);
   };
 
   return (
-    <GestureRecognizer onSwipeDown={() => setStakeModalVisible((prevValue) => !prevValue)}>
+    <GestureRecognizer onSwipeDown={() => setUnstakeModalVisible((prevValue) => !prevValue)}>
       <Modal
         animationType="slide"
         transparent
-        visible={stakeModalVisible}
-        onRequestClose={() => setStakeModalVisible((prevValue) => !prevValue)}
+        visible={unstakeModalVisible}
+        onRequestClose={() => setUnstakeModalVisible((prevValue) => !prevValue)}
       >
         <Loading visible={isLoading} />
         <TouchableOpacity
           style={styles.stakeModal}
           activeOpacity={1}
-          onPressOut={() => setStakeModalVisible((prevValue) => !prevValue)}
+          onPressOut={() => setUnstakeModalVisible((prevValue) => !prevValue)}
         >
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -128,16 +89,16 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
             <View style={styles.stakeModalView}>
               <TouchableWithoutFeedback>
                 <View>
-                  <Text style={styles.stakeTitle}>How much $NEFT do you want to stake?</Text>
+                  <Text style={styles.stakeTitle}>How much $NEFT do you want to unstake?</Text>
                   <View style={styles.stakeContainer}>
                     <TextInput
                       underlineColorAndroid="transparent"
                       keyboardType="numeric"
                       style={styles.neftAmountText}
-                      value={tokensToStake}
-                      onChange={(event) => setTokensToStake(event.nativeEvent.text)}
+                      value={tokensToUnstake}
+                      onChange={(event) => setTokensToUnstake(event.nativeEvent.text)}
                     />
-                    <Text style={styles.availableNeftText}>{`Available: ${neftBalance} $NEFT`}</Text>
+                    <Text style={styles.availableNeftText}>{`Staked: ${stakedAmount} $NEFT`}</Text>
                   </View>
                   <View style={styles.percentageButtonsContainer}>
                     {STAKE_PERCENTAGES.map((p, index) => (
@@ -155,16 +116,9 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
                   </View>
                   <View style={styles.stakeButtonsActionContainer}>
                     <Button
-                      primary={!transactionApproved}
-                      buttonStyle={styles.stakeButtonAction}
-                      onPress={approveNeft}
-                      text="Approve"
-                    />
-                    <Button
-                      primary={transactionApproved}
-                      buttonStyle={[styles.stakeButtonAction, styles.marginLeft10]}
-                      onPress={stakeNEFT}
-                      text="Stake $NEFT"
+                      buttonStyle={[styles.unstakeButtonAction]}
+                      onPress={unstakeNEFT}
+                      text="Unstake $NEFT"
                     />
                   </View>
                 </View>
@@ -177,10 +131,11 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
   );
 };
 
-StakeModal.propTypes = {
+UnstakeModal.propTypes = {
   nftTokenId: PropTypes.string.isRequired,
-  stakeModalVisible: PropTypes.bool.isRequired,
-  setStakeModalVisible: PropTypes.func.isRequired,
+  unstakeModalVisible: PropTypes.bool.isRequired,
+  setUnstakeModalVisible: PropTypes.func.isRequired,
+  stakedAmount: PropTypes.number.isRequired,
 };
 
-export default StakeModal;
+export default UnstakeModal;
