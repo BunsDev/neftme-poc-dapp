@@ -3,16 +3,21 @@ import {
   Alert,
   Image, Text, TouchableOpacity, View,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { removeData } from '@services/storage';
-import { getProfileData, updateProfileData } from '@services/user';
+import { useGetCurrentUserQuery, useUpdateCurrentUserMutation } from '@features/current_user';
 import { Button, Loading } from '@library';
 import { useSmartContract } from '@hooks';
 import { withOnboardingView } from '@hocs';
 import { mintNFT } from '@services/nft';
 import Constants from 'expo-constants';
 import styles from './styles';
+
+const navigateTo = (navigation, route) => navigation.dispatch(CommonActions.reset({
+  index: 0,
+  routes: [route],
+}));
 
 const ProfilePhoto = () => {
   const connector = useWalletConnect();
@@ -21,21 +26,25 @@ const ProfilePhoto = () => {
   const { getContractMethods } = useSmartContract();
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const [updateCurrentUser] = useUpdateCurrentUserMutation();
 
-  useEffect(async () => {
+  useEffect(() => {
     setIsLoading(true);
-    const profileData = await getProfileData();
-    if (profileData?.profileImage) {
-      setProfilePhoto(profileData.profileImage);
+    if (currentUser?.profileImage) {
+      setProfilePhoto(currentUser.profileImage);
     }
     setIsLoading(false);
-  }, []);
+  }, [currentUser]);
 
-  useEffect(async () => {
-    await removeData('newUser');
-    if (connector && !connector.connected) {
-      navigation.navigate('Home');
-    }
+  useEffect(() => {
+    const checkConnector = async () => {
+      await removeData('newUser');
+      if (connector && !connector.connected) {
+        navigateTo(navigation, { name: 'Home' });
+      }
+    };
+    checkConnector();
   }, [connector]);
 
   useEffect(() => {
@@ -69,13 +78,13 @@ const ProfilePhoto = () => {
       );
       const mintedNFT = await mintNFT(contractMethods, nft, connector.accounts[0]);
       if (mintedNFT?.success === true) {
-        const response = await updateProfileData({
+        const response = await updateCurrentUser({
           profileImage: mintedNFT.url,
         });
         setIsLoading(false);
-        if (response) {
+        if (response?.data) {
           Alert.alert('Success', 'Your first NFT was minted successfully!', [
-            { text: 'Discover NEFTME', onPress: () => navigation.navigate('Home') },
+            { text: 'Discover NEFTME', onPress: () => navigateTo(navigation, { name: 'Home' }) },
           ]);
         } else {
           Alert.alert('Error', "Your NFT was minted successfully but we couldn't set it as Profile Photo");
@@ -107,13 +116,9 @@ const ProfilePhoto = () => {
         primary={!!profilePhoto}
         onPress={profilePhoto ? onSetPress : () => { }}
       />
-      <Loading visible={isLoading} />
+      {isLoading && <Loading />}
     </View>
   );
 };
 
-export default withOnboardingView(
-  (navigation) => {
-    navigation.navigate('Home');
-  },
-)(ProfilePhoto);
+export default withOnboardingView((navigation) => navigateTo(navigation, { name: 'Home' }))(ProfilePhoto);

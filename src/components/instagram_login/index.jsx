@@ -4,7 +4,8 @@ import {
 } from 'react-native';
 import { Button } from '@library';
 import InstagramAssetIcon from '@assets/icons/instagram_coloured.svg';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { useLazyGetCurrentUserQuery } from '@features/current_user';
 import InstagramModal from './login_modal';
 import styles from './styles';
 
@@ -14,12 +15,18 @@ const InstagramLogin = () => {
   const [showInstagramModal, setShowInstagramModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const navigation = useNavigation();
+  const [trigger] = useLazyGetCurrentUserQuery();
 
-  const onLoginSuccess = () => {
+  const onLoginSuccess = async () => {
+    trigger();
     setShowLoading(false);
-    navigation.navigate('Start', {
-      screen: 'Wallet',
-    });
+    navigation.dispatch(CommonActions.reset({
+      index: 0,
+      routes: [{
+        name: 'Start',
+        params: { screen: 'Wallet' },
+      }],
+    }));
   };
 
   const onLoginFailure = () => {

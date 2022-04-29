@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { Button, FavoriteCategories, Loading } from '@library';
 import { getCategories } from '@services/categories';
-import { updateProfileData } from '@services/user';
-import { useNavigation } from '@react-navigation/native';
+import { useUpdateCurrentUserMutation } from '@features/current_user';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { withOnboardingView } from '@hocs';
 import styles from './styles';
 
@@ -12,6 +12,7 @@ const Categories = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [updateCurrentUser] = useUpdateCurrentUserMutation();
 
   useEffect(async () => {
     setAllCategories(await getCategories());
@@ -30,14 +31,18 @@ const Categories = () => {
 
   const onSavePress = async () => {
     setLoading(true);
-    const response = await updateProfileData({
+    const response = await updateCurrentUser({
       favoriteCategories: selectedCategories,
     });
     setLoading(false);
     if (response) {
-      navigation.navigate('Start', {
-        screen: 'ProfilePhoto',
-      });
+      navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [{
+          name: 'Start',
+          params: { screen: 'ProfilePhoto' },
+        }],
+      }));
     } else {
       Alert.alert('Error', 'Something went wrong. Please try again');
     }
@@ -60,15 +65,19 @@ const Categories = () => {
         primary={selectedCategories.length > 0}
         onPress={selectedCategories.length > 0 ? onSavePress : () => { }}
       />
-      <Loading visible={loading} />
+      {loading && <Loading />}
     </View>
   );
 };
 
 export default withOnboardingView(
   (navigation) => {
-    navigation.navigate('Start', {
-      screen: 'ProfilePhoto',
-    });
+    navigation.dispatch(CommonActions.reset({
+      index: 0,
+      routes: [{
+        name: 'Start',
+        params: { screen: 'ProfilePhoto' },
+      }],
+    }));
   },
 )(Categories);

@@ -7,21 +7,25 @@ import { doLogin } from '@services/login';
 import { removeData } from '@services/storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import NeftmeLogo from '@assets/icons/neftme_grey.svg';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import InstagramLogin from '../instagram_login';
 import styles from './styles';
 
 const ChooseLogin = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
+
   const onSkipPress = async () => {
     setIsLoading(true);
     try {
       const response = await doLogin('guest@neftme.com', 'neftmeTest');
       if (response?.success) {
-        setIsLoading(false);
         await removeData('newUser');
-        navigation.navigate('Home');
+        setIsLoading(false);
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        }));
       } else {
         setIsLoading(false);
         Alert.alert('Something went wrong, please try again');
@@ -41,7 +45,7 @@ const ChooseLogin = () => {
         end={{ x: 0, y: 1 }}
         style={{ flex: 1 }}
       >
-        <Loading visible={isLoading} />
+        {isLoading && <Loading />}
         <View style={styles.skipContainer}>
           <TouchableOpacity onPress={onSkipPress}>
             <Text style={styles.skipText}>Skip</Text>
