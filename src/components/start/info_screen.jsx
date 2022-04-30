@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import React, { useEffect } from 'react';
 import { Dimensions, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { getData, setData } from '@services/storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FlatListSlider } from 'react-native-flatlist-slider';
@@ -29,17 +29,25 @@ const InfoScreen = () => {
 
   useEffect(async () => {
     if (await getData('info_screen_skipped') === 'done') {
-      navigation.navigate('Start', {
-        screen: 'ChooseLogin',
-      });
+      navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [{
+          name: 'Start',
+          params: { screen: 'ChooseLogin' },
+        }],
+      }));
     }
   }, []);
 
   const onSkipPress = async () => {
     await setData('info_screen_skipped', 'done');
-    navigation.navigate('Start', {
-      screen: 'ChooseLogin',
-    });
+    navigation.dispatch(CommonActions.reset({
+      index: 0,
+      routes: [{
+        name: 'Start',
+        params: { screen: 'ChooseLogin' },
+      }],
+    }));
   };
 
   return (

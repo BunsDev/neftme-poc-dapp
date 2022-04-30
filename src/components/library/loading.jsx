@@ -9,8 +9,12 @@ const Loading = ({ visible }) => (
   </Modal>
 );
 
+Loading.defaultProps = {
+  visible: true,
+};
+
 Loading.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  visible: PropTypes.bool,
 };
 
 export default Loading;

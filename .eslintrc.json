@@ -37,6 +37,10 @@
             "./src/components"
           ],
           [
+            "@features",
+            "./src/features"
+          ],
+          [
             "@hocs",
             "./src/hocs/index.js"
           ],

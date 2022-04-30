@@ -4,8 +4,9 @@ import {
 } from 'react-native';
 import { Button } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
-import { useNavigation } from '@react-navigation/native';
-import { isNewUser, updateProfileData } from '@services/user';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { isNewUser } from '@services/user';
+import { useUpdateCurrentUserMutation } from '@features/current_user';
 import Constants from 'expo-constants';
 import { useChainCheck } from '@hooks';
 import { withOnboardingView } from '@hocs';
@@ -18,13 +19,19 @@ const rainbowImage = require('@assets/rainbow.png');
 
 const IconComponent = (source) => () => <Image source={source} style={styles.image} />;
 
+const navigateTo = (navigation, route) => navigation.dispatch(CommonActions.reset({
+  index: 0,
+  routes: [route],
+}));
+
 const goToNextStep = async (navigation) => {
   if (await isNewUser()) {
-    navigation.navigate('Start', {
-      screen: 'Categories',
+    navigateTo(navigation, {
+      name: 'Start',
+      params: { screen: 'Categories' },
     });
   } else {
-    navigation.navigate('Home');
+    navigateTo(navigation, { name: 'Home' });
   }
 };
 
@@ -32,6 +39,7 @@ const Wallet = () => {
   const connector = useWalletConnect();
   const navigation = useNavigation();
   const { addNEFTtoWallet, changeToAlfajores, currentChainId } = useChainCheck();
+  const [updateCurrentUser] = useUpdateCurrentUserMutation();
 
   const connectWallet = useCallback(() => {
     try {
@@ -41,26 +49,37 @@ const Wallet = () => {
     }
   }, [connector]);
 
-  useEffect(async () => {
-    if (connector) {
-      if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
-        await updateProfileData({ walletAddress: connector.accounts[0] });
-        if (await isNewUser()) {
-          await addNEFTtoWallet();
-          navigation.navigate('Start', {
-            screen: 'Categories',
+  useEffect(() => {
+    const saveWallet = async () => {
+      if (connector) {
+        if (connector.connected && connector.chainId === Constants.manifest.extra.chainId) {
+          const response = await updateCurrentUser({
+            walletAddress: connector.accounts[0],
           });
-        } else {
-          navigation.navigate('Home');
+          if (response?.data) {
+            if (await isNewUser()) {
+              await addNEFTtoWallet();
+              navigateTo(navigation, {
+                name: 'Start',
+                params: { screen: 'Categories' },
+              });
+            } else {
+              navigateTo(navigation, { name: 'Home' });
+            }
+          } else {
+            await connector.killSession();
+            Alert.alert('Something went wrong, please try again');
+          }
+        } else if (connector.connected && connector.chainId !== Constants.manifest.extra.chainId) {
+          Alert.alert(
+            'Wrong blockchain',
+            'You are not connected to the Alfajores Testnet. To proceed, please switch network',
+            [{ text: 'Switch', onPress: changeToAlfajores }],
+          );
         }
-      } else if (connector.connected && connector.chainId !== Constants.manifest.extra.chainId) {
-        Alert.alert(
-          'Wrong blockchain',
-          'You are not connected to the Alfajores Testnet. To proceed, please switch network',
-          [{ text: 'Switch', onPress: changeToAlfajores }],
-        );
       }
-    }
+    };
+    saveWallet();
   }, [connector, currentChainId]);
 
   return (

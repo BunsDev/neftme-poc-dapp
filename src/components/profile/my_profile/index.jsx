@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { withMainScrollView } from '@hocs';
 import { useNavigation } from '@react-navigation/native';
-import { getProfileData } from '@services/user';
+import { useGetCurrentUserQuery } from '@features/current_user';
 import { Button } from '@library';
 import StatsIcon from '@assets/icons/stats.svg';
 // Components
@@ -23,21 +23,18 @@ const styles = StyleSheet.create({
 
 const CreatorProfile = () => {
   const navigation = useNavigation();
-  const [profileData, setProfileData] = useState(null);
-  useEffect(async () => {
-    setProfileData(await getProfileData());
-  }, []);
+  const { data: currentUser } = useGetCurrentUserQuery();
 
-  if (!profileData) return null;
+  if (!currentUser) return null;
 
   return (
     <View>
       <ProfileHeader
-        coverImage={profileData.coverImage}
-        profileColor={profileData.profileColor}
+        coverImage={currentUser.coverImage}
+        profileColor={currentUser.profileColor}
         goBack={navigation.goBack}
       />
-      <ProfileData profile={profileData} ProfileButton={EditButton} />
+      <ProfileData profile={currentUser} ProfileButton={EditButton} />
       <Button
         primary
         buttonStyle={styles.myStatsStyle}
@@ -46,7 +43,7 @@ const CreatorProfile = () => {
         Icon={StatsIcon}
         onPress={() => Alert.alert('Available soon')}
       />
-      <NftsList nfts={profileData.nfts} />
+      <NftsList nfts={currentUser.nfts} />
     </View>
   );
 };

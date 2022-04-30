@@ -5,7 +5,8 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { getCategories } from '@services/categories';
-import { saveProfilePhoto, updateProfileData } from '@services/user';
+import { useUpdateCurrentUserMutation } from '@features/current_user';
+import { saveProfilePhoto } from '@services/user';
 import { mintNFT } from '@services/nft';
 import { useSmartContract } from '@hooks';
 import {
@@ -22,6 +23,7 @@ const EditProfile = () => {
   const navigation = useNavigation();
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
+  const [updateCurrentUser] = useUpdateCurrentUserMutation();
 
   const [profileFields, setProfileFields] = useState({
     ...route.params.profileData,
@@ -118,7 +120,7 @@ const EditProfile = () => {
       setNewCoverImage(null);
       setFieldValue('coverImage', coverImage);
     }
-    const response = await updateProfileData({
+    const response = await updateCurrentUser({
       name: profileFields.name,
       username: profileFields.username,
       email: profileFields.email,
@@ -129,7 +131,7 @@ const EditProfile = () => {
       favoriteCategories: profileFields.favoriteCategories,
     });
     setIsLoading(false);
-    Alert.alert('Profile', response ? 'Profile was successfully saved' : 'Something went wrong, please try again');
+    Alert.alert('Profile', response?.data ? 'Profile was successfully saved' : 'Something went wrong, please try again');
   };
 
   const onCategorySelect = (id) => {
