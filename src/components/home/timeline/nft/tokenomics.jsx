@@ -18,7 +18,7 @@ const Tokenomics = ({ nft }) => {
     );
     try {
       contractMethods.nftTotalStaked(nft?.tokenId).call().then(
-        (a) => { setStakedAmount(abbreviateNumber(a * 10 ** -18)); },
+        (a) => { setStakedAmount(abbreviateNumber(a * 10 ** -18, true)); },
       );
       contractMethods.nftStakers(nft?.tokenId).call().then(
         (a) => { setSupporterNumber(a); },

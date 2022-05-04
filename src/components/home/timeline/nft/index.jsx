@@ -6,6 +6,7 @@ import {
 // import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileImage, TruncatedText } from '@library';
+import { pluralizeFollowers } from '@utils/words';
 import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
@@ -28,7 +29,7 @@ const Nft = ({ nft, setNft }) => {
         />
         <View style={styles.nftHeaderTitle}>
           <Text style={styles.nftHeaderName}>{nft.name}</Text>
-          <Text style={styles.nftHeaderFollowers}>{`${nft.followers} Followers`}</Text>
+          <Text style={styles.nftHeaderFollowers}>{`${nft.followers} ${pluralizeFollowers(nft.followers)}`}</Text>
         </View>
       </View>
       <View>
@@ -51,7 +52,7 @@ Nft.propTypes = {
   nft: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    followers: PropTypes.string.isRequired,
+    followers: PropTypes.number.isRequired,
     profilePhoto: PropTypes.string,
     profileColor: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
