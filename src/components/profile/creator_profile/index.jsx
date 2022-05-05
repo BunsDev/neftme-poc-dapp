@@ -4,6 +4,9 @@ import { withMainScrollView } from '@hocs';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCreatorProfile } from '@services/creator';
 import { followUser, unfollowUser } from '@services/user';
+import { getCreatedNfts, getOwnedNfts } from '@services/user_nfts';
+import { useSmartContract } from '@hooks';
+import Constants from 'expo-constants';
 import { Button, Loading } from '@library';
 import styles from './styles';
 // Components
@@ -17,11 +20,36 @@ import ShareButton from './share_button';
 const CreatorProfile = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const { getContractMethods } = useSmartContract();
   const [profileData, setProfileData] = useState({});
+  const [nftsData, setNftsData] = useState({
+    created: [],
+    owned: [],
+    supporting: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(async () => {
-    setProfileData(await getCreatorProfile(route.params.profileId));
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getCreatorProfile(route.params.profileId);
+      setProfileData(data);
+      if (data?.walletAddress) {
+        const contractMethods = await getContractMethods(
+          Constants.manifest.extra.neftmeViewContractAddress,
+        );
+        getCreatedNfts(contractMethods, data.walletAddress)
+          .then((created) => setNftsData((prevData) => ({
+            ...prevData,
+            created,
+          })));
+        getOwnedNfts(contractMethods, data.walletAddress)
+          .then((owned) => setNftsData((prevData) => ({
+            ...prevData,
+            owned,
+          })));
+      }
+    };
+    fetchData();
   }, []);
 
   if (Object.keys(profileData).length === 0) return null;
@@ -31,7 +59,8 @@ const CreatorProfile = () => {
     const res = profileData.isCurrentUserFollowing
       ? await unfollowUser(profileData.id) : await followUser(profileData.id);
     if (res) {
-      // TODO: When in redux store, Invalidate cache of user id profile (creator and featured profile)
+      // TODO: When in redux store,
+      // Invalidate cache of user id profile (creator and featured profile)
       // dispatch(api.util.updateQueryData('getPosts'));
       setProfileData(await getCreatorProfile(profileData.id));
       setIsLoading(false);
@@ -58,8 +87,8 @@ const CreatorProfile = () => {
         <Button text={profileData.isCurrentUserFollowing ? 'Unfollow' : 'Follow'} buttonStyle={styles.followButton} onPress={onFollow} />
         <Button text="Message" primary={false} buttonStyle={styles.messageButton} onPress={() => Alert.alert('Available soon')} />
       </View>
-      <Stats stats={profileData.stats} />
-      <NftsList nfts={profileData.nfts} />
+      <Stats userWalletAddress={profileData.walletAddress} />
+      <NftsList name={profileData.name} nfts={nftsData} />
     </View>
   );
 };

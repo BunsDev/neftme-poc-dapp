@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
 });
 
 const CategoryItem = ({
-  index, item, selectedCategory, setSelectedCategory,
+  index, item, selectedCategoryId, setSelectedCategory,
 }) => (
   <View key={`icon_profile_${index}`} style={styles.container}>
-    <Pressable style={styles.item} onPress={() => setSelectedCategory(item.id)}>
+    <Pressable style={styles.item} onPress={() => setSelectedCategory(item)}>
       <Text style={styles.itemName}>{item.name}</Text>
       <item.Icon width={item.width} height={item.height} style={styles.alignCenter} />
     </Pressable>
-    {item.id === selectedCategory && <View style={styles.selected} />}
+    {item.id === selectedCategoryId && <View style={styles.selected} />}
   </View>
 );
 
@@ -50,7 +50,7 @@ CategoryItem.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   }).isRequired,
-  selectedCategory: PropTypes.string.isRequired,
+  selectedCategoryId: PropTypes.string.isRequired,
   setSelectedCategory: PropTypes.func.isRequired,
 };
 
