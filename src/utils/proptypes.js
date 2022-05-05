@@ -7,9 +7,11 @@ export const ProfileDataDefaultProps = {
 };
 
 export const ProfileDataPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  isCurrentUserFollowing: PropTypes.bool.isRequired,
   bio: PropTypes.string,
-  followers: PropTypes.string.isRequired,
-  following: PropTypes.string.isRequired,
+  totalFollowers: PropTypes.string.isRequired,
+  totalFollowing: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   profileImage: PropTypes.string,

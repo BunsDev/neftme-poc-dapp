@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Pressable, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CoverImage, ProfileImage } from '@library';
+import { pluralizeFollowers } from '@utils/words';
 import styles from './styles';
 
 const ProfileCard = ({ profile }) => {
@@ -20,7 +21,9 @@ const ProfileCard = ({ profile }) => {
         bottomCoverColor="#232630"
       />
       <Text style={styles.profileItemName}>{profile.name}</Text>
-      <Text style={styles.profileItemFollowers}>{`${profile.followers} Followers`}</Text>
+      <Text style={styles.profileItemFollowers}>
+        {`${profile.followers} ${pluralizeFollowers(profile.followers)}`}
+      </Text>
       <View style={styles.profileItemUserView}>
         <ProfileImage
           profileImage={profile.profileImage}
@@ -43,7 +46,7 @@ ProfileCard.propTypes = {
     name: PropTypes.string,
     username: PropTypes.string,
     coverImage: PropTypes.string,
-    followers: PropTypes.string,
+    followers: PropTypes.number,
     profileImage: PropTypes.string,
     profileColor: PropTypes.string,
   }).isRequired,

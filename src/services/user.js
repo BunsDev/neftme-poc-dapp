@@ -9,30 +9,6 @@ export const isNewUser = async () => {
   }
 };
 
-export const getProfileData = async () => {
-  try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/me`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
-
-    if (response?.status !== 200) {
-      return {
-        error: true,
-        status: response?.status,
-      };
-    }
-
-    return await response.json();
-  } catch (err) {
-    return {};
-  }
-};
-
 export const getFeaturedProfiles = async () => {
   try {
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/featured_profiles`, {
@@ -77,29 +53,6 @@ export const getTimelineContent = async () => {
   }
 };
 
-export const updateProfileData = async (data) => {
-  try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/me`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response?.status !== 200) {
-      return false;
-    }
-
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
-
 export const saveProfilePhoto = async (
   title,
   description,
@@ -122,6 +75,46 @@ export const saveProfilePhoto = async (
     );
     const mintedNFT = await mintNFT(contractMethods, nft, connector.accounts[0]);
     return mintedNFT?.success ? mintedNFT.url : false;
+  } catch (err) {
+    return false;
+  }
+};
+
+export const followUser = async (userId) => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user/${userId}/follow`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 204) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
+export const unfollowUser = async (userId) => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user/${userId}/unfollow`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 204) {
+      return false;
+    }
+
+    return true;
   } catch (err) {
     return false;
   }

@@ -7,6 +7,8 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import { ProfileImage, TruncatedText } from '@library';
 import CopyIcon from '@assets/icons/copy.svg';
+import { abbreviateNumber } from '@utils/numbers';
+import { pluralizeFollowers } from '@utils/words';
 import styles from './profile_data_styles';
 import SocialLinks from './social_links';
 
@@ -33,11 +35,11 @@ const ProfileData = ({ profile, ProfileButton }) => {
       </View>
       <View style={styles.followsContainer}>
         <View style={styles.followers}>
-          <Text style={styles.amount}>{profile.followers}</Text>
-          <Text style={styles.followLabel}>Followers</Text>
+          <Text style={styles.amount}>{abbreviateNumber(profile.totalFollowers, false)}</Text>
+          <Text style={styles.followLabel}>{pluralizeFollowers(profile.totalFollowers)}</Text>
         </View>
         <View style={styles.flexDirectionRow}>
-          <Text style={styles.amount}>{profile.following}</Text>
+          <Text style={styles.amount}>{abbreviateNumber(profile.totalFollowing, false)}</Text>
           <Text style={styles.followLabel}>Following</Text>
         </View>
         <SocialLinks socialMediaLinks={profile.socialMediaLinks} />

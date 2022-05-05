@@ -16,7 +16,6 @@ export default StyleSheet.create({
     height: 48,
     alignContent: 'center',
     justifyContent: 'center',
-    marginVertical: 8,
     marginHorizontal: 16,
   },
   nftProfilePhoto: {
