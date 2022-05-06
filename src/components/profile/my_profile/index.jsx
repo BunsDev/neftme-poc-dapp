@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { withMainScrollView } from '@hocs';
 import { useNavigation } from '@react-navigation/native';
 import { useGetCurrentUserQuery } from '@features/current_user';
 import { Button } from '@library';
+import { getCreatedNfts, getOwnedNfts } from '@services/user_nfts';
+import { useSmartContract } from '@hooks';
+import Constants from 'expo-constants';
 import StatsIcon from '@assets/icons/stats.svg';
 // Components
 import ProfileHeader from '../shared/profile_header';
@@ -23,7 +26,35 @@ const styles = StyleSheet.create({
 
 const CreatorProfile = () => {
   const navigation = useNavigation();
+  const { getContractMethods } = useSmartContract();
   const { data: currentUser } = useGetCurrentUserQuery();
+  const [nftsData, setNftsData] = useState({
+    created: [],
+    owned: [],
+    supporting: [],
+    saved: [],
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentUser?.walletAddress) {
+        const contractMethods = await getContractMethods(
+          Constants.manifest.extra.neftmeViewContractAddress,
+        );
+        getCreatedNfts(contractMethods, currentUser.walletAddress)
+          .then((created) => setNftsData((prevData) => ({
+            ...prevData,
+            created,
+          })));
+        getOwnedNfts(contractMethods, currentUser.walletAddress)
+          .then((owned) => setNftsData((prevData) => ({
+            ...prevData,
+            owned,
+          })));
+      }
+    };
+    fetchData();
+  }, []);
 
   if (!currentUser) return null;
 
@@ -43,7 +74,7 @@ const CreatorProfile = () => {
         Icon={StatsIcon}
         onPress={() => Alert.alert('Available soon')}
       />
-      <NftsList nfts={currentUser.nfts} />
+      <NftsList nfts={nftsData} myProfile />
     </View>
   );
 };

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSmartContract } from '@hooks';
+import Constants from 'expo-constants';
+import { convertFromNFTAmount } from '@utils/nft';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,22 +39,96 @@ const styles = StyleSheet.create({
   },
 });
 
-const Stats = ({ stats }) => (
-  <View style={styles.container}>
-    {stats.map(({ label, value }) => (
-      <View style={styles.card} key={label}>
-        <Text style={styles.statText}>{value}</Text>
-        <Text style={styles.statLabel}>{label}</Text>
-      </View>
-    ))}
-  </View>
-);
+const Stats = ({ userWalletAddress }) => {
+  const [userStats, setUserStats] = useState([
+    {
+      label: 'Total Sales',
+      value: '-',
+    },
+    {
+      label: "NFT's sold",
+      value: '0',
+    },
+    {
+      label: "NEFT's Staked",
+      value: '0',
+    },
+    {
+      label: 'Avg royalties',
+      value: '0',
+    },
+    {
+      label: "NFT's Supporters",
+      value: '0',
+    },
+    {
+      label: "NFT's Available",
+      value: '0',
+    },
+  ]);
+  const { getContractMethods } = useSmartContract();
+
+  const getUserStats = async () => {
+    if (!userWalletAddress) return;
+
+    const contractMethods = await getContractMethods(
+      Constants.manifest.extra.neftmeViewContractAddress,
+    );
+    try {
+      const response = await contractMethods.getStatsByAddress(userWalletAddress).call();
+      setUserStats([
+        {
+          label: 'Total Sales',
+          value: '-',
+        },
+        {
+          label: "NFT's sold",
+          value: response[0],
+        },
+        {
+          label: "NEFT's Staked",
+          value: response[1],
+        },
+        {
+          label: 'Avg royalties',
+          value: `${convertFromNFTAmount(response[2])}%`,
+        },
+        {
+          label: "NFT's Supporters",
+          value: response[3],
+        },
+        {
+          label: "NFT's Available",
+          value: response[4],
+        },
+      ]);
+    } catch (err) {
+      // log error :) or not
+    }
+  };
+
+  useEffect(() => {
+    getUserStats();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      {userStats.map(({ label, value }) => (
+        <View style={styles.card} key={label}>
+          <Text style={styles.statText}>{value}</Text>
+          <Text style={styles.statLabel}>{label}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+Stats.defaultProps = {
+  userWalletAddress: null,
+};
 
 Stats.propTypes = {
-  stats: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
+  userWalletAddress: PropTypes.string,
 };
 
 export default Stats;

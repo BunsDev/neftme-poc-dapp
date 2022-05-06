@@ -10,6 +10,7 @@ export default [
     Icon: CreatedIcon,
     width: 12,
     height: 12,
+    description: (name) => `Here you can find all NFTs created by ${name}`,
   },
   {
     id: 'owned',
@@ -17,6 +18,7 @@ export default [
     Icon: LockerIcon,
     width: 12,
     height: 13.33,
+    description: (name) => `Here you can find all NFTs owned by ${name}`,
   },
   {
     id: 'supporting',
@@ -24,6 +26,7 @@ export default [
     Icon: SupportingIcon,
     width: 13.33,
     height: 13.33,
+    description: (name) => `Here you can find all NFTs ${name === 'you' ? `${name} are` : `${name} is`} supporting`,
   },
   {
     id: 'saved',
@@ -31,5 +34,6 @@ export default [
     Icon: ClockIcon,
     width: 12,
     height: 12,
+    description: () => 'Here you can find all NFTs you saved',
   },
 ];
