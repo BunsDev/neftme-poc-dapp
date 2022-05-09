@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -7,22 +7,24 @@ import {
   ScrollView,
   Text,
   View,
-} from 'react-native';
-import { getNFT } from '@services/nft';
-import BackIcon from '@assets/icons/back.svg';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { Button, Loading, TruncatedText } from '@library';
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
-import { useSmartContract } from '@hooks';
-import Constants from 'expo-constants';
-import styles from './styles';
-import SocialInfo from '../home/timeline/nft/social_info';
-import Tokenomics from '../home/timeline/nft/tokenomics';
-import CarouselItem from './carousel_item';
-import NftItem from './nft_item';
-import categories from './nft_categories';
-import StakeModal from './stake_modal';
-import UnstakeModal from './unstake_modal';
+} from "react-native";
+import { getNFT } from "@services/nft";
+import BackIcon from "@assets/icons/back.svg";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Button, Loading, TruncatedText } from "@library";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import { useSmartContract } from "@hooks";
+import Constants from "expo-constants";
+import styles from "./styles";
+import SocialInfo from "../home/timeline/nft/social_info";
+import Tokenomics from "../home/timeline/nft/tokenomics";
+import CarouselItem from "./carousel_item";
+import NftInfoItem from "./nftInfo_item";
+import StakersItem from "./stakers_item";
+import categories from "./nft_categories";
+import StakeModal from "./stake_modal";
+import UnstakeModal from "./unstake_modal";
+import { getUserByWallet } from "../../services/user";
 
 const NFTDetail = () => {
   const navigation = useNavigation();
@@ -32,27 +34,83 @@ const NFTDetail = () => {
   const [stakeModalVisible, setStakeModalVisible] = useState(false);
   const [unstakeModalVisible, setUnstakeModalVisible] = useState(false);
   const [userStakedAmount, setUserStakedAmount] = useState(0);
+  const [owner, setOwner] = useState(0);
+  const [creator, setCreator] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { getContractMethods } = useSmartContract();
   const connector = useWalletConnect();
 
+  const [nftsData, setNftsData] = useState({
+    nftInfo: { owner, creator },
+    stakers: [],
+    activity: [],
+    collection: "coleção x",
+  });
+
   const getUserStakedAmount = async () => {
     const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc721Address,
+      Constants.manifest.extra.neftmeErc721Address
     );
     try {
-      const response = await contractMethods.stakes(nftData.tokenId, connector.accounts[0]).call();
+      const response = await contractMethods
+        .stakes(nftData.tokenId, connector.accounts[0])
+        .call();
       setUserStakedAmount(response.amount * 10 ** -18);
     } catch (err) {
       // log error :) or not
+      console.log("aqui");
+      console.log(err);
     }
     return false;
   };
 
+  const setStakeModalWithCheck = async () => {
+    if (connector.accounts[0] == owner) {
+      Alert.alert("You can not stake in your own NFTs");
+      setStakeModalVisible(false);
+    } else {
+      setStakeModalVisible(true);
+    }
+  };
+
+  const fillNFTDetails = async () => {
+    const contractMethods = await getContractMethods(
+      Constants.manifest.extra.neftmeErc721Address
+    );
+
+    try {
+      let response = await contractMethods.nfts(nftData.tokenId).call();
+      setCreator(response.creator);
+
+      await contractMethods
+        .ownerOf(nftData.tokenId)
+        .call()
+        .then((a) => {
+          setOwner(a)
+        });
+    } catch (err) {
+      console.log("partiu aqui ");
+      // log error :) or not
+    }
+
+    try {
+      const response = await contractMethods.getStakes(nftData.tokenId).call();
+
+      setNftsData((prevData) => ({
+        ...prevData,
+        nftInfo: { owner, creator },
+        stakers: response[0],
+      }));
+    } catch (err) {
+      console.log("nao, partiu aqui");
+    }
+  };
+
   useEffect(async () => {
     setIsLoading(true);
-    setNftData(await getNFT(route.params.nftID));
-    await getUserStakedAmount();
+    setNftData(await getNFT(route.params.nftID))
+    await fillNFTDetails()
+    getUserStakedAmount()
     setIsLoading(false);
   }, []);
 
@@ -68,7 +126,10 @@ const NFTDetail = () => {
           <View>
             <SocialInfo nft={nftData} setNft={setNftData} />
             <Text style={styles.nftTitle}>{nftData.title}</Text>
-            <TruncatedText text={nftData.description} textStyle={styles.nftDescription} />
+            <TruncatedText
+              text={nftData.description}
+              textStyle={styles.nftDescription}
+            />
             <View style={styles.tokenomicsContainer}>
               <StakeModal
                 nftTokenId={nftData.tokenId}
@@ -85,38 +146,44 @@ const NFTDetail = () => {
               <View style={styles.tokenomicsCard}>
                 <Button
                   buttonStyle={styles.stakeButton}
-                  onPress={() => setStakeModalVisible(true)}
+                  onPress={() => setStakeModalWithCheck()}
                   text="Stake $NEFT"
                   textStyle={styles.stakeText}
                 />
                 {userStakedAmount > 0 && (
+                  <>
                   <Button
                     buttonStyle={styles.unstakeButton}
                     onPress={() => setUnstakeModalVisible(true)}
                     text="Unstake $NEFT"
                     textStyle={styles.stakeText}
                   />
+                  </>
                 )}
                 {userStakedAmount === 0 && (
+                  <>
                   <Button
                     primary={false}
                     buttonStyle={styles.makeOfferButton}
-                    onPress={() => Alert.alert('Available soon')}
+                    onPress={() => Alert.alert("Available soon")}
                     text="Make an Offer"
                     textStyle={styles.makeOfferText}
                   />
+                  </>
                 )}
               </View>
               {userStakedAmount > 0 && (
+                <>
                 <View style={styles.tokenomicsCardUnstake}>
                   <Button
                     primary={false}
                     buttonStyle={styles.makeOfferButtonUnstake}
-                    onPress={() => Alert.alert('Available soon')}
+                    onPress={() => Alert.alert("Available soon")}
                     text="Make an Offer"
                     textStyle={styles.makeOfferText}
                   />
                 </View>
+                </>
               )}
             </View>
           </View>
@@ -138,12 +205,61 @@ const NFTDetail = () => {
           </View>
           <View style={styles.horizontalBar} />
           <View style={styles.nftDetailView}>
-            {nftData.usersData[selectedCategory]?.map((nft) => (
-              <NftItem
-                nft={nft}
-                key={`nft_${selectedCategory}_item_${nft.image}`}
-              />
-            ))}
+            {
+              //NFT Info
+              selectedCategory == categories[0].id && (
+                <>
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={false}
+                  />
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={true}
+                  />
+                </>
+              )
+            }
+            {
+              //Stakers
+              selectedCategory == categories[1].id &&
+                nftsData.stakers?.map((stakerObj) => (
+                  <StakersItem
+                    stakerInfo={stakerObj}
+                    key={stakerObj[0]}
+                  />
+                ))
+            }
+            {
+              //Activity
+              selectedCategory == categories[2].id && (
+                <>
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={false}
+                  />
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={true}
+                  />
+                </>
+              )
+            }
+            {
+              //Colection
+              selectedCategory == categories[3].id && (
+                <>
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={false}
+                  />
+                  <NftInfoItem
+                    nftInfo={nftsData.nftInfo}
+                    isCreator={true}
+                  />
+                </>
+              )
+            }
           </View>
         </>
       )}

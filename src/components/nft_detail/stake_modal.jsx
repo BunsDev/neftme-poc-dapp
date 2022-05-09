@@ -34,7 +34,7 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
     const contractMethods = await getContractMethods(
       Constants.manifest.extra.neftmeErc20NEFTAddress,
     );
-    return contractMethods.balanceOf(connector.accounts[0]).call({ from: connector.accounts[0] })
+    return contractMethods.balanceOf(connector.accounts[0]).call()
       .then((a) => { setNeftBalance(a * 10 ** -18); });
   };
 
