@@ -66,15 +66,15 @@ const NftInfoItem = ({ nftInfo, isCreator}) => {
 
   const loadOwnerCreator = async () => {
     if (nftInfo != undefined) {
-      console.log(nftInfo);
+
       if (isCreator) {
-        setUser(await getUserByWallet(nftInfo.creator));
+        setUser(await getUserByWallet(nftInfo));
         setText(creatorText);
-        setAddr(nftInfo.creator)
+        setAddr(nftInfo)
       } else {
-        setUser(await getUserByWallet(nftInfo.owner));
+        setUser(await getUserByWallet(nftInfo));
         setText(ownerText);
-        setAddr(nftInfo.owner)
+        setAddr(nftInfo)
       }
     }
   };

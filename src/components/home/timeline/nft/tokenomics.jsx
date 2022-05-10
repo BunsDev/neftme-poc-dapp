@@ -6,30 +6,43 @@ import Constants from 'expo-constants';
 import { abbreviateNumber } from '@utils/numbers';
 import styles from './styles';
 import { useSmartContract } from '../../../../hooks';
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const Tokenomics = ({ nft }) => {
   const [stakedAmount, setStakedAmount] = useState(0);
   const [supporterNumber, setSupporterNumber] = useState(0);
   const { getContractMethods } = useSmartContract();
+  const navigation = useNavigation();
+
 
   const getNFTTotalStakedAmount = async () => {
     const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc721Address,
+      Constants.manifest.extra.neftmeViewContractAddress,
     );
     try {
-      contractMethods.nftTotalStaked(nft?.tokenId).call().then(
-        (a) => { setStakedAmount(abbreviateNumber(a * 10 ** -18, true)); },
+      contractMethods.nftDetails(nft?.tokenId).call().then(
+        (a) => { 
+          setStakedAmount(abbreviateNumber(a[1] * 10 ** -18, true)); 
+        },
       );
       contractMethods.nftStakers(nft?.tokenId).call().then(
         (a) => { setSupporterNumber(a); },
       );
     } catch (err) {
+      //console.log(err);
       // log errors
     }
   };
 
   useEffect(async () => {
-    getNFTTotalStakedAmount();
+    await getNFTTotalStakedAmount();
+
+    const listener = navigation.addListener('focus', async () => {
+      console.log("f");
+      await getNFTTotalStakedAmount();
+    })
+    
+    return listener;
   }, []);
 
   return (

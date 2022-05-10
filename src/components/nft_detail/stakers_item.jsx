@@ -65,12 +65,8 @@ const NftInfoItem = ({ stakerInfo }) => {
 
   const loadStaker = async () => {
     if (stakerInfo != undefined) {
-      console.log("$$$$$$$$$$$$$$$$$$$$$4");
-
       setStaker(await getUserByWallet(stakerInfo[0]))
-      console.log(stakerInfo);
-      const rawAmount = stakerInfo[1] * 10 ** -18;
-      setAmount(abbreviateNumber(rawAmount));
+      setAmount(abbreviateNumber(stakerInfo[1] * 10 ** -18, true));
     }
   };
 
