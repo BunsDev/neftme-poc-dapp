@@ -1,17 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { ProfileImage } from "@library";
-import { StyleSheet, Text, View } from "react-native";
-import TokenIcon from "@assets/icons/token.svg";
-import { abbreviateNumber } from "@utils/numbers";
-import { getUserByWallet } from "../../services/user";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { ProfileImage } from '@library';
+import { StyleSheet, Text, View } from 'react-native';
+import TokenIcon from '@assets/icons/token.svg';
+import { abbreviateNumber } from '@utils/numbers';
+import { getUserByWallet } from '../../services/user';
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: "#2B2F3A",
-    flexDirection: "row",
+    backgroundColor: '#2B2F3A',
+    flexDirection: 'row',
     marginBottom: 8,
     borderRadius: 16,
-    alignItems: "center",
+    alignItems: 'center',
+  },
+  profileImageContainer: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 20,
+    marginBottom: 8,
   },
   image: {
     width: 48,
@@ -23,13 +34,13 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    color: "#FCFCFC",
-    fontWeight: "600",
+    color: '#FCFCFC',
+    fontWeight: '600',
   },
   description: {
-    color: "#FCFCFC",
+    color: '#FCFCFC',
     opacity: 72,
-    fontWeight: "400",
+    fontWeight: '400',
     fontSize: 14,
     lineHeight: 14,
     letterSpacing: 0.75,
@@ -39,15 +50,15 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   textBox: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     padding: 0,
     flexGrow: 0,
   },
   address: {
-    color: "#FCFCFC",
-    fontWeight: "400",
+    color: '#FCFCFC',
+    fontWeight: '400',
     opacity: 70,
     fontSize: 14,
     lineHeight: 14,
@@ -55,17 +66,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   descriptionAddress: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });
 
-const NftInfoItem = ({ stakerInfo }) => {
-  const [staker, setStaker] = useState("")
+const StakerItem = ({ stakerInfo }) => {
+  const [staker, setStaker] = useState(null);
   const [amount, setAmount] = useState(0);
 
   const loadStaker = async () => {
-    if (stakerInfo != undefined) {
-      setStaker(await getUserByWallet(stakerInfo[0]))
+    if (stakerInfo) {
+      setStaker(await getUserByWallet(stakerInfo[0]));
       setAmount(abbreviateNumber(stakerInfo[1] * 10 ** -18, true));
     }
   };
@@ -74,6 +85,8 @@ const NftInfoItem = ({ stakerInfo }) => {
     await loadStaker();
   }, []);
 
+  if (!staker) return null;
+
   return (
     <View style={styles.itemContainer}>
       <ProfileImage
@@ -81,20 +94,29 @@ const NftInfoItem = ({ stakerInfo }) => {
         imageStyle={styles.image}
         avatarWidth={30}
         avatarHeight={30}
+        containerStyle={{
+          ...styles.profileImageContainer,
+          backgroundColor: staker?.profileColor,
+        }}
       />
       <View style={styles.textBox}>
         <Text style={styles.name}>{staker.name}</Text>
         <View style={styles.descriptionAddress}>
-          <Text style={styles.description}>{amount} NEFTS </Text>
+          <Text style={styles.description}>
+            {amount}
+            {' '}
+            NEFTS
+            {' '}
+          </Text>
           <TokenIcon style={styles.icon} width={25} height={25} />
         </View>
       </View>
     </View>
   );
 };
-/*
-NftItem.propTypes = {z
-  info: PropTypes.shape([]).isRequired,
-};*/
 
-export default NftInfoItem;
+StakerItem.propTypes = {
+  stakerInfo: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool])).isRequired,
+};
+
+export default StakerItem;
