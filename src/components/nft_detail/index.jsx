@@ -10,7 +10,11 @@ import {
 } from "react-native";
 import { getNFT } from "@services/nft";
 import BackIcon from "@assets/icons/back.svg";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from "@react-navigation/native";
 import { Button, Loading, TruncatedText } from "@library";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import { useSmartContract } from "@hooks";
@@ -45,6 +49,7 @@ const NFTDetail = () => {
     collection: "coleção x",
   });
 
+  // METODO DE VIEW COM CONTRATO ANTIGO | MUDAR PARA METODO COM CONTRATO NOVO DE VIEW
   const getUserStakedAmount = async (tokenId) => {
     const contractMethods = await getContractMethods(
       Constants.manifest.extra.neftmeErc721Address
@@ -82,7 +87,6 @@ const NFTDetail = () => {
           setCreator(response[5]);
           setOwner(response[4]);
         });
-
     } catch (err) {
       console.log(err);
       // log error :) or not
@@ -94,7 +98,7 @@ const NFTDetail = () => {
         Constants.manifest.extra.neftmeErc721Address
       );
       const response = await oldContractMethods.getStakes(tokenID).call();
-  
+
       setNftsData((prevData) => ({
         ...prevData,
         stakers: response[0],
@@ -113,7 +117,6 @@ const NFTDetail = () => {
       await getUserStakedAmount(nft.tokenId);
       setIsLoading(false);
     };
-
     const listener = navigation.addListener("focus", async () => {
       fetchNftData();
     });
