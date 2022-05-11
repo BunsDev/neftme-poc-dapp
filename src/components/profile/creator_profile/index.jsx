@@ -4,7 +4,9 @@ import { withMainScrollView } from '@hocs';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCreatorProfile } from '@services/creator';
 import { followUser, unfollowUser } from '@services/user';
-import { getCreatedNfts, getOwnedNfts } from '@services/user_nfts';
+import {
+  getCreatedNfts, getNftDetails, getOwnedNfts, getStakedNfts,
+} from '@services/user_nfts';
 import { useSmartContract } from '@hooks';
 import Constants from 'expo-constants';
 import { Button, Loading } from '@library';
@@ -34,19 +36,34 @@ const CreatorProfile = () => {
       const data = await getCreatorProfile(route.params.profileId);
       setProfileData(data);
       if (data?.walletAddress) {
-        const contractMethods = await getContractMethods(
+        const viewContractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeViewContractAddress,
         );
-        getCreatedNfts(contractMethods, data.walletAddress)
+        getCreatedNfts(viewContractMethods, data.walletAddress)
           .then((created) => setNftsData((prevData) => ({
             ...prevData,
             created,
           })));
-        getOwnedNfts(contractMethods, data.walletAddress)
+        getOwnedNfts(viewContractMethods, data.walletAddress)
           .then((owned) => setNftsData((prevData) => ({
             ...prevData,
             owned,
           })));
+        const contractMethods = await getContractMethods(
+          Constants.manifest.extra.neftmeErc721Address,
+        );
+        getStakedNfts(contractMethods, data.walletAddress)
+          .then(async (supporting) => {
+            if (supporting.length > 0) {
+              const nftsSupporting = await Promise.all(supporting.map(async (tokenId) => (
+                getNftDetails(viewContractMethods, tokenId)
+              )));
+              setNftsData((prevData) => ({
+                ...prevData,
+                supporting: nftsSupporting,
+              }));
+            }
+          });
       }
     };
     fetchData();

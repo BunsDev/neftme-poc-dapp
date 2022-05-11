@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getNFTByTokenID } from '@services/nft';
 import { NftCard } from '@library';
+import { abbreviateNumber } from '@utils/numbers';
+import { convertFromETH18 } from '@utils/nft';
 
 const NftItem = ({ nft }) => {
   const [loaded, setLoaded] = useState(false);
   const [nftData, setNftData] = useState({
     tokenId: nft[0],
-    totalStaked: nft[1],
+    totalStaked: abbreviateNumber(convertFromETH18(nft[1])),
     royalty: nft[2],
     totalSupporters: nft[3],
     ownerAddress: nft[4],

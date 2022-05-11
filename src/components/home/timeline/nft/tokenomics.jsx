@@ -28,7 +28,7 @@ const Tokenomics = ({ nft }) => {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     getNFTTotalStakedAmount();
   }, []);
 
