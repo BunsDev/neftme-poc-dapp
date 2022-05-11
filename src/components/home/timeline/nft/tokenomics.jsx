@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import TokenIcon from '@assets/icons/token.svg';
 import Constants from 'expo-constants';
 import { abbreviateNumber } from '@utils/numbers';
+import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { useSmartContract } from '../../../../hooks';
 
@@ -11,26 +12,35 @@ const Tokenomics = ({ nft }) => {
   const [stakedAmount, setStakedAmount] = useState(0);
   const [supporterNumber, setSupporterNumber] = useState(0);
   const { getContractMethods } = useSmartContract();
+  const navigation = useNavigation();
 
   const getNFTTotalStakedAmount = async () => {
     const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc721Address,
+      Constants.manifest.extra.neftmeViewContractAddress,
     );
     try {
-      contractMethods.nftTotalStaked(nft?.tokenId).call().then(
-        (a) => { setStakedAmount(abbreviateNumber(a * 10 ** -18, true)); },
-      );
-      contractMethods.nftStakers(nft?.tokenId).call().then(
-        (a) => { setSupporterNumber(a); },
-      );
+      contractMethods
+        .nftDetails(nft?.tokenId)
+        .call()
+        .then((a) => {
+          setStakedAmount(abbreviateNumber(a[1] * 10 ** -18, true));
+          setSupporterNumber(a[3]);
+        });
     } catch (err) {
+      // console.log(err);
       // log errors
     }
   };
 
-  useEffect(() => {
-    getNFTTotalStakedAmount();
-  }, []);
+  useEffect(async () => {
+    await getNFTTotalStakedAmount();
+
+    const listener = navigation.addListener('focus', async () => {
+      await getNFTTotalStakedAmount();
+    });
+
+    return listener;
+  }, [navigation]);
 
   return (
     <View style={styles.tokenomicsContainer}>
@@ -44,10 +54,20 @@ const Tokenomics = ({ nft }) => {
       <View style={styles.verticalLine} />
       <View style={styles.supportersContainer}>
         <Text style={styles.economicDetails}>
-          <Text style={styles.fontWeight700}>{`${nft.profitPercentage}% `}</Text>
+          <Text
+            style={styles.fontWeight700}
+          >
+            {`${nft.profitPercentage}% `}
+
+          </Text>
           <Text>goes to</Text>
         </Text>
-        <Text style={[styles.economicDetails, styles.fontWeight700]}>{`${supporterNumber} supporters`}</Text>
+        <Text
+          style={[styles.economicDetails, styles.fontWeight700]}
+        >
+          {`${supporterNumber} supporters`}
+
+        </Text>
       </View>
     </View>
   );

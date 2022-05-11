@@ -9,6 +9,53 @@ export const isNewUser = async () => {
   }
 };
 
+export const getUserByWallet = async (wallet_address) => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user?wallet_address=${wallet_address}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 200) {
+      return {};
+    }
+
+    return await response.json();
+  } catch (err) {
+    return {};
+  }
+};
+
+
+export const getProfileData = async () => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/me`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 200) {
+      return {
+        error: true,
+        status: response?.status,
+      };
+    }
+
+    return await response.json();
+  } catch (err) {
+    return {};
+  }
+};
+
 export const getFeaturedProfiles = async () => {
   try {
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/featured_profiles`, {
