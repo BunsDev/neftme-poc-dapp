@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSmartContract } from '@hooks';
 import Constants from 'expo-constants';
-import { convertFromNFTAmount } from '@utils/nft';
+import { convertFromETH18, convertFromNFTAmount } from '@utils/nft';
+import { abbreviateNumber } from '@utils/numbers';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,11 +84,11 @@ const Stats = ({ userWalletAddress }) => {
         },
         {
           label: "NFT's sold",
-          value: response[0],
+          value: abbreviateNumber(convertFromETH18(response[0])),
         },
         {
           label: "NEFT's Staked",
-          value: response[1],
+          value: abbreviateNumber(convertFromETH18(response[1])),
         },
         {
           label: 'Avg royalties',
@@ -95,11 +96,11 @@ const Stats = ({ userWalletAddress }) => {
         },
         {
           label: "NFT's Supporters",
-          value: response[3],
+          value: abbreviateNumber(response[3]),
         },
         {
           label: "NFT's Available",
-          value: response[4],
+          value: abbreviateNumber(response[4]),
         },
       ]);
     } catch (err) {

@@ -4,7 +4,9 @@ import { withMainScrollView } from '@hocs';
 import { useNavigation } from '@react-navigation/native';
 import { useGetCurrentUserQuery } from '@features/current_user';
 import { Button } from '@library';
-import { getCreatedNfts, getOwnedNfts } from '@services/user_nfts';
+import {
+  getCreatedNfts, getNftDetails, getOwnedNfts, getStakedNfts,
+} from '@services/user_nfts';
 import { useSmartContract } from '@hooks';
 import Constants from 'expo-constants';
 import StatsIcon from '@assets/icons/stats.svg';
@@ -38,19 +40,34 @@ const CreatorProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser?.walletAddress) {
-        const contractMethods = await getContractMethods(
+        const viewContractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeViewContractAddress,
         );
-        getCreatedNfts(contractMethods, currentUser.walletAddress)
+        getCreatedNfts(viewContractMethods, currentUser.walletAddress)
           .then((created) => setNftsData((prevData) => ({
             ...prevData,
             created,
           })));
-        getOwnedNfts(contractMethods, currentUser.walletAddress)
+        getOwnedNfts(viewContractMethods, currentUser.walletAddress)
           .then((owned) => setNftsData((prevData) => ({
             ...prevData,
             owned,
           })));
+        const contractMethods = await getContractMethods(
+          Constants.manifest.extra.neftmeErc721Address,
+        );
+        getStakedNfts(contractMethods, currentUser.walletAddress)
+          .then(async (supporting) => {
+            if (supporting.length > 0) {
+              const nftsSupporting = await Promise.all(supporting.map(async (tokenId) => (
+                getNftDetails(viewContractMethods, tokenId)
+              )));
+              setNftsData((prevData) => ({
+                ...prevData,
+                supporting: nftsSupporting,
+              }));
+            }
+          });
       }
     };
     fetchData();
