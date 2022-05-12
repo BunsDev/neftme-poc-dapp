@@ -87,7 +87,6 @@ const NFTDetail = () => {
           setOwner(response[4]);
         });
     } catch (err) {
-      // console.error(new Error(err));
       // log error :) or not
     }
 
@@ -96,16 +95,14 @@ const NFTDetail = () => {
       const oldContractMethods = await getContractMethods(
         Constants.manifest.extra.neftmeErc721Address,
       );
-      const response = await oldContractMethods.getStakes(tokenID).call();
+      const stakers = await oldContractMethods.getStakes(tokenID).call();
 
       setNftsData((prevData) => ({
         ...prevData,
-        stakers: response[0],
+        stakers,
       }));
     } catch (err) {
-      // console.log('nao, partiu aqui');
-      // eslint-disable-next-line no-console
-      console.log(err);
+      // log error
     }
   };
 
@@ -122,7 +119,6 @@ const NFTDetail = () => {
       fetchNftData();
     });
 
-    // fetchNftData();
     return listener;
   }, [navigation]);
 
@@ -223,9 +219,9 @@ const NFTDetail = () => {
             {
               // Stakers
               selectedCategory === categories[1].id
-                && nftsData.stakers?.map((stakerObj) => (
-                  <StakersItem stakerInfo={stakerObj} key={stakerObj[0]} />
-                ))
+              && nftsData.stakers?.map((stakerObj) => (
+                <StakersItem stakerInfo={stakerObj} key={stakerObj[0]} />
+              ))
             }
             {
               // Activity

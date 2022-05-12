@@ -719,51 +719,44 @@
       {
         "components": [
           {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "staker",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint64",
-                "name": "time",
-                "type": "uint64"
-              },
-              {
-                "internalType": "uint64",
-                "name": "timelock",
-                "type": "uint64"
-              },
-              {
-                "internalType": "uint256",
-                "name": "stakerIndex",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "stakedIndex",
-                "type": "uint256"
-              },
-              {
-                "internalType": "bool",
-                "name": "exists",
-                "type": "bool"
-              }
-            ],
-            "internalType": "struct NEFTME.Stake[]",
-            "name": "stakes",
-            "type": "tuple[]"
+            "internalType": "address",
+            "name": "staker",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint64",
+            "name": "time",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "timelock",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "stakerIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "stakedIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
           }
         ],
-        "internalType": "struct NEFTME.StakesData",
+        "internalType": "struct NEFTME.Stake[]",
         "name": "result",
-        "type": "tuple"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
