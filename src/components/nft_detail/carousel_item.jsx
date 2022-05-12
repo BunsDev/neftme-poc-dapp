@@ -49,4 +49,4 @@ CarouselItem.propTypes = {
   setSelectedCategory: PropTypes.func.isRequired,
 };
 
-export default CarouselItem;
+export default React.memo(CarouselItem);

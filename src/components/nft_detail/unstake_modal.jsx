@@ -22,7 +22,7 @@ import styles from './stake_modal_styles';
 const STAKE_PERCENTAGES = [25, 50, 75, 100];
 
 const UnstakeModal = ({
-  nftTokenId, unstakeModalVisible, setUnstakeModalVisible, stakedAmount,
+  nftTokenId, unstakeModalVisible, setUnstakeModalVisible, stakedAmount, fetchNftData,
 }) => {
   const [tokensToUnstake, setTokensToUnstake] = useState('0');
   const [selectedPercentage, setSelectedPercentage] = useState(null);
@@ -49,7 +49,13 @@ const UnstakeModal = ({
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
-            Alert.alert('Success!', 'Your $NEFT were successfully unstaked', [{ text: 'Ok', onPress: setUnstakeModalVisible(false) }]);
+            Alert.alert('Success!', 'Your $NEFT were successfully unstaked', [{
+              text: 'Ok',
+              onPress: () => {
+                fetchNftData();
+                setUnstakeModalVisible(false);
+              },
+            }]);
           })
           .catch(() => {
             setIsLoading(false);
@@ -136,6 +142,7 @@ UnstakeModal.propTypes = {
   unstakeModalVisible: PropTypes.bool.isRequired,
   setUnstakeModalVisible: PropTypes.func.isRequired,
   stakedAmount: PropTypes.number.isRequired,
+  fetchNftData: PropTypes.func.isRequired,
 };
 
 export default UnstakeModal;

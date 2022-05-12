@@ -106,20 +106,17 @@ const NFTDetail = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchNftData = async () => {
-      setIsLoading(true);
-      const nft = await getNFT(route.params.nftID);
-      setNftData(nft);
-      await fillNFTDetails(nft.tokenId);
-      await getUserStakedAmount(nft.tokenId);
-      setIsLoading(false);
-    };
-    const listener = navigation.addListener('focus', async () => {
-      fetchNftData();
-    });
+  const fetchNftData = async () => {
+    setIsLoading(true);
+    const nft = await getNFT(route.params.nftID);
+    setNftData(nft);
+    await fillNFTDetails(nft.tokenId);
+    await getUserStakedAmount(nft.tokenId);
+    setIsLoading(false);
+  };
 
-    return listener;
+  useEffect(() => {
+    fetchNftData();
   }, [navigation]);
 
   return (
@@ -141,11 +138,13 @@ const NFTDetail = () => {
             <View style={styles.tokenomicsContainer}>
               <StakeModal
                 nftTokenId={nftData.tokenId}
+                fetchNftData={fetchNftData}
                 stakeModalVisible={stakeModalVisible}
                 setStakeModalVisible={setStakeModalVisible}
               />
               <UnstakeModal
                 nftTokenId={nftData.tokenId}
+                fetchNftData={fetchNftData}
                 unstakeModalVisible={unstakeModalVisible}
                 setUnstakeModalVisible={setUnstakeModalVisible}
                 stakedAmount={userStakedAmount}
