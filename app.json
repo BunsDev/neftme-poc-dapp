@@ -58,8 +58,8 @@
         ]
       },
       "alfajoresRpcUrl": "https://alfajores-forno.celo-testnet.org",
-      "neftmeErc721Address": "0xBB6293349C12c3aDD535033Eb75D2504Ab424fA3",
-      "neftmeViewContractAddress": "0x7FE24c32d17D4b5b1036E025ED656C3198D99738",
+      "neftmeErc721Address": "0x3A2Fa083d0fe3F5cE394FEDccBc9b6cf865d3018",
+      "neftmeViewContractAddress": "0x26c0964C568f836470691b7121f85B42f9b7dDea",
       "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
       "alfajoresChainId": 44787,
       "chainId": 44787,
