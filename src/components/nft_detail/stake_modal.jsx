@@ -21,7 +21,9 @@ import styles from './stake_modal_styles';
 
 const STAKE_PERCENTAGES = [25, 50, 75, 100];
 
-const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => {
+const StakeModal = ({
+  nftTokenId, stakeModalVisible, setStakeModalVisible, fetchNftData,
+}) => {
   const [tokensToStake, setTokensToStake] = useState('0');
   const [selectedPercentage, setSelectedPercentage] = useState(null);
   const [transactionApproved, setTransactionApproved] = useState(false);
@@ -88,7 +90,13 @@ const StakeModal = ({ nftTokenId, stakeModalVisible, setStakeModalVisible }) => 
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
-            Alert.alert('Success!','Your $NEFT were successfully staked', [{ text: 'Ok', onPress: setStakeModalVisible(false) }]);
+            Alert.alert('Success!', 'Your $NEFT were successfully staked', [{
+              text: 'Ok',
+              onPress: () => {
+                fetchNftData();
+                setStakeModalVisible(false);
+              },
+            }]);
           })
           .catch(() => {
             setIsLoading(false);
@@ -181,6 +189,7 @@ StakeModal.propTypes = {
   nftTokenId: PropTypes.string.isRequired,
   stakeModalVisible: PropTypes.bool.isRequired,
   setStakeModalVisible: PropTypes.func.isRequired,
+  fetchNftData: PropTypes.func.isRequired,
 };
 
 export default StakeModal;
