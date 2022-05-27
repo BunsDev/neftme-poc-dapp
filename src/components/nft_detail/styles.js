@@ -34,39 +34,11 @@ export default StyleSheet.create({
     marginHorizontal: 16,
   },
   tokenomicsCard: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginHorizontal: 16,
-  },
-  tokenomicsCardUnstake: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginHorizontal: 16,
-    marginTop: 16,
-  },
-  stakeButton: {
-    marginRight: 10,
-    flex: 0.5,
-  },
-  unstakeButton: {
-    marginLeft: 10,
-    flex: 0.5,
-  },
-  stakeText: {
-    color: '#22222B',
-    fontWeight: 'bold',
-  },
-  makeOfferButton: {
-    flex: 0.5,
-    marginRight: 10,
-    marginLeft: 10,
-  },
-  makeOfferButtonUnstake: {
     flex: 1,
-  },
-  makeOfferText: {
-    color: '#FCFCFC',
-    fontWeight: '500',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginHorizontal: 16,
   },
   carouselContainer: {
     marginTop: 42,

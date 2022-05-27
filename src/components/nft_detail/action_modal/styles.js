@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  stakeModal: {
+  actionModal: {
     flex: 1,
     justifyContent: 'flex-end',
   },
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 5,
   },
-  stakeModalView: {
+  actionModalView: {
     backgroundColor: '#2C2C39',
     borderTopStartRadius: 16,
     borderTopEndRadius: 16,
@@ -20,12 +20,12 @@ export default StyleSheet.create({
     paddingTop: 32,
     paddingBottom: 18,
   },
-  stakeTitle: {
+  actionTitle: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: '700',
   },
-  stakeContainer: {
+  actionContainer: {
     backgroundColor: '#41414A',
     borderRadius: 8,
     marginTop: 16,
@@ -48,23 +48,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginTop: 16,
   },
-  stakePercentageButton: {
+  actionPercentageButton: {
     flex: 0.25,
   },
-  stakePercentageButtonMargin: {
+  actionPercentageButtonMargin: {
     marginLeft: 16,
-  },
-  stakeButtonsActionContainer: {
-    flexDirection: 'row',
-    marginTop: 32,
-  },
-  stakeButtonAction: {
-    flex: 0.5,
-  },
-  unstakeButtonAction: {
-    flex: 1,
-  },
-  marginLeft10: {
-    marginLeft: 10,
   },
 });
