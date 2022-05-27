@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
   FlatList,
   Image,
   Pressable,
@@ -14,7 +13,7 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { Button, Loading, TruncatedText } from '@library';
+import { Loading, TruncatedText } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
 import Constants from 'expo-constants';
@@ -25,16 +24,15 @@ import CarouselItem from './carousel_item';
 import NftInfoItem from './nftInfo_item';
 import StakersItem from './stakers_item';
 import categories from './nft_categories';
-import StakeModal from './stake_modal';
-import UnstakeModal from './unstake_modal';
+import MakeOffer from './make_offer';
+import Stake from './stake';
+import Unstake from './unstake';
 
 const NFTDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [nftData, setNftData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
-  const [stakeModalVisible, setStakeModalVisible] = useState(false);
-  const [unstakeModalVisible, setUnstakeModalVisible] = useState(false);
   const [userStakedAmount, setUserStakedAmount] = useState(0);
   const [owner, setOwner] = useState('0');
   const [creator, setCreator] = useState(0);
@@ -62,15 +60,6 @@ const NFTDetail = () => {
       // log error :) or not
     }
     return false;
-  };
-
-  const setStakeModalWithCheck = async () => {
-    if (connector.accounts[0] === owner) {
-      Alert.alert('You can not stake in your own NFTs');
-      setStakeModalVisible(false);
-    } else {
-      setStakeModalVisible(true);
-    }
   };
 
   const fillNFTDetails = async (tokenID) => {
@@ -136,56 +125,25 @@ const NFTDetail = () => {
               textStyle={styles.nftDescription}
             />
             <View style={styles.tokenomicsContainer}>
-              <StakeModal
-                nftTokenId={nftData.tokenId}
-                fetchNftData={fetchNftData}
-                stakeModalVisible={stakeModalVisible}
-                setStakeModalVisible={setStakeModalVisible}
-              />
-              <UnstakeModal
-                nftTokenId={nftData.tokenId}
-                fetchNftData={fetchNftData}
-                unstakeModalVisible={unstakeModalVisible}
-                setUnstakeModalVisible={setUnstakeModalVisible}
-                stakedAmount={userStakedAmount}
-              />
               <Tokenomics nft={nftData} />
               <View style={styles.tokenomicsCard}>
-                <Button
-                  buttonStyle={styles.stakeButton}
-                  onPress={() => setStakeModalWithCheck()}
-                  text="Stake $NEFT"
-                  textStyle={styles.stakeText}
+                <Stake
+                  fetchNftData={fetchNftData}
+                  nftTokenId={nftData.tokenId}
+                  owner={owner}
+                  userStakedAmount={userStakedAmount}
                 />
-                {userStakedAmount > 0 && (
-                  <Button
-                    buttonStyle={styles.unstakeButton}
-                    onPress={() => setUnstakeModalVisible(true)}
-                    text="Unstake $NEFT"
-                    textStyle={styles.stakeText}
-                  />
-                )}
-                {userStakedAmount === 0 && (
-                  <Button
-                    primary={false}
-                    buttonStyle={styles.makeOfferButton}
-                    onPress={() => Alert.alert('Available soon')}
-                    text="Make an Offer"
-                    textStyle={styles.makeOfferText}
-                  />
-                )}
+                <Unstake
+                  fetchNftData={fetchNftData}
+                  nftTokenId={nftData.tokenId}
+                  userStakedAmount={userStakedAmount}
+                />
+                <MakeOffer
+                  nftTokenId={nftData.tokenId}
+                  owner={owner}
+                  userStakedAmount={userStakedAmount}
+                />
               </View>
-              {userStakedAmount > 0 && (
-                <View style={styles.tokenomicsCardUnstake}>
-                  <Button
-                    primary={false}
-                    buttonStyle={styles.makeOfferButtonUnstake}
-                    onPress={() => Alert.alert('Available soon')}
-                    text="Make an Offer"
-                    textStyle={styles.makeOfferText}
-                  />
-                </View>
-              )}
             </View>
           </View>
           <View style={styles.carouselContainer}>
