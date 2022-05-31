@@ -9,6 +9,9 @@ export default StyleSheet.create({
     left: 16,
     top: 58,
     zIndex: 1000,
+    shadowOpacity: 0.3,
+    shadowColor: '#000',
+    shadowRadius: 0.5,
   },
   image: {
     width: '100%',

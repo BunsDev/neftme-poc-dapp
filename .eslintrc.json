@@ -8,6 +8,17 @@
     "plugin:react/recommended",
     "airbnb"
   ],
+  "overrides": [
+    {
+      "files": [
+        "src/features/**/*.js"
+      ],
+      "rules": {
+        "no-use-before-define": "off",
+        "no-param-reassign": "off"
+      }
+    }
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

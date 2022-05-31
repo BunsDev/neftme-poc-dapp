@@ -1,43 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Constants from 'expo-constants';
+import { useSelector } from 'react-redux';
 import { useGetCurrentUserQuery } from '@features/current_user';
 import { Button } from '@library';
-import { useSmartContract } from '@hooks';
 import { convertFromETH18 } from '@utils/nft';
+import { strIsEqual } from '@utils/words';
+import { selectNFTsBids } from '@features/on_chain/nft';
 import styles from './styles';
 import ActionButtons from './action_buttons';
+import CancelOffer from './cancel_offer';
 import MakeOfferModal from '../action_modal';
 
 const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [tokensToOffer, setTokensToOffer] = useState('0');
-  const [lastBid, setLastBid] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { getContractMethods } = useSmartContract();
   const { data: currentUser } = useGetCurrentUserQuery();
+  const nftBids = useSelector(selectNFTsBids)[nftTokenId]?.bids;
 
-  useEffect(() => {
-    const fetchLastBid = async () => {
-      try {
-        if (owner.toLowerCase() !== currentUser.walletAddress.toLowerCase()) {
-          const contractMethods = await getContractMethods(
-            Constants.manifest.extra.neftmeErc721Address,
-          );
-          const response = await contractMethods
-            .getBids(nftTokenId)
-            .call();
-          if (response?.[0]?.[0]?.[2] !== '0') setLastBid(response?.[0]?.[0]?.[2]);
-        }
-      } catch (err) {
-        // log error :) or not
-      }
-    };
-    fetchLastBid();
-  }, []);
+  if (strIsEqual(owner, currentUser.walletAddress)) return null;
 
-  if (owner.toLowerCase() === currentUser.walletAddress.toLowerCase()) return null;
+  const currentUserBid = nftBids?.data?.filter((b) => strIsEqual(b[0], currentUser.walletAddress));
+  const lastBid = nftBids?.data?.[nftBids.data.length - 1];
 
+  if (currentUserBid.length > 0) return <CancelOffer currentUserBid={currentUserBid[0]} />;
   return (
     <>
       <Button
@@ -49,8 +35,8 @@ const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
       />
       <MakeOfferModal
         actionModalVisible={showOfferModal}
-        inputSubTitle={lastBid !== undefined ? `Last Offer: ${convertFromETH18(lastBid)} $NEFT` : ''}
-        isLoading={isLoading}
+        inputSubTitle={lastBid ? `Last Offer: ${convertFromETH18(lastBid[2])} $NEFTS` : ''}
+        isLoading={isLoading || nftBids?.loading === 'pending'}
         modalTitle="How much $NEFT do you want to offer?"
         neftBalance={0}
         setActionModalVisible={setShowOfferModal}

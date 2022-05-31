@@ -13,10 +13,12 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
+import Constants from 'expo-constants';
+import { useDispatch } from 'react-redux';
 import { Loading, TruncatedText } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
-import Constants from 'expo-constants';
+import { fetchNFTBids } from '@features/on_chain/nft';
 import styles from './styles';
 import SocialInfo from '../home/timeline/nft/social_info';
 import Tokenomics from '../home/timeline/nft/tokenomics';
@@ -31,6 +33,7 @@ import Unstake from './unstake';
 const NFTDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   const [nftData, setNftData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [userStakedAmount, setUserStakedAmount] = useState(0);
@@ -95,10 +98,18 @@ const NFTDetail = () => {
     }
   };
 
+  const fetchBids = async (tokenId) => {
+    const contractMethods = await getContractMethods(
+      Constants.manifest.extra.neftmeErc721Address,
+    );
+    dispatch(fetchNFTBids({ tokenId, contractMethods }));
+  };
+
   const fetchNftData = async () => {
     setIsLoading(true);
     const nft = await getNFT(route.params.nftID);
     setNftData(nft);
+    fetchBids(nft.tokenId);
     await fillNFTDetails(nft.tokenId);
     await getUserStakedAmount(nft.tokenId);
     setIsLoading(false);
