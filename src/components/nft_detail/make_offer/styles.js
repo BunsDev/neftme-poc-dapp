@@ -23,4 +23,20 @@ export default StyleSheet.create({
   marginLeft8: {
     marginLeft: 8,
   },
+  cancelOfferContainer: {
+    flexDirection: 'row',
+    marginTop: 24,
+    marginBottom: 16,
+  },
+  offeredText: {
+    fontWeight: '500',
+    fontSize: 16,
+    color: '#FCFCFC',
+    marginRight: 20,
+  },
+  cancelOfferButton: {
+    color: '#F6C138',
+    fontWeight: '500',
+    fontSize: 16,
+  },
 });
