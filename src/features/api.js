@@ -22,14 +22,9 @@ const baseQuery = async (args, api, extraOptions) => {
   })(args, api, extraOptions);
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export const api = createApi({
   reducerPath: 'baseApi',
   baseQuery,
-  endpoints: (builder) => ({
-    getTimelineContent: builder.query({
-      query: () => '/timeline',
-    }),
-  }),
+  endpoints: () => ({}),
 });
-
-export const { useGetTimelineContentQuery } = api;

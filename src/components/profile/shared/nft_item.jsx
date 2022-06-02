@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getNFTByTokenID } from '@services/nft';
+import { getNFT } from '@services/nft';
 import { NftCard } from '@library';
 import { abbreviateNumber } from '@utils/numbers';
 import { convertFromETH18 } from '@utils/nft';
@@ -19,7 +19,7 @@ const NftItem = ({ nft }) => {
   useEffect(() => {
     const fetchNft = async () => {
       // TODO: save on redux;
-      const res = await getNFTByTokenID(nft[0]);
+      const res = await getNFT(nft[0]);
       setNftData((prevValue) => ({
         ...prevValue,
         title: res.title,

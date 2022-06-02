@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { NFTPopTypes } from '@utils/proptypes';
 import {
   Alert, Pressable, Text, TouchableOpacity, View,
 } from 'react-native';
@@ -9,30 +10,24 @@ import ShareIcon from '@assets/icons/share.svg';
 import HeartIcon from '@assets/icons/heart.svg';
 import HeartFilledIcon from '@assets/icons/heart_filled.svg';
 import { addLike, removeLike } from '@services/nft_like';
+import { fetchNFTByTokenID } from '@features/nft';
 import styles from './styles';
 
-const SocialInfo = ({ nft, setNft }) => {
+const SocialInfo = ({ nft }) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
   const onLikePress = async () => {
-    // TODO: Move this to Redux;
     setIsLoading(true);
     if (nft.currentUserLike) {
-      if (await removeLike(nft.id)) {
-        setIsLoading(false);
-        setNft({
-          ...nft,
-          likes: nft.likes - 1,
-          currentUserLike: false,
-        });
+      if (!await removeLike(nft.tokenId)) {
+        Alert.alert('Something went wrong, please try again');
       }
-    } else if (await addLike(nft.id)) {
-      setIsLoading(false);
-      setNft({
-        ...nft,
-        likes: nft.likes + 1,
-        currentUserLike: true,
-      });
+    } else if (!await addLike(nft.tokenId)) {
+      Alert.alert('Something went wrong, please try again');
     }
+    dispatch(fetchNFTByTokenID({ tokenId: nft.tokenId, forceRefresh: true }));
+    setIsLoading(false);
   };
 
   return (
@@ -60,13 +55,8 @@ const SocialInfo = ({ nft, setNft }) => {
 };
 
 SocialInfo.propTypes = {
-  nft: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    comments: PropTypes.number.isRequired,
-    likes: PropTypes.number.isRequired,
-    currentUserLike: PropTypes.bool.isRequired,
-  }).isRequired,
-  setNft: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  nft: NFTPopTypes,
 };
 
 export default SocialInfo;

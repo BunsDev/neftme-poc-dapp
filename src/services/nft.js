@@ -67,9 +67,9 @@ const deleteAPINFT = async (id) => {
   return true;
 };
 
-export const getNFT = async (nftID) => {
+export const getNFT = async (nftTokenId) => {
   try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${nftID}`, {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${nftTokenId}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -124,25 +124,4 @@ export const mintNFT = async (contractMethods, nft, walletAddress) => {
         success: false,
         error,
       })));
-};
-
-export const getNFTByTokenID = async (nftTokenID) => {
-  try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft?token_id=${nftTokenID}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
-
-    if (response?.status !== 200) {
-      return {};
-    }
-
-    return await response.json();
-  } catch (err) {
-    return {};
-  }
 };
