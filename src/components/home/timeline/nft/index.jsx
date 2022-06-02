@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { NFTPopTypes } from '@utils/proptypes';
 import {
   Image, Pressable, Text, View,
 } from 'react-native';
@@ -11,7 +11,7 @@ import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
 
-const Nft = ({ nft, setNft }) => {
+const Nft = ({ nft }) => {
   const navigation = useNavigation();
 
   return (
@@ -35,11 +35,11 @@ const Nft = ({ nft, setNft }) => {
       <View>
         {/* TODO: ADD Save Favorite feature;
         <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
-        <Pressable onPress={() => navigation.navigate('NFTDetail', { nftID: nft.id })}>
+        <Pressable onPress={() => navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })}>
           <Image source={{ uri: nft.image }} style={styles.nftNFTPhoto} />
         </Pressable>
       </View>
-      <SocialInfo nft={nft} setNft={setNft} />
+      <SocialInfo nft={nft} />
       <Text style={styles.nftTitle}>{nft.title}</Text>
       <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />
@@ -49,17 +49,8 @@ const Nft = ({ nft, setNft }) => {
 };
 
 Nft.propTypes = {
-  nft: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    followers: PropTypes.number.isRequired,
-    profilePhoto: PropTypes.string,
-    profileColor: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }).isRequired,
-  setNft: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  nft: NFTPopTypes,
 };
 
 export default Nft;

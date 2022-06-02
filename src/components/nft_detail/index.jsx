@@ -107,7 +107,7 @@ const NFTDetail = () => {
 
   const fetchNftData = async () => {
     setIsLoading(true);
-    const nft = await getNFT(route.params.nftID);
+    const nft = await getNFT(route.params.nftTokenId);
     setNftData(nft);
     fetchBids(nft.tokenId);
     await fillNFTDetails(nft.tokenId);

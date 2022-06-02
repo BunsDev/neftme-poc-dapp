@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { NFTPopTypes } from '@utils/proptypes';
 import { Text, View } from 'react-native';
 import TokenIcon from '@assets/icons/token.svg';
 import Constants from 'expo-constants';
 import { abbreviateNumber } from '@utils/numbers';
 import { useNavigation } from '@react-navigation/native';
+import { useSmartContract } from '@hooks';
 import styles from './styles';
-import { useSmartContract } from '../../../../hooks';
 
 const Tokenomics = ({ nft }) => {
   const [stakedAmount, setStakedAmount] = useState(0);
@@ -54,19 +54,11 @@ const Tokenomics = ({ nft }) => {
       <View style={styles.verticalLine} />
       <View style={styles.supportersContainer}>
         <Text style={styles.economicDetails}>
-          <Text
-            style={styles.fontWeight700}
-          >
-            {`${nft.profitPercentage}% `}
-
-          </Text>
+          <Text style={styles.fontWeight700}>{`${nft.profitPercentage}% `}</Text>
           <Text>goes to</Text>
         </Text>
-        <Text
-          style={[styles.economicDetails, styles.fontWeight700]}
-        >
+        <Text style={[styles.economicDetails, styles.fontWeight700]}>
           {`${supporterNumber} supporters`}
-
         </Text>
       </View>
     </View>
@@ -74,12 +66,8 @@ const Tokenomics = ({ nft }) => {
 };
 
 Tokenomics.propTypes = {
-  nft: PropTypes.shape({
-    tokenId: PropTypes.string.isRequired,
-    staked: PropTypes.number.isRequired,
-    profitPercentage: PropTypes.string.isRequired,
-    supporters: PropTypes.number.isRequired,
-  }).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  nft: NFTPopTypes,
 };
 
 export default Tokenomics;

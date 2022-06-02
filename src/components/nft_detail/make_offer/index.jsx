@@ -21,9 +21,11 @@ const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
   if (strIsEqual(owner, currentUser.walletAddress)) return null;
 
   const currentUserBid = nftBids?.data?.filter((b) => strIsEqual(b[0], currentUser.walletAddress));
-  const lastBid = nftBids?.data?.[nftBids.data.length - 1];
+  const lastBid = nftBids?.data ? nftBids?.data?.[nftBids.data.length - 1] : undefined;
 
-  if (currentUserBid.length > 0) return <CancelOffer currentUserBid={currentUserBid[0]} />;
+  if (currentUserBid && currentUserBid.length > 0) {
+    return <CancelOffer currentUserBid={currentUserBid[0]} />;
+  }
   return (
     <>
       <Button

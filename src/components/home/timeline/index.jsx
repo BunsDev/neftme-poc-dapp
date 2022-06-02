@@ -1,44 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { getTimelineContent } from '@services/user';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { SectionHeader } from '@library';
+import { useDispatch, useSelector } from 'react-redux';
+import { Loading, SectionHeader } from '@library';
+import { fetchAllNFTs, selectNFTs } from '@features/nft';
 import Nft from './nft';
-import Ranking from './ranking';
 import styles from './styles';
 
 const Timeline = () => {
-  const [content, setContent] = useState([]);
+  const dispatch = useDispatch();
+  const nftsStore = useSelector(selectNFTs);
 
-  useEffect(async () => {
-    setContent(await getTimelineContent());
+  useEffect(() => {
+    dispatch(fetchAllNFTs());
   }, []);
 
-  const refreshClick = async () => {
-    setContent(await getTimelineContent());
-  };
-
-  const setNft = (nft) => {
-    // TODO: Move to redux;
-    const newContent = Array.from(content).map((c) => (
-      c.content.id !== nft.id ? c : ({
-        type: 'NFT',
-        content: nft,
-      })));
-    setContent(newContent);
+  const onRefreshClick = async () => {
+    dispatch(fetchAllNFTs({ forceRefresh: true }));
   };
 
   return (
     <View style={styles.timelineContainer}>
-      <SectionHeader title="Following" onSeeAllClick={refreshClick} containerStyle={styles.headerStyle} />
-      {content.map((c) => {
-        if (c.type === 'NFT') {
-          return <Nft key={`nft_${c.content.id}`} nft={c.content} setNft={setNft} />;
-        }
-        if (c.type === 'RANKING') {
-          return <Ranking key={`ranking_${c.content.id}`} ranking={c.content} />;
-        }
-        return null;
-      })}
+      <SectionHeader title="Following" onSeeAllClick={onRefreshClick} containerStyle={styles.headerStyle} />
+      <Loading visible={nftsStore.status === 'pending'} />
+      {nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
+        nftsStore.nfts.map((nft) => <Nft key={`nft_${nft.tokenId}`} nft={nft} />)
+      ) : null}
     </View>
   );
 };
