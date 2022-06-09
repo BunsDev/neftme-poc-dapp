@@ -67,28 +67,7 @@ const deleteAPINFT = async (id) => {
   return true;
 };
 
-export const getNFT = async (nftTokenId) => {
-  try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${nftTokenId}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
-
-    if (response?.status !== 200) {
-      return {};
-    }
-
-    return await response.json();
-  } catch (err) {
-    return {};
-  }
-};
-
+// eslint-disable-next-line import/prefer-default-export
 export const mintNFT = async (contractMethods, nft, walletAddress) => {
   // Create NFT API;
   const apiNFT = await postAPINFT(nft);

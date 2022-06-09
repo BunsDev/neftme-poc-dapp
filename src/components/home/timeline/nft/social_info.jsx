@@ -59,4 +59,4 @@ SocialInfo.propTypes = {
   nft: NFTPopTypes,
 };
 
-export default SocialInfo;
+export default React.memo(SocialInfo);
