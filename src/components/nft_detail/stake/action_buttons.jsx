@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
+import { useDispatch } from 'react-redux';
 import { Button } from '@library';
 import { convertToETH18 } from '@utils/nft';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
+import { fetchNFTDetails, fetchStakers, fetchUserStakes } from '@features/on_chain/nft';
 import styles from './styles';
 
 const ActionButtons = ({
-  fetchNftData, nftTokenId, setIsLoading, setStakeModalVisible, tokensToStake,
+  tokenId, setIsLoading, setStakeModalVisible, tokensToStake,
 }) => {
+  const dispatch = useDispatch();
   const [transactionApproved, setTransactionApproved] = useState(false);
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
@@ -69,15 +72,21 @@ const ActionButtons = ({
       );
 
       contractMethods.stake(
-        Number(nftTokenId),
+        Number(tokenId),
         convertToETH18(tokensToStake),
       ).send({ from: connector.accounts[0] })
         .then(() => {
           setIsLoading(false);
           Alert.alert('Success!', 'Your $NEFT were successfully staked', [{
             text: 'Ok',
-            onPress: () => {
-              fetchNftData();
+            onPress: async () => {
+              const viewContractMethods = await getContractMethods(
+                Constants.manifest.extra.neftmeViewContractAddress,
+              );
+              const baseParams = { contractMethods, tokenId, forceRefresh: true };
+              dispatch(fetchNFTDetails({ ...baseParams, contractMethods: viewContractMethods }));
+              dispatch(fetchStakers({ ...baseParams }));
+              dispatch(fetchUserStakes({ ...baseParams, account: connector.accounts[0] }));
               setStakeModalVisible(false);
             },
           }]);
@@ -111,8 +120,7 @@ const ActionButtons = ({
 };
 
 ActionButtons.propTypes = {
-  fetchNftData: PropTypes.func.isRequired,
-  nftTokenId: PropTypes.string.isRequired,
+  tokenId: PropTypes.string.isRequired,
   setIsLoading: PropTypes.func.isRequired,
   setStakeModalVisible: PropTypes.func.isRequired,
   tokensToStake: PropTypes.string.isRequired,

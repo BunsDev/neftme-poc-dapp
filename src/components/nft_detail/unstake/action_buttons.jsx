@@ -2,17 +2,20 @@ import React from 'react';
 import { Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
+import { useDispatch } from 'react-redux';
 import { Button } from '@library';
 import { convertToETH18 } from '@utils/nft';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
+import { fetchNFTDetails, fetchStakers, fetchUserStakes } from '@features/on_chain/nft';
 import styles from './styles';
 
 const ActionButtons = ({
-  fetchNftData, nftTokenId, setIsLoading, setUnstakeModalVisible, tokensToUnstake,
+  tokenId, setIsLoading, setUnstakeModalVisible, tokensToUnstake,
 }) => {
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
+  const dispatch = useDispatch();
 
   const unstakeNEFT = async () => {
     try {
@@ -23,15 +26,21 @@ const ActionButtons = ({
         );
 
         contractMethods.unstake(
-          Number(nftTokenId),
+          Number(tokenId),
           convertToETH18(tokensToUnstake),
         ).send({ from: connector.accounts[0] })
           .then(() => {
             setIsLoading(false);
             Alert.alert('Success!', 'Your $NEFT were successfully unstaked', [{
               text: 'Ok',
-              onPress: () => {
-                fetchNftData();
+              onPress: async () => {
+                const viewContractMethods = await getContractMethods(
+                  Constants.manifest.extra.neftmeViewContractAddress,
+                );
+                const baseParams = { contractMethods, tokenId, forceRefresh: true };
+                dispatch(fetchNFTDetails({ ...baseParams, contractMethods: viewContractMethods }));
+                dispatch(fetchStakers({ ...baseParams }));
+                dispatch(fetchUserStakes({ ...baseParams, account: connector.accounts[0] }));
                 setUnstakeModalVisible(false);
               },
             }]);
@@ -59,8 +68,7 @@ const ActionButtons = ({
 };
 
 ActionButtons.propTypes = {
-  fetchNftData: PropTypes.func.isRequired,
-  nftTokenId: PropTypes.string.isRequired,
+  tokenId: PropTypes.string.isRequired,
   setIsLoading: PropTypes.func.isRequired,
   setUnstakeModalVisible: PropTypes.func.isRequired,
   tokensToUnstake: PropTypes.string.isRequired,

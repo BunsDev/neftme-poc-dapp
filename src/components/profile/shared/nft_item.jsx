@@ -1,42 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getNFT } from '@services/nft';
+import { useDispatch, useSelector } from 'react-redux';
 import { NftCard } from '@library';
 import { abbreviateNumber } from '@utils/numbers';
 import { convertFromETH18 } from '@utils/nft';
+import { fetchNFTByTokenID, selectNFTTokenId } from '@features/nft';
 
 const NftItem = ({ nft }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [nftData, setNftData] = useState({
-    tokenId: nft[0],
-    totalStaked: abbreviateNumber(convertFromETH18(nft[1])),
-    royalty: nft[2],
-    totalSupporters: nft[3],
-    ownerAddress: nft[4],
-    creatorAddress: nft[5],
-  });
+  const dispatch = useDispatch();
+  const nftData = useSelector((state) => selectNFTTokenId(state, nft[0]));
 
   useEffect(() => {
-    const fetchNft = async () => {
-      // TODO: save on redux;
-      const res = await getNFT(nft[0]);
-      setNftData((prevValue) => ({
-        ...prevValue,
-        title: res.title,
-        image: res.image,
-      }));
-      setLoaded(true);
-    };
-    fetchNft();
+    dispatch(fetchNFTByTokenID({ tokenId: nft[0] }));
   }, []);
 
-  if (!loaded) return null;
+  if (!nftData || !nftData.image) return null;
 
-  return <NftCard nft={nftData} />;
+  const nftParams = {
+    creatorAddress: nft[5],
+    image: nftData.image,
+    ownerAddress: nft[4],
+    royalty: nft[2],
+    title: nftData.title,
+    tokenId: nft[0],
+    totalStaked: abbreviateNumber(convertFromETH18(nft[1])),
+    totalSupporters: nft[3],
+  };
+  return <NftCard nft={nftParams} />;
 };
 
 NftItem.propTypes = {
   nft: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default NftItem;
+export default React.memo(NftItem);

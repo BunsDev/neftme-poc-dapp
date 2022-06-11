@@ -11,7 +11,7 @@ import { fetchNFTBids } from '@features/on_chain/nft';
 import styles from './styles';
 
 const ActionButtons = ({
-  nftTokenId, setIsLoading, setShowOfferModal, tokensToOffer,
+  tokenId, setIsLoading, setShowOfferModal, tokensToOffer,
 }) => {
   const [transactionApproved, setTransactionApproved] = useState(false);
   const connector = useWalletConnect();
@@ -72,12 +72,12 @@ const ActionButtons = ({
       );
 
       contractMethods.bidERC20(
-        Number(nftTokenId),
+        Number(tokenId),
         Constants.manifest.extra.neftmeErc20NEFTAddress,
         convertToETH18(tokensToOffer),
       ).send({ from: connector.accounts[0] })
         .then(() => {
-          dispatch(fetchNFTBids({ tokenId: nftTokenId, contractMethods, forceRefresh: true }));
+          dispatch(fetchNFTBids({ tokenId, contractMethods, forceRefresh: true }));
           Alert.alert('Success!', 'Your offer was successful submitted', [{
             text: 'Ok',
             onPress: () => {
@@ -115,7 +115,7 @@ const ActionButtons = ({
 };
 
 ActionButtons.propTypes = {
-  nftTokenId: PropTypes.string.isRequired,
+  tokenId: PropTypes.string.isRequired,
   setIsLoading: PropTypes.func.isRequired,
   setShowOfferModal: PropTypes.func.isRequired,
   tokensToOffer: PropTypes.string.isRequired,

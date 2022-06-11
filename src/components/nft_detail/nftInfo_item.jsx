@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { ProfileImage } from "@library";
-import { StyleSheet, Text, View, Alert, Pressable } from "react-native";
-import { getUserByWallet } from "../../services/user";
-import * as Clipboard from "expo-clipboard";
-import CopyIcon from "@assets/icons/copy.svg";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { ProfileImage } from '@library';
+import {
+  StyleSheet, Text, View, Alert, Pressable,
+} from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import CopyIcon from '@assets/icons/copy.svg';
+import { getUserByWallet } from '../../services/user';
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: "#2B2F3A",
-    flexDirection: "row",
+    backgroundColor: '#2B2F3A',
+    flexDirection: 'row',
     marginBottom: 8,
     borderRadius: 16,
-    alignItems: "center",
+    alignItems: 'center',
   },
   image: {
     width: 48,
@@ -24,27 +26,27 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    color: "#FCFCFC",
-    fontWeight: "600",
+    color: '#FCFCFC',
+    fontWeight: '600',
   },
   description: {
-    color: "#F6C138",
-    fontWeight: "700",
+    color: '#F6C138',
+    fontWeight: '700',
     fontSize: 16,
     lineHeight: 14,
     letterSpacing: 0.75,
     paddingTop: 10,
   },
   textBox: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     padding: 0,
     flexGrow: 0,
   },
   address: {
-    color: "#FCFCFC",
-    fontWeight: "400",
+    color: '#FCFCFC',
+    fontWeight: '400',
     opacity: 70,
     fontSize: 14,
     lineHeight: 14,
@@ -52,40 +54,59 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   descriptionAddress: {
-    flexDirection: "row",
+    flexDirection: 'row',
+  },
+  profileImageContainer: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 20,
+    marginBottom: 8,
+  },
+  walletPressable: {
+    flexDirection: 'row',
+  },
+  copyIcon: {
+    alignSelf: 'flex-end',
+    marginLeft: 4,
   },
 });
 
-const NftInfoItem = ({ nftInfo, isCreator}) => {
+const NftInfoItem = ({ nftInfo, isCreator }) => {
   const [user, setUser] = useState({});
-  const [addr, setAddr] = useState("0");
-  const [text, setText] = useState("");
+  const [addr, setAddr] = useState('0');
+  const [text, setText] = useState('');
 
-  const creatorText = "NFT Creator";
-  const ownerText = "NFT Owner";
+  const creatorText = 'NFT Creator';
+  const ownerText = 'NFT Owner';
 
   const loadOwnerCreator = async () => {
-    if (nftInfo != undefined) {
-
+    if (nftInfo) {
       if (isCreator) {
         setUser(await getUserByWallet(nftInfo));
         setText(creatorText);
-        setAddr(nftInfo)
+        setAddr(nftInfo);
       } else {
         setUser(await getUserByWallet(nftInfo));
         setText(ownerText);
-        setAddr(nftInfo)
+        setAddr(nftInfo);
       }
     }
   };
 
   const copyWalletAddress = () => {
     Clipboard.setString(user.walletAddress);
-    Alert.alert("Wallet address copied successfully");
+    Alert.alert('Wallet address copied successfully');
   };
 
-  useEffect(async () => {
-    await loadOwnerCreator();
+  useEffect(() => {
+    const loadData = async () => {
+      await loadOwnerCreator();
+    };
+    loadData();
   }, []);
 
   return (
@@ -93,6 +114,10 @@ const NftInfoItem = ({ nftInfo, isCreator}) => {
       <ProfileImage
         profileImage={user.profileImage}
         imageStyle={styles.image}
+        containerStyle={{
+          ...styles.profileImageContainer,
+          backgroundColor: user?.profileColor,
+        }}
         avatarWidth={30}
         avatarHeight={30}
       />
@@ -100,23 +125,24 @@ const NftInfoItem = ({ nftInfo, isCreator}) => {
         <Text style={styles.name}>{user.name}</Text>
         <View style={styles.descriptionAddress}>
           <Text style={styles.description}>{text}</Text>
-          <>
-            <Pressable onPress={copyWalletAddress}>
-              <Text style={styles.address}>
-                {" "}
-                • {`${addr?.slice(0, 5)}...${addr?.slice(-5)}`}
-                <CopyIcon width={12.67} height={14.67} />
-              </Text>
-            </Pressable>
-          </>
+          <Pressable onPress={copyWalletAddress} style={styles.walletPressable}>
+            <Text style={styles.address}>
+              {' '}
+              •
+              {' '}
+              {`${addr?.slice(0, 5)}...${addr?.slice(-5)}`}
+            </Text>
+            <CopyIcon width={12.67} height={14.67} style={styles.copyIcon} />
+          </Pressable>
         </View>
       </View>
     </View>
   );
 };
-/*
-NftItem.propTypes = {z
-  info: PropTypes.shape([]).isRequired,
-};*/
+
+NftInfoItem.propTypes = {
+  nftInfo: PropTypes.string.isRequired,
+  isCreator: PropTypes.bool.isRequired,
+};
 
 export default NftInfoItem;

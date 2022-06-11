@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import Constants from 'expo-constants';
 import { useGetCurrentUserQuery } from '@features/current_user';
+import { selectNFTUserStakedAmount } from '@features/on_chain/nft';
 import { Button } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
+import { abbreviateNumber } from '@utils/numbers';
 import StakeModal from '../action_modal';
 import ActionButtons from './action_buttons';
 import styles from './styles';
 
-const Stake = ({
-  fetchNftData, nftTokenId, owner, userStakedAmount,
-}) => {
+const Stake = ({ tokenId, owner }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [stakeModalVisible, setStakeModalVisible] = useState(false);
   const [neftBalance, setNeftBalance] = useState(0);
@@ -19,6 +20,7 @@ const Stake = ({
   const connector = useWalletConnect();
   const { getContractMethods } = useSmartContract();
   const { data: currentUser } = useGetCurrentUserQuery();
+  const userStakedAmount = useSelector((state) => selectNFTUserStakedAmount(state, tokenId));
 
   const getNEFTBalance = async () => {
     const contractMethods = await getContractMethods(
@@ -34,7 +36,7 @@ const Stake = ({
   useEffect(() => {
     setIsLoading(true);
     getNEFTBalance();
-  }, [connector]);
+  }, []);
 
   return (
     <>
@@ -51,7 +53,7 @@ const Stake = ({
       />
       <StakeModal
         actionModalVisible={stakeModalVisible}
-        inputSubTitle={`Available: ${neftBalance.toFixed(2)} $NEFT`}
+        inputSubTitle={`Available: ${abbreviateNumber(neftBalance.toFixed(2))} $NEFT`}
         isLoading={isLoading}
         modalTitle="How much $NEFT do you want to stake?"
         neftBalance={neftBalance}
@@ -61,8 +63,7 @@ const Stake = ({
         setTokensAmount={setTokensToStake}
       >
         <ActionButtons
-          fetchNftData={fetchNftData}
-          nftTokenId={nftTokenId}
+          tokenId={tokenId}
           setIsLoading={setIsLoading}
           setStakeModalVisible={setStakeModalVisible}
           tokensToStake={tokensToStake}
@@ -73,10 +74,8 @@ const Stake = ({
 };
 
 Stake.propTypes = {
-  fetchNftData: PropTypes.func.isRequired,
-  nftTokenId: PropTypes.string.isRequired,
+  tokenId: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
-  userStakedAmount: PropTypes.number.isRequired,
 };
 
-export default Stake;
+export default React.memo(Stake);

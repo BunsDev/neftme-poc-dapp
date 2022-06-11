@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectNFTUserStakedAmount } from '@features/on_chain/nft';
 import { Button } from '@library';
+import { abbreviateNumber } from '@utils/numbers';
 import ActionButtons from './action_buttons';
 import UnstakeModal from '../action_modal';
 import styles from './styles';
 
-const Stake = ({
-  fetchNftData, nftTokenId, userStakedAmount,
-}) => {
+const Stake = ({ tokenId }) => {
   const [unstakeModalVisible, setUnstakeModalVisible] = useState(false);
   const [tokensToUnstake, setTokensToUnstake] = useState('0');
   const [isLoading, setIsLoading] = useState(false);
+  const userStakedAmount = useSelector((state) => selectNFTUserStakedAmount(state, tokenId));
 
   if (userStakedAmount === 0) return null;
 
@@ -24,7 +26,7 @@ const Stake = ({
       />
       <UnstakeModal
         actionModalVisible={unstakeModalVisible}
-        inputSubTitle={`Staked: ${userStakedAmount} $NEFT`}
+        inputSubTitle={`Staked: ${abbreviateNumber(userStakedAmount.toFixed(2))} $NEFT`}
         isLoading={isLoading}
         modalTitle="How much $NEFT do you want to unstake?"
         neftBalance={userStakedAmount}
@@ -34,8 +36,7 @@ const Stake = ({
         setTokensAmount={setTokensToUnstake}
       >
         <ActionButtons
-          fetchNftData={fetchNftData}
-          nftTokenId={nftTokenId}
+          tokenId={tokenId}
           setIsLoading={setIsLoading}
           setUnstakeModalVisible={setUnstakeModalVisible}
           tokensToUnstake={tokensToUnstake}
@@ -46,9 +47,7 @@ const Stake = ({
 };
 
 Stake.propTypes = {
-  fetchNftData: PropTypes.func.isRequired,
-  nftTokenId: PropTypes.string.isRequired,
-  userStakedAmount: PropTypes.number.isRequired,
+  tokenId: PropTypes.string.isRequired,
 };
 
 export default Stake;

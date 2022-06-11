@@ -43,7 +43,7 @@ const Nft = ({ nft }) => {
       <Text style={styles.nftTitle}>{nft.title}</Text>
       <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />
-      <Tokenomics nft={nft} />
+      <Tokenomics tokenId={nft.tokenId} />
     </View>
   );
 };

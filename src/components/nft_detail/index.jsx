@@ -7,18 +7,21 @@ import {
   Text,
   View,
 } from 'react-native';
-import { getNFT } from '@services/nft';
 import BackIcon from '@assets/icons/back.svg';
 import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import Constants from 'expo-constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loading, TruncatedText } from '@library';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { useSmartContract } from '@hooks';
-import { fetchNFTBids } from '@features/on_chain/nft';
+import {
+  fetchNFTBids, fetchNFTDetails, fetchStakers, fetchUserStakes,
+  selectNFTDetails, selectNFTStakers, selectNFTUserStakes,
+} from '@features/on_chain/nft';
+import { selectNFTTokenId } from '@features/nft';
 import styles from './styles';
 import SocialInfo from '../home/timeline/nft/social_info';
 import Tokenomics from '../home/timeline/nft/tokenomics';
@@ -34,126 +37,59 @@ const NFTDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
-  const [nftData, setNftData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
-  const [userStakedAmount, setUserStakedAmount] = useState(0);
-  const [owner, setOwner] = useState('0');
-  const [creator, setCreator] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { getContractMethods } = useSmartContract();
   const connector = useWalletConnect();
-
-  const [nftsData, setNftsData] = useState({
-    stakers: [],
-    activity: [],
-    collection: 'coleção x',
-  });
-
-  // METODO DE VIEW COM CONTRATO ANTIGO | MUDAR PARA METODO COM CONTRATO NOVO DE VIEW
-  const getUserStakedAmount = async (tokenId) => {
-    const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc721Address,
-    );
-    try {
-      const response = await contractMethods
-        .stakes(tokenId, connector.accounts[0])
-        .call();
-      setUserStakedAmount(response.amount * 10 ** -18);
-    } catch (err) {
-      // log error :) or not
-    }
-    return false;
-  };
-
-  const fillNFTDetails = async (tokenID) => {
-    const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeViewContractAddress,
-    );
-
-    try {
-      await contractMethods
-        .nftDetails(tokenID)
-        .call()
-        .then((response) => {
-          setCreator(response[5]);
-          setOwner(response[4]);
-        });
-    } catch (err) {
-      // log error :) or not
-    }
-
-    // TODO MUDAR PARA METODO REVISTO PELA PREXIS (NEFTME VIEW)
-    try {
-      const oldContractMethods = await getContractMethods(
-        Constants.manifest.extra.neftmeErc721Address,
-      );
-      const stakers = await oldContractMethods.getStakes(tokenID).call();
-
-      setNftsData((prevData) => ({
-        ...prevData,
-        stakers,
-      }));
-    } catch (err) {
-      // log error
-    }
-  };
-
-  const fetchBids = async (tokenId) => {
-    const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeErc721Address,
-    );
-    dispatch(fetchNFTBids({ tokenId, contractMethods }));
-  };
-
-  const fetchNftData = async () => {
-    setIsLoading(true);
-    const nft = await getNFT(route.params.nftTokenId);
-    setNftData(nft);
-    fetchBids(nft.tokenId);
-    await fillNFTDetails(nft.tokenId);
-    await getUserStakedAmount(nft.tokenId);
-    setIsLoading(false);
-  };
+  const nftData = useSelector((state) => selectNFTTokenId(state, route.params.nftTokenId));
+  const nftDetails = useSelector((state) => selectNFTDetails(state, route.params.nftTokenId));
+  const nftStakers = useSelector((state) => selectNFTStakers(state, route.params.nftTokenId));
+  const nftStakes = useSelector((state) => selectNFTUserStakes(state, route.params.nftTokenId));
 
   useEffect(() => {
-    fetchNftData();
-  }, [navigation]);
+    const fetchData = async () => {
+      const { neftmeErc721Address, neftmeViewContractAddress } = Constants.manifest.extra;
+      const contractMethods = await getContractMethods(neftmeErc721Address);
+      const viewContractMethods = await getContractMethods(neftmeViewContractAddress);
+
+      dispatch(fetchNFTBids({ tokenId: nftData.tokenId, contractMethods }));
+      dispatch(fetchNFTDetails({ tokenId: nftData.tokenId, contractMethods: viewContractMethods }));
+      dispatch(fetchStakers({ tokenId: nftData.tokenId, contractMethods }));
+      dispatch(fetchUserStakes({
+        tokenId: nftData.tokenId, account: connector.accounts[0], contractMethods,
+      }));
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (nftData && nftDetails?.loading === 'succeeded' && nftStakers?.loading === 'succeeded' && nftStakes?.loading === 'succeeded') {
+      setTimeout(() => { setIsLoading(false); }, 500);
+    }
+  }, [nftData, nftDetails, nftStakers, nftStakes]);
 
   return (
     <ScrollView style={styles.scrollView}>
-      <Loading visible={nftData === null || isLoading} />
-      {nftData === null || isLoading ? null : (
+      <Loading visible={isLoading} />
+      {isLoading ? null : (
         <>
           <Pressable style={styles.backIcon} onPress={navigation.goBack}>
             <BackIcon width={18.67} height={18.67} />
           </Pressable>
           <Image source={{ uri: nftData.image }} style={styles.image} />
           <View>
-            <SocialInfo nft={nftData} setNft={setNftData} />
+            <SocialInfo nft={nftData} />
             <Text style={styles.nftTitle}>{nftData.title}</Text>
             <TruncatedText
               text={nftData.description}
               textStyle={styles.nftDescription}
             />
             <View style={styles.tokenomicsContainer}>
-              <Tokenomics nft={nftData} />
+              <Tokenomics tokenId={nftData.tokenId} />
               <View style={styles.tokenomicsCard}>
-                <Stake
-                  fetchNftData={fetchNftData}
-                  nftTokenId={nftData.tokenId}
-                  owner={owner}
-                  userStakedAmount={userStakedAmount}
-                />
-                <Unstake
-                  fetchNftData={fetchNftData}
-                  nftTokenId={nftData.tokenId}
-                  userStakedAmount={userStakedAmount}
-                />
-                <MakeOffer
-                  nftTokenId={nftData.tokenId}
-                  owner={owner}
-                  userStakedAmount={userStakedAmount}
-                />
+                <Stake tokenId={nftData.tokenId} owner={nftDetails.data[4]} />
+                <Unstake tokenId={nftData.tokenId} />
+                <MakeOffer tokenId={nftData.tokenId} owner={nftDetails.data[4]} />
               </View>
             </View>
           </View>
@@ -179,15 +115,15 @@ const NFTDetail = () => {
               // NFT Info
               selectedCategory === categories[0].id && (
                 <>
-                  <NftInfoItem nftInfo={owner} isCreator={false} />
-                  <NftInfoItem nftInfo={creator} isCreator />
+                  <NftInfoItem nftInfo={nftDetails.data[4]} isCreator={false} />
+                  <NftInfoItem nftInfo={nftDetails.data[5]} isCreator />
                 </>
               )
             }
             {
               // Stakers
               selectedCategory === categories[1].id
-              && nftsData.stakers?.map((stakerObj) => (
+              && nftStakers.data.map((stakerObj) => (
                 <StakersItem stakerInfo={stakerObj} key={stakerObj[0]} />
               ))
             }
@@ -195,8 +131,8 @@ const NFTDetail = () => {
               // Activity
               selectedCategory === categories[2].id && (
                 <>
-                  <NftInfoItem nftInfo={owner} isCreator={false} />
-                  <NftInfoItem nftInfo={creator} isCreator />
+                  <NftInfoItem nftInfo={nftDetails.data[4]} isCreator={false} />
+                  <NftInfoItem nftInfo={nftDetails.data[5]} isCreator />
                 </>
               )
             }
@@ -204,8 +140,8 @@ const NFTDetail = () => {
               // Colection
               selectedCategory === categories[3].id && (
                 <>
-                  <NftInfoItem nftInfo={owner} isCreator={false} />
-                  <NftInfoItem nftInfo={creator} isCreator />
+                  <NftInfoItem nftInfo={nftDetails.data[4]} isCreator={false} />
+                  <NftInfoItem nftInfo={nftDetails.data[5]} isCreator />
                 </>
               )
             }

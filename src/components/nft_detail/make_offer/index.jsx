@@ -5,18 +5,19 @@ import { useGetCurrentUserQuery } from '@features/current_user';
 import { Button } from '@library';
 import { convertFromETH18 } from '@utils/nft';
 import { strIsEqual } from '@utils/words';
-import { selectNFTsBids } from '@features/on_chain/nft';
+import { selectNFTBid, selectNFTUserStakedAmount } from '@features/on_chain/nft';
 import styles from './styles';
 import ActionButtons from './action_buttons';
 import CancelOffer from './cancel_offer';
 import MakeOfferModal from '../action_modal';
 
-const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
+const MakeOffer = ({ tokenId, owner }) => {
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [tokensToOffer, setTokensToOffer] = useState('0');
   const [isLoading, setIsLoading] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
-  const nftBids = useSelector(selectNFTsBids)[nftTokenId]?.bids;
+  const nftBids = useSelector((state) => selectNFTBid(state, tokenId));
+  const userStakedAmount = useSelector((state) => selectNFTUserStakedAmount(state, tokenId));
 
   if (strIsEqual(owner, currentUser.walletAddress)) return null;
 
@@ -26,6 +27,7 @@ const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
   if (currentUserBid && currentUserBid.length > 0) {
     return <CancelOffer currentUserBid={currentUserBid[0]} />;
   }
+
   return (
     <>
       <Button
@@ -47,7 +49,7 @@ const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
         setTokensAmount={setTokensToOffer}
       >
         <ActionButtons
-          nftTokenId={nftTokenId}
+          tokenId={tokenId}
           setIsLoading={setIsLoading}
           setShowOfferModal={setShowOfferModal}
           tokensToOffer={tokensToOffer}
@@ -58,9 +60,8 @@ const MakeOffer = ({ nftTokenId, owner, userStakedAmount }) => {
 };
 
 MakeOffer.propTypes = {
-  nftTokenId: PropTypes.string.isRequired,
+  tokenId: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
-  userStakedAmount: PropTypes.number.isRequired,
 };
 
 export default MakeOffer;
