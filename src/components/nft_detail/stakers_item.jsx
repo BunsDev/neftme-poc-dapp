@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ProfileImage } from '@library';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet, Text, View, Pressable,
+} from 'react-native';
 import TokenIcon from '@assets/icons/token.svg';
 import { abbreviateNumber } from '@utils/numbers';
+import { useNavigation } from '@react-navigation/native';
 import { getUserByWallet } from '../../services/user';
 
 const styles = StyleSheet.create({
@@ -74,6 +77,9 @@ const StakerItem = ({ stakerInfo }) => {
   const [staker, setStaker] = useState(null);
   const [amount, setAmount] = useState(0);
 
+  const navigation = useNavigation();
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: staker.username });
+
   const loadStaker = async () => {
     if (stakerInfo) {
       setStaker(await getUserByWallet(stakerInfo[0]));
@@ -89,16 +95,20 @@ const StakerItem = ({ stakerInfo }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <ProfileImage
-        profileImage={staker.profileImage}
-        imageStyle={styles.image}
-        avatarWidth={30}
-        avatarHeight={30}
-        containerStyle={{
-          ...styles.profileImageContainer,
-          backgroundColor: staker?.profileColor,
-        }}
-      />
+      <Pressable
+        onPress={navigateToProfile}
+      >
+        <ProfileImage
+          profileImage={staker.profileImage}
+          imageStyle={styles.image}
+          avatarWidth={30}
+          avatarHeight={30}
+          containerStyle={{
+            ...styles.profileImageContainer,
+            backgroundColor: staker?.profileColor,
+          }}
+        />
+      </Pressable>
       <View style={styles.textBox}>
         <Text style={styles.name}>{staker.name}</Text>
         <View style={styles.descriptionAddress}>

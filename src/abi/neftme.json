@@ -599,46 +599,39 @@
       {
         "components": [
           {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "bidder",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "erc20contract",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              },
-              {
-                "internalType": "bool",
-                "name": "accepted",
-                "type": "bool"
-              },
-              {
-                "internalType": "bool",
-                "name": "canceled",
-                "type": "bool"
-              },
-              {
-                "internalType": "bool",
-                "name": "exists",
-                "type": "bool"
-              }
-            ],
-            "internalType": "struct NEFTME.Bid[]",
-            "name": "bids",
-            "type": "tuple[]"
+            "internalType": "address",
+            "name": "bidder",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "erc20contract",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "accepted",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "canceled",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "exists",
+            "type": "bool"
           }
         ],
-        "internalType": "struct NEFTME.BidsData",
-        "name": "result",
-        "type": "tuple"
+        "internalType": "struct NEFTME.Bid[]",
+        "name": "returnBids",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",

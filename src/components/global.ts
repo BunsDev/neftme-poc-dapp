@@ -19,6 +19,7 @@ if (Platform.OS !== "web") {
   LogBox.ignoreLogs([
     "Warning: The provided value 'ms-stream' is not a valid 'responseType'.",
     "Warning: The provided value 'moz-chunked-arraybuffer' is not a valid 'responseType'.",
+    "Possible EventEmitter memory leak detected. 11 latest listeners added. Use emitter.setMaxListeners() to increase limit",
   ]);
 }
 

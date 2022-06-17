@@ -9,9 +9,31 @@ export const isNewUser = async () => {
   }
 };
 
-export const getUserByWallet = async (wallet_address) => {
+export const getUserByWallet = async (walletAddress) => {
   try {
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user?wallet_address=${wallet_address}`, {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user?wallet_address=${walletAddress}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 200) {
+      return {};
+    }
+
+    return await response.json();
+  } catch (err) {
+    return {};
+  }
+};
+
+export const getUserByUsername = async (username) => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/user?username=${username}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

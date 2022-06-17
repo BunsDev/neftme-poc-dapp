@@ -11,7 +11,6 @@ const postAPINFT = async (nft) => {
     const formData = new FormData();
     formData.append('title', nft.title);
     formData.append('description', nft.description);
-    formData.append('price', nft.price);
     formData.append('communityPercentage', nft.communityPercentage);
     formData.append('image', { uri: nft.image, name: filename, type });
 

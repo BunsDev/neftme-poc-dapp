@@ -8,7 +8,7 @@ import styles from './stylesheet';
 
 const TrendingCard = ({ trending }) => {
   const navigation = useNavigation();
-  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileId: trending.id });
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: trending.username });
 
   return (
     <Pressable style={styles.trendingItem} onPress={navigateToProfile}>

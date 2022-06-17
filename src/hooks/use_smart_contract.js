@@ -28,7 +28,19 @@ const useSmartContract = () => {
     return contract.methods;
   };
 
-  return { getContractMethods };
+  const getContract = async (contractAddress) => {
+    await provider.enable();
+
+    const web3 = new Web3(provider);
+    const contract = new web3.eth.Contract(
+      nftABI,
+      contractAddress,
+    );
+
+    return contract;
+  };
+
+  return { getContractMethods, getContract };
 };
 
 export default useSmartContract;

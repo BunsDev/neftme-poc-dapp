@@ -8,7 +8,7 @@ import styles from './styles';
 
 const ProfileCard = ({ profile }) => {
   const navigation = useNavigation();
-  const navigateToProfile = () => navigation.navigate('CreatorProfile', { profileId: profile.id });
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: profile.username });
 
   return (
     <Pressable style={styles.profileItem} onPress={navigateToProfile}>

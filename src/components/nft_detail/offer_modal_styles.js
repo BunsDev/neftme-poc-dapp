@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  actionModal: {
+  stakeModal: {
     flex: 1,
     justifyContent: 'flex-end',
   },
@@ -19,7 +19,7 @@ export default StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
   },
-  actionModalView: {
+  stakeModalView: {
     backgroundColor: '#2C2C39',
     borderTopStartRadius: 16,
     borderTopEndRadius: 16,
@@ -27,12 +27,12 @@ export default StyleSheet.create({
     paddingTop: 32,
     paddingBottom: 18,
   },
-  actionTitle: {
+  stakeTitle: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: '700',
   },
-  actionContainer: {
+  stakeContainer: {
     backgroundColor: '#41414A',
     borderRadius: 8,
     marginTop: 16,
@@ -55,10 +55,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginTop: 16,
   },
-  actionPercentageButton: {
+  stakePercentageButton: {
     flex: 0.25,
   },
-  actionPercentageButtonMargin: {
+  stakePercentageButtonMargin: {
     marginLeft: 16,
   },
   stakeButtonsActionContainer: {
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   offerAndAmountBox: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     marginBottom: 8,
     borderRadius: 16,
     alignItems: 'center',
@@ -90,8 +90,8 @@ export default StyleSheet.create({
     paddingTop: 10,
   },
   image: {
-    width: 58,
-    height: 58,
+    width: 68,
+    height: 68,
     marginTop: 8,
     marginLeft: 8,
     marginRight: 20,
@@ -106,7 +106,6 @@ export default StyleSheet.create({
   },
   acceptButton: {
     backgroundColor: 'rgba(105, 210, 88, 1)',
-    color: 'rgba(34, 34, 43, 1)',
     fontWeight: '700',
     fontSize: 16,
     alignContent: 'center',
@@ -128,5 +127,9 @@ export default StyleSheet.create({
   },
   marginLeft10: {
     marginLeft: 10,
+  },
+  approveAcceptRow: {
+    display: 'flex',
+    flexGrow: 1,
   },
 });

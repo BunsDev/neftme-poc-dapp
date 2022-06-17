@@ -3,7 +3,7 @@ import { Alert, View } from 'react-native';
 import { withMainScrollView } from '@hocs';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCreatorProfile } from '@services/creator';
-import { followUser, unfollowUser } from '@services/user';
+import { followUser, unfollowUser, getUserByUsername } from '@services/user';
 import {
   getCreatedNfts, getNftDetails, getOwnedNfts, getStakedNfts,
 } from '@services/user_nfts';
@@ -33,7 +33,7 @@ const CreatorProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getCreatorProfile(route.params.profileId);
+      const data = await getUserByUsername(route.params.username);
       setProfileData(data);
       if (data?.walletAddress) {
         const viewContractMethods = await getContractMethods(

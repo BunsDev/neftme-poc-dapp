@@ -58,12 +58,19 @@
         ]
       },
       "alfajoresRpcUrl": "https://alfajores-forno.celo-testnet.org",
-      "neftmeErc721Address": "0x3A2Fa083d0fe3F5cE394FEDccBc9b6cf865d3018",
-      "neftmeViewContractAddress": "0x26c0964C568f836470691b7121f85B42f9b7dDea",
+      "neftmeErc721Address": "0xA8C40bdE8BE47D47999d3637dD9683C5F1dc317B",
+      "neftmeViewContractAddress": "0x83Db0941EEAf17a0f078A07c1dD0799847e5c293",
       "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
       "alfajoresChainId": 44787,
       "chainId": 44787,
-      "neftTokenImageUrl": "https://neftme.com/logo_color.png"
+      "neftTokenImageUrl": "https://neftme.com/logo_color.png",
+      "nftActivity": {
+        "staked": "Staked",
+        "unstaked": "Unstaked",
+        "madeOffer": "BidCreated",
+        "mintedNft": "Transfer",
+        "bidAccepted": "BidAccepted"
+      }
     }
   }
 }

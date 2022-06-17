@@ -5,7 +5,7 @@ import {
   Alert, ScrollView, Text, View,
 } from 'react-native';
 import {
-  Button, CustomTextInput, InputField, Loading,
+  Button, CustomTextInput, Loading,
 } from '@library';
 import Slider from '@react-native-community/slider';
 import { useSmartContract } from '@hooks';
@@ -19,7 +19,6 @@ const CreateNFTTokenomics = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { getContractMethods } = useSmartContract();
-  const [price, setPrice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [communityPercentage, setCommunityPercentage] = useState(0);
 
@@ -29,7 +28,6 @@ const CreateNFTTokenomics = () => {
       const nft = {
         title: route.params.nft.title,
         description: route.params.nft.description,
-        price,
         communityPercentage,
         image: route.params.nft.image,
       };
@@ -57,15 +55,6 @@ const CreateNFTTokenomics = () => {
       <Header showNext={false} onPress={null} step={3} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.formContainer}>
-          <InputField
-            labelName="Sale Price in NEFTS"
-            value={price}
-            onFieldChange={setPrice}
-            inputPlaceholder="0"
-            keyboardType="numeric"
-            inputStyle={styles.priceInput}
-            containerStyle={styles.marginTop16}
-          />
           <View style={styles.sliderContainer}>
             <Text style={styles.labelStyle}>Percentage for community</Text>
             <View style={styles.percentageContainer}>
@@ -90,8 +79,7 @@ const CreateNFTTokenomics = () => {
           </View>
           <Button
             text="Mint NFT"
-            buttonStyle={price ? {} : { backgroundColor: '#41414A' }}
-            onPress={price ? onMintNFTPress : () => { }}
+            onPress={onMintNFTPress}
             textStyle={{}}
           />
         </View>

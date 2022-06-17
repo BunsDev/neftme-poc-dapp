@@ -13,20 +13,25 @@ import styles from './styles';
 
 const Nft = ({ nft }) => {
   const navigation = useNavigation();
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: nft.username });
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.nftHeader}>
-        <ProfileImage
-          profileImage={nft.profilePhoto}
-          containerStyle={{
-            ...styles.profileImageContainer,
-            backgroundColor: nft.profileColor,
-          }}
-          imageStyle={styles.nftProfilePhoto}
-          avatarWidth={30}
-          avatarHeight={30}
-        />
+        <Pressable
+          onPress={navigateToProfile}
+        >
+          <ProfileImage
+            profileImage={nft.profilePhoto}
+            containerStyle={{
+              ...styles.profileImageContainer,
+              backgroundColor: nft.profileColor,
+            }}
+            imageStyle={styles.nftProfilePhoto}
+            avatarWidth={30}
+            avatarHeight={30}
+          />
+        </Pressable>
         <View style={styles.nftHeaderTitle}>
           <Text style={styles.nftHeaderName}>{nft.name}</Text>
           <Text style={styles.nftHeaderFollowers}>{`${nft.followers} ${pluralizeFollowers(nft.followers)}`}</Text>

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Dimensions, FlatList, View } from 'react-native';
+import {
+  Animated, Dimensions, FlatList, View,
+} from 'react-native';
 import CarouselItem from './carousel_item';
 import Indicator from './indicator';
 import styles from './styles';

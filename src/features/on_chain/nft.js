@@ -28,8 +28,7 @@ export const onChainNFT = createSlice({
     builder.addCase(fetchNFTBids.fulfilled, (state, action) => {
       if (action.payload) {
         state.nfts[action.meta.arg.tokenId].bids.loading = 'succeeded';
-        const [payload] = action.payload;
-        state.nfts[action.meta.arg.tokenId].bids.data = payload;
+        state.nfts[action.meta.arg.tokenId].bids.data = action.payload;
       }
     });
     builder.addCase(fetchNFTBids.rejected, (state, action) => {

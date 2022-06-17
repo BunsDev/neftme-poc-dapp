@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import CopyIcon from '@assets/icons/copy.svg';
+import { useNavigation } from '@react-navigation/native';
 import { getUserByWallet } from '../../services/user';
 
 const styles = StyleSheet.create({
@@ -80,6 +81,9 @@ const NftInfoItem = ({ nftInfo, isCreator }) => {
   const [addr, setAddr] = useState('0');
   const [text, setText] = useState('');
 
+  const navigation = useNavigation();
+  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: user.username });
+
   const creatorText = 'NFT Creator';
   const ownerText = 'NFT Owner';
 
@@ -111,16 +115,20 @@ const NftInfoItem = ({ nftInfo, isCreator }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <ProfileImage
-        profileImage={user.profileImage}
-        imageStyle={styles.image}
-        containerStyle={{
-          ...styles.profileImageContainer,
-          backgroundColor: user?.profileColor,
-        }}
-        avatarWidth={30}
-        avatarHeight={30}
-      />
+      <Pressable
+        onPress={navigateToProfile}
+      >
+        <ProfileImage
+          profileImage={user.profileImage}
+          imageStyle={styles.image}
+          containerStyle={{
+            ...styles.profileImageContainer,
+            backgroundColor: user?.profileColor,
+          }}
+          avatarWidth={30}
+          avatarHeight={30}
+        />
+      </Pressable>
       <View style={styles.textBox}>
         <Text style={styles.name}>{user.name}</Text>
         <View style={styles.descriptionAddress}>
