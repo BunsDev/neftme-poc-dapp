@@ -15,6 +15,8 @@ import ProfileHeader from '../shared/profile_header';
 import ProfileData from '../shared/profile_data';
 import NftsList from '../shared/nfts_list';
 import EditButton from './edit_button';
+import DisconnectWalletButton from './disconnect_wallet_button';
+import DisconnectAccountButton from './disconnect_account_button';
 
 const styles = StyleSheet.create({
   myStatsStyle: {
@@ -83,6 +85,8 @@ const CreatorProfile = () => {
         goBack={navigation.goBack}
       />
       <ProfileData profile={currentUser} ProfileButton={EditButton} />
+      <DisconnectWalletButton />
+      <DisconnectAccountButton />
       <Button
         primary
         buttonStyle={styles.myStatsStyle}

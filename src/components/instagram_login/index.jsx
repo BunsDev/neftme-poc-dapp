@@ -6,6 +6,7 @@ import { Button } from '@library';
 import InstagramAssetIcon from '@assets/icons/instagram_coloured.svg';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { useLazyGetCurrentUserQuery } from '@features/current_user';
+import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import InstagramModal from './login_modal';
 import styles from './styles';
 
@@ -16,10 +17,18 @@ const InstagramLogin = () => {
   const [showLoading, setShowLoading] = useState(false);
   const navigation = useNavigation();
   const [trigger] = useLazyGetCurrentUserQuery();
+  const connector = useWalletConnect();
 
   const onLoginSuccess = async () => {
     trigger();
     setShowLoading(false);
+    // in case of user logging out and returning to this screen
+    // he will probably still have his wallet connected, so we skip to home
+    if (connector.connected) {
+      navigation.navigate('Home');
+      return;
+    }
+
     navigation.dispatch(CommonActions.reset({
       index: 0,
       routes: [{
