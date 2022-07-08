@@ -20,13 +20,14 @@ const DisconnectWalletButton = () => {
 
   const disconnectAndNavigate = () => {
     try {
+      // TODO call remove session from DB request
       removeData('auth_token');
       navigation.navigate({
         name: 'Start',
         params: { screen: 'ChooseLogin' },
       });
     } catch (err) {
-      console.log('something went wrong while logging out');
+      // console.log('something went wrong while logging out');
     }
   };
 

@@ -27,7 +27,7 @@ const DisconnectWalletButton = () => {
         params: { screen: 'Wallet' },
       });
     } catch (err) {
-      console.log('something went wrong while disconnecting wallet');
+      // console.log('something went wrong while disconnecting wallet');
     }
   };
 

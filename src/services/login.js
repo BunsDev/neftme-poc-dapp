@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { setData } from './storage';
+import { setData, getData } from './storage';
 
 export const doLogin = async (email, password) => {
   try {
@@ -27,6 +27,28 @@ export const doLogin = async (email, password) => {
     return {
       success: false,
     };
+  }
+};
+
+export const doLogout = async () => {
+  try {
+    const response = await fetch(`${Constants.manifest.extra.apiUrl}/sessions`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 200) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    return false;
   }
 };
 
