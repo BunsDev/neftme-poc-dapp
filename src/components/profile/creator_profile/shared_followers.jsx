@@ -36,21 +36,29 @@ const styles = StyleSheet.create({
 
 const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
   <View style={styles.container}>
-    <View style={styles.flexDirectionRow}>
-      {sharedFollowers.map((profile, index) => (
-        <Image
-          key={`sharedFollowerPicture${profile.name}`}
-          style={[styles.profilePhoto, styles[`profile${index}`]]}
-          source={{ uri: profile.profile_photo }}
-        />
-      ))}
-    </View>
-    <View style={styles.flex}>
-      <Text style={styles.followedBy}>Mutual friends following</Text>
-      <Text style={styles.followersNames}>
-        {`${sharedFollowers.map((p) => p.name).join(', ')} and ${totalSharedFollowers} others`}
-      </Text>
-    </View>
+    {sharedFollowers.length > 0
+      && (
+        <>
+          <View style={styles.flexDirectionRow}>
+
+            {sharedFollowers.map((profile, index) => (
+              <Image
+                key={`sharedFollowerPicture${profile.name}`}
+                style={[styles.profilePhoto, styles[`profile${index}`]]}
+                source={{ uri: profile.profile_photo }}
+              />
+            ))}
+          </View>
+          <View style={styles.flex}>
+
+            <Text style={styles.followedBy}>Mutual friends following</Text>
+            <Text style={styles.followersNames}>
+              {`${sharedFollowers.map((p) => p.name).join(', ')} and ${totalSharedFollowers} others`}
+            </Text>
+
+          </View>
+        </>
+      )}
   </View>
 );
 

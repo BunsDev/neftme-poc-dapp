@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",
@@ -27,6 +28,8 @@
     "expo-media-library": "~14.0.0",
     "expo-updates": "~0.11.6",
     "https-browserify": "^1.0.0",
+    "jest": "^28.1.2",
+    "jest-react-native": "^18.0.0",
     "mathjs": "^10.5.0",
     "node-libs-react-native": "^1.2.1",
     "os-browserify": "^0.3.0",
@@ -72,6 +75,9 @@
   },
   "resolutions": {
     "react-devtools-core": "4.14.0"
+  },
+  "jest": {
+    "collectCoverage":true
   },
   "private": true
 }
