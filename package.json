@@ -77,7 +77,7 @@
     "react-devtools-core": "4.14.0"
   },
   "jest": {
-    "collectCoverage":true
+    "collectCoverage": true
   },
   "private": true
 }

@@ -53,7 +53,8 @@ const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
 
             <Text style={styles.followedBy}>Mutual friends following</Text>
             <Text style={styles.followersNames}>
-              {`${sharedFollowers.map((p) => p.name).join(', ')} and ${totalSharedFollowers} others`}
+              {`${sharedFollowers.map((p) => p.name).join(', ')}`}
+              {totalSharedFollowers - sharedFollowers.length > 0 && ` and ${totalSharedFollowers - sharedFollowers.length} ${totalSharedFollowers - sharedFollowers.length === 1 ? 'other' : 'others'}`}
             </Text>
 
           </View>
@@ -66,7 +67,7 @@ SharedFollowers.propTypes = {
   sharedFollowers: PropTypes.arrayOf(PropTypes.shape({
     profile_photo: PropTypes.string.isRequired,
   })).isRequired,
-  totalSharedFollowers: PropTypes.string.isRequired,
+  totalSharedFollowers: PropTypes.number.isRequired,
 };
 
 export default SharedFollowers;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Alert, View } from 'react-native';
 import { withMainScrollView } from '@hocs';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getCreatorProfile } from '@services/creator';
 import { followUser, unfollowUser, getUserByUsername } from '@services/user';
 import {
   getCreatedNfts, getNftDetails, getOwnedNfts, getStakedNfts,
@@ -79,7 +78,7 @@ const CreatorProfile = () => {
       // TODO: When in redux store,
       // Invalidate cache of user id profile (creator and featured profile)
       // dispatch(api.util.updateQueryData('getPosts'));
-      setProfileData(await getCreatorProfile(profileData.id));
+      setProfileData(await getUserByUsername(profileData.username));
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -102,7 +101,7 @@ const CreatorProfile = () => {
       />
       <View style={styles.buttonsContainer}>
         <Button text={profileData.isCurrentUserFollowing ? 'Unfollow' : 'Follow'} buttonStyle={styles.followButton} onPress={onFollow} />
-        <Button text="Message" primary={false} buttonStyle={styles.messageButton} onPress={() => Alert.alert('Available soon')} />
+        <Button text="Message" primary={false} buttonStyle={styles.messageButton} onPress={() => Alert.alert('Available soon!')} />
       </View>
       <Stats userWalletAddress={profileData.walletAddress} />
       <NftsList name={profileData.name} nfts={nftsData} />
