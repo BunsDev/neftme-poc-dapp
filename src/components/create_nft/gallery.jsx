@@ -39,15 +39,16 @@ const ImageGallery = () => {
   const route = useRoute();
   const goNext = (imageUri) => {
     navigation.navigate('CreateNFT', {
-      screen: 'CreateNFTDetails',
-      params: { nftImage: imageUri, origin: route.params },
+      screen: 'EditImage',
+      params: { image: imageUri, origin: route.params },
     });
   };
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
+      allowsEditing: false,
     });
+
     if (!photo.cancelled && photo.uri) {
       goNext(photo.uri);
     }
@@ -59,6 +60,7 @@ const ImageGallery = () => {
       {selectedImage ? (
         <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
       ) : null}
+
       <View style={styles.galleryContainer}>
         <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
       </View>
