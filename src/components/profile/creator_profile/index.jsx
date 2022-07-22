@@ -9,6 +9,7 @@ import {
 import { useSmartContract } from '@hooks';
 import Constants from 'expo-constants';
 import { Button, Loading } from '@library';
+import { useGetCurrentUserQuery } from '@features/current_user';
 import styles from './styles';
 // Components
 import ProfileHeader from '../shared/profile_header';
@@ -23,18 +24,24 @@ const CreatorProfile = () => {
   const route = useRoute();
   const { getContractMethods } = useSmartContract();
   const [profileData, setProfileData] = useState({});
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [nftsData, setNftsData] = useState({
     created: [],
     owned: [],
     supporting: [],
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { data: currentUser } = useGetCurrentUserQuery();
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getUserByUsername(route.params.username);
       setProfileData(data);
       if (data?.walletAddress) {
+        if (currentUser.username === profileData.username) {
+          setIsCurrentUser(true);
+        }
+
         const viewContractMethods = await getContractMethods(
           Constants.manifest.extra.neftmeViewContractAddress,
         );
@@ -93,6 +100,7 @@ const CreatorProfile = () => {
         coverImage={profileData.coverImage}
         profileColor={profileData.profileColor}
         goBack={navigation.goBack}
+        isCurrentUser={isCurrentUser}
       />
       <ProfileData profile={profileData} ProfileButton={ShareButton} />
       <SharedFollowers

@@ -83,6 +83,7 @@ const CreatorProfile = () => {
         coverImage={currentUser.coverImage}
         profileColor={currentUser.profileColor}
         goBack={navigation.goBack}
+        isCurrentUser
       />
       <ProfileData profile={currentUser} ProfileButton={EditButton} />
       <DisconnectWalletButton />
