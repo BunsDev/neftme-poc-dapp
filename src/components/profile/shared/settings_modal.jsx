@@ -4,7 +4,10 @@ import {
   StyleSheet, View, Modal, TouchableOpacity, Pressable, Text, Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import BackIcon from '@assets/icons/back.svg';
+import VectorIcon from '@assets/icons/Vector.svg';
+import WalletIcon from '@assets/icons/WalletStroke.svg';
+import ExitIcon from '@assets/icons/exit.svg';
+import Icon from '@assets/icons/Icon.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { removeData } from '../../../services/storage';
@@ -109,7 +112,7 @@ const SettingsModal = ({ isCurrentUser, isSettingsModalVisible, setSettingsModal
         <View style={styles.modalView}>
 
           <View style={styles.individualSettingView}>
-            <BackIcon width={16} height={16} />
+            <WalletIcon width={16} height={16} />
             <Pressable
               onPress={() => disconnectWalletAndNavigate()}
             >
@@ -118,7 +121,7 @@ const SettingsModal = ({ isCurrentUser, isSettingsModalVisible, setSettingsModal
           </View>
 
           <View style={styles.individualSettingView}>
-            <BackIcon width={16} height={16} />
+            <Icon width={16} height={16} />
             <Pressable
               onPress={() => Alert.alert('Available soon!')}
             >
@@ -127,7 +130,7 @@ const SettingsModal = ({ isCurrentUser, isSettingsModalVisible, setSettingsModal
           </View>
 
           <View style={styles.individualSettingView}>
-            <BackIcon width={16} height={16} />
+            <VectorIcon width={16} height={16} />
             <Pressable
               onPress={() => Alert.alert('Available soon!')}
             >
@@ -136,7 +139,7 @@ const SettingsModal = ({ isCurrentUser, isSettingsModalVisible, setSettingsModal
           </View>
 
           <View style={styles.individualSettingView}>
-            <BackIcon width={16} height={16} />
+            <ExitIcon width={16} height={16} />
             <Pressable
               onPress={() => disconnectAccountAndNavigate()}
             >

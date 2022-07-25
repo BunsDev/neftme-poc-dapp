@@ -4,6 +4,7 @@ import {
   Pressable, StyleSheet, View,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
+import Burger from '@assets/icons/burger.svg';
 import { CoverImage } from '@library';
 import SettingsModal from './settings_modal';
 
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
   },
   settingsBar: {
     position: 'absolute',
-    left: 326,
-    top: 60,
+    left: 300,
+    top: 45,
   },
   modal: {
     flex: 1,
@@ -102,7 +103,7 @@ const ProfileHeader = ({
         () => setSettingsModalVisible((prevValue) => !prevValue)
         }
       >
-        <BackIcon width={30} height={30} />
+        <Burger width={70} height={70} />
       </Pressable>
       )}
     </View>
