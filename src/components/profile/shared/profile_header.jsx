@@ -39,10 +39,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   modalView: {
-    flexDirection: 'column',
-    display: 'flex',
-    alignItems: 'flex-start',
-    padding: 0,
     position: 'absolute',
     width: 198,
     height: 180,
@@ -53,10 +49,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    marginBottom: 380,
     marginLeft: 100,
-    marginVertical: 100,
-    marginEnd: 50,
     backgroundColor: '#2C2C39',
     justifyContent: 'center',
   },
@@ -71,8 +64,6 @@ const styles = StyleSheet.create({
   },
   individualSettingView: {
     flexDirection: 'row',
-    left: 0,
-    top: 0,
     padding: 10,
   },
   settingsFont: {

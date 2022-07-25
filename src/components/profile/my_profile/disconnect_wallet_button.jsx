@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * NOT BEING USED ANYMORE - NO NEED TO MAINTAIN
+* ##################################################################################################
+*/
+
 const DisconnectWalletButton = () => {
   const navigation = useNavigation();
   const connector = useWalletConnect();
