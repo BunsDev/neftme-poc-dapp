@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, View, Modal, Text, TouchableOpacity, Alert,
+  Pressable, StyleSheet, View,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { CoverImage } from '@library';
-import { useNavigation } from '@react-navigation/native';
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
-import { removeData } from '../../../services/storage';
+import SettingsModal from './settings_modal';
 
 const styles = StyleSheet.create({
   coverImageWrapper: {
@@ -78,35 +76,6 @@ const ProfileHeader = ({
   coverImage, profileColor, goBack, isCurrentUser,
 }) => {
   const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
-  const navigation = useNavigation();
-  const connector = useWalletConnect();
-
-  const disconnectAccountAndNavigate = () => {
-    try {
-      // TODO call remove session from DB request
-      removeData('auth_token');
-      setSettingsModalVisible(false);
-      navigation.navigate({
-        name: 'Start',
-        params: { screen: 'ChooseLogin' },
-      });
-    } catch (err) {
-      // console.log('something went wrong while logging out');
-    }
-  };
-
-  const disconnectWalletAndNavigate = () => {
-    try {
-      connector.killSession();
-      setSettingsModalVisible(false);
-      navigation.navigate({
-        name: 'Start',
-        params: { screen: 'Wallet' },
-      });
-    } catch (err) {
-      // console.log('something went wrong while disconnecting wallet');
-    }
-  };
 
   return (
     <View>
@@ -118,60 +87,11 @@ const ProfileHeader = ({
         profileColor={profileColor}
         bottomCoverColor="#141316"
       />
-      { isCurrentUser && (
-        <Modal
-          animationType="fade"
-          transparent
-          visible={isSettingsModalVisible}
-          onRequestClose={() => setSettingsModalVisible((prevValue) => !prevValue)}
-        >
-          <TouchableOpacity
-            activeOpacity={1}
-            style={styles.touchableOpacityStyle}
-            onPressOut={() => { setSettingsModalVisible(false); }}
-          >
-            <View style={styles.modalView}>
-
-              <View style={styles.individualSettingView}>
-                <BackIcon width={16} height={16} />
-                <Pressable
-                  onPress={() => disconnectWalletAndNavigate()}
-                >
-                  <Text style={styles.settingsFont}>Disconnect Wallet</Text>
-                </Pressable>
-              </View>
-
-              <View style={styles.individualSettingView}>
-                <BackIcon width={16} height={16} />
-                <Pressable
-                  onPress={() => Alert.alert('Available soon!')}
-                >
-                  <Text style={styles.settingsFont}>Settings</Text>
-                </Pressable>
-              </View>
-
-              <View style={styles.individualSettingView}>
-                <BackIcon width={16} height={16} />
-                <Pressable
-                  onPress={() => Alert.alert('Available soon!')}
-                >
-                  <Text style={styles.settingsFont}>Switch Account</Text>
-                </Pressable>
-              </View>
-
-              <View style={styles.individualSettingView}>
-                <BackIcon width={16} height={16} />
-                <Pressable
-                  onPress={() => disconnectAccountAndNavigate()}
-                >
-                  <Text style={styles.settingsFont}>Logout</Text>
-                </Pressable>
-              </View>
-
-            </View>
-          </TouchableOpacity>
-        </Modal>
-      )}
+      <SettingsModal
+        isCurrentUser={isCurrentUser}
+        isSettingsModalVisible={isSettingsModalVisible}
+        setSettingsModalVisible={setSettingsModalVisible}
+      />
       <Pressable style={styles.backIcon} onPress={goBack}>
         <BackIcon width={30} height={30} />
       </Pressable>
