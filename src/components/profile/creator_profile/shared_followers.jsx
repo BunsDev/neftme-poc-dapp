@@ -48,6 +48,7 @@ const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
                 source={{ uri: profile.profile_photo }}
               />
             ))}
+            {sharedFollowers.length === 1 && <Text>{'   '}</Text>}
           </View>
           <View style={styles.flex}>
 
@@ -56,7 +57,6 @@ const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
               {`${sharedFollowers.map((p) => p.name).join(', ')}`}
               {totalSharedFollowers - sharedFollowers.length > 0 && ` and ${totalSharedFollowers - sharedFollowers.length} ${totalSharedFollowers - sharedFollowers.length === 1 ? 'other' : 'others'}`}
             </Text>
-
           </View>
         </>
       )}
