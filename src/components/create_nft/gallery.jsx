@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Dimensions, Image, StyleSheet, View,
+  Dimensions, Image, StyleSheet, View, Text, Button,
 } from 'react-native';
 import { Gallery } from '@library';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { Audio } from 'expo-av';
 import Header from './header';
 
 const { width } = Dimensions.get('window');
@@ -31,10 +32,26 @@ const styles = StyleSheet.create({
     marginVertical: 18,
     marginHorizontal: 8,
   },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fill: {
+    flex: 1,
+    margin: 16,
+  },
+  button: {
+    margin: 16,
+  },
 });
 
 const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [recording, setRecording] = useState();
+  const [recordings, setRecordings] = useState([]);
+  const [message, setMessage] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
   const goNext = (imageUri) => {
@@ -53,16 +70,88 @@ const ImageGallery = () => {
     }
   };
 
+  const startRecording = async () => {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+
+      if (permission.status === 'granted') {
+        console.log('começou a gravar');
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+        });
+
+        const { rec } = await Audio.Recording.createAsync(
+          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
+        );
+
+        setRecording(rec);
+      } else {
+        setMessage('Please grant permission to app to access microphone');
+      }
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+  };
+
+  const getDurationFormatted = (millis) => {
+    const minutes = millis / 1000 / 60;
+    const minutesDisplay = Math.floor(minutes);
+    const seconds = Math.round((minutes - minutesDisplay) * 60);
+    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+    return `${minutesDisplay}:${secondsDisplay}`;
+  };
+
+  const stopRecording = async () => {
+    setRecording(undefined);
+    console.log('parou');
+    await recording.stopAndUnloadAsync();
+
+    const updatedRecordings = [...recordings];
+    const { sound, status } = await recording.createNewLoadedSoundAsync();
+    updatedRecordings.push({
+      sound,
+      duration: getDurationFormatted(status.durationMillis),
+      file: recording.getURI(),
+    });
+
+    setRecordings(updatedRecordings);
+  };
+
+  function getRecordingLines() {
+    return recordings.map((recordingLine, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <View key={index} style={styles.row}>
+        <Text style={styles.fill}>
+          Recording
+          {index + 1}
+          {' '}
+          -
+          {recordingLine.duration}
+        </Text>
+        <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play" />
+      </View>
+    ));
+  }
+
   return (
+
     <View style={styles.container}>
       <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
       {selectedImage ? (
         <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
       ) : null}
       <View style={styles.galleryContainer}>
-        <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
+        {getRecordingLines()}
+        <Gallery
+          onCameraPress={onCameraPress}
+          setSelectedImage={setSelectedImage}
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+        />
       </View>
     </View>
+
   );
 };
 

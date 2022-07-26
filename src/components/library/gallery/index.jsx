@@ -8,6 +8,7 @@ import * as MediaLibrary from 'expo-media-library';
 import ImageTile from './image';
 import SelectMore from './select_more';
 import Camera from './camera';
+import Audio from './audio';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,9 +18,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const Gallery = ({ onCameraPress, setSelectedImage }) => {
+const Gallery = ({
+  onCameraPress, setSelectedImage, startRecording, stopRecording,
+}) => {
   const [cameraRollStatus, setCameraRollStatus] = useState({});
   const [images, setImages] = useState([]);
+  const [audioFiles, setAudioFiles] = useState([]);
   const [after, setAfter] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
 
@@ -60,6 +64,17 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
       });
   };
 
+  const getAudioFiles = async () => {
+    const media = await MediaLibrary.getAssetsAsync({
+      mediaType: MediaLibrary.MediaType.audio, // Changed mediaType
+    });
+    console.log('################################################################');
+
+    console.log(media.assets.length);
+    console.log('dentro do metodo getAudioFiles ^');
+    setAudioFiles(media.assets);
+  };
+
   useEffect(async () => {
     await getPermissionsAsync();
     MediaLibrary.addListener((event) => {
@@ -67,6 +82,7 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
         getImages();
       }
     });
+    getAudioFiles();
     getImages();
   }, []);
 
@@ -95,6 +111,8 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
     >
       <View style={styles.container}>
         <Camera onCameraPress={onCameraPress} />
+        <Audio startRecording={startRecording} stopRecording={stopRecording} record />
+        <Audio startRecording={startRecording} stopRecording={stopRecording} record={false} />
         {images.map((i) => (
           <ImageTile key={`img_${i.id}`} image={i} onPress={onSelectedImage} />
         ))}
@@ -109,6 +127,8 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
 Gallery.propTypes = {
   setSelectedImage: PropTypes.func.isRequired,
   onCameraPress: PropTypes.func.isRequired,
+  startRecording: PropTypes.func.isRequired,
+  stopRecording: PropTypes.func.isRequired,
 };
 
 export default Gallery;
