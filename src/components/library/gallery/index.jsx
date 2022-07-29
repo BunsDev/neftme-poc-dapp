@@ -68,10 +68,7 @@ const Gallery = ({
     const media = await MediaLibrary.getAssetsAsync({
       mediaType: MediaLibrary.MediaType.audio, // Changed mediaType
     });
-    console.log('################################################################');
 
-    console.log(media.assets.length);
-    console.log('dentro do metodo getAudioFiles ^');
     setAudioFiles(media.assets);
   };
 

@@ -75,17 +75,16 @@ const ImageGallery = () => {
       const permission = await Audio.requestPermissionsAsync();
 
       if (permission.status === 'granted') {
-        console.log('começou a gravar');
         await Audio.setAudioModeAsync({
           allowsRecordingIOS: true,
           playsInSilentModeIOS: true,
         });
 
-        const { rec } = await Audio.Recording.createAsync(
+        const { recording } = await Audio.Recording.createAsync(
           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
         );
 
-        setRecording(rec);
+        setRecording(recording);
       } else {
         setMessage('Please grant permission to app to access microphone');
       }
@@ -103,12 +102,17 @@ const ImageGallery = () => {
   };
 
   const stopRecording = async () => {
-    setRecording(undefined);
-    console.log('parou');
+    // setRecording(undefined);
     await recording.stopAndUnloadAsync();
+
+    // This setting is needed because otherwise the IOS system
+    // will only play sound via the phone call speaker, and not the bottom ones
+    // Big thanks to that guy on Github with the same issue
+    Audio.setAudioModeAsync({ allowsRecordingIOS: false });
 
     const updatedRecordings = [...recordings];
     const { sound, status } = await recording.createNewLoadedSoundAsync();
+    sound.setVolumeAsync(1.0);
     updatedRecordings.push({
       sound,
       duration: getDurationFormatted(status.durationMillis),
@@ -120,7 +124,6 @@ const ImageGallery = () => {
 
   function getRecordingLines() {
     return recordings.map((recordingLine, index) => (
-      // eslint-disable-next-line react/no-array-index-key
       <View key={index} style={styles.row}>
         <Text style={styles.fill}>
           Recording
@@ -142,13 +145,9 @@ const ImageGallery = () => {
         <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
       ) : null}
       <View style={styles.galleryContainer}>
+        <Button onPress={() => startRecording()} title="PLAY"> </Button>
+        <Button onPress={() => stopRecording()} title="STOP"> </Button>
         {getRecordingLines()}
-        <Gallery
-          onCameraPress={onCameraPress}
-          setSelectedImage={setSelectedImage}
-          startRecording={startRecording}
-          stopRecording={stopRecording}
-        />
       </View>
     </View>
 
