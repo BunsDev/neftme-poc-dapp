@@ -10,6 +10,7 @@ import ExitIcon from '@assets/icons/exit.svg';
 import Icon from '@assets/icons/Icon.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import { doLogout } from '../../../services/login';
 import { removeData } from '../../../services/storage';
 
 const styles = StyleSheet.create({
@@ -66,14 +67,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const SettingsModal = ({ isCurrentUser, isSettingsModalVisible, setSettingsModalVisible }) => {
+const SettingsModal = ({
+  // eslint-disable-next-line react/prop-types
+  isCurrentUser, isSettingsModalVisible, setSettingsModalVisible, currentUser,
+}) => {
   const navigation = useNavigation();
   const connector = useWalletConnect();
 
-  const disconnectAccountAndNavigate = () => {
+  const disconnectAccountAndNavigate = async () => {
     try {
       // TODO call remove session from DB request
+      // console.log(currentUser.email);
+      await doLogout('guest@neftme.com', 'neftmeTest');
       removeData('auth_token');
+      removeData('newUser');
       setSettingsModalVisible(false);
       navigation.navigate({
         name: 'Start',
@@ -158,6 +165,11 @@ SettingsModal.propTypes = {
   isCurrentUser: PropTypes.bool.isRequired,
   isSettingsModalVisible: PropTypes.bool.isRequired,
   setSettingsModalVisible: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape(
+    {
+      email: PropTypes.string.isRequired,
+    },
+  ).isRequired,
 };
 
 export default SettingsModal;
