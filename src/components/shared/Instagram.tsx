@@ -3,12 +3,11 @@ import {
   Animated,
   Dimensions,
   Platform,
-  StatusBar,
   StyleSheet,
   View,
 } from "react-native";
-import ReAnimated, { Value, cond, eq, or } from "react-native-reanimated";
-import { useSafeArea } from "react-native-safe-area-context";
+import { Value, cond, eq, or } from "react-native-reanimated";
+import { useSafeArea, useSafeAreaInsets } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import {
   PinchGestureHandler,
@@ -16,9 +15,9 @@ import {
   State,
 } from "react-native-gesture-handler";
 
-import { Header, Post, Stories } from "./components";
+import { Post } from "./components";
 import { posts } from "./components/data";
-import Footer, { FOOTER_HEIGHT } from "./components/Footer";
+import { FOOTER_HEIGHT } from "./components/Footer";
 import { HEADER_HEIGHT } from "./components/Header";
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
@@ -39,7 +38,7 @@ export default function Insta() {
   const scrollView = useRef<ScrollView>(null);
   // This animation value needs to come from Vanilla Animated
   const y = new Animated.Value(0);
-  const insets = useSafeArea();
+  const insets = useSafeAreaInsets();
   const paddingTop = HEADER_HEIGHT + insets.top;
   const paddingBottom = FOOTER_HEIGHT + insets.bottom;
   const items = posts.map((post) => ({
@@ -71,43 +70,12 @@ export default function Insta() {
           useNativeDriver: true,
         })}
       >
-        <Animated.View
-          style={{
-            zIndex: 2,
-            position: "absolute",
-            left: 0,
-            right: 0,
-            height: HEADER_HEIGHT,
-            transform: [{ translateY: y }],
-          }}
-        >
-        </Animated.View>
         {items.map(({ post, state, pinchRef }) => (
           <Post
             key={post.id}
             {...{ post, state, scrollView, pinchRef, pinchRefs }}
           />
         ))}
-        <Animated.View
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: bottom - insets.bottom,
-            height: FOOTER_HEIGHT,
-            transform: [{ translateY: y }],
-          }}
-        >
-        </Animated.View>
-        <ReAnimated.View
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            zIndex: 2,
-            backgroundColor: "black",
-            opacity,
-          }}
-          pointerEvents="none"
-        />
       </AnimatedScrollView>
     </View>
   );
