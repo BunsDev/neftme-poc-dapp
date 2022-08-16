@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading, SectionHeader } from '@library';
 import { fetchAllNFTs, selectNFTs } from '@features/nft';
+import Insta from '../../shared/Instagram.tsx';
 import Nft from './nft';
 import styles from './styles';
 
@@ -27,11 +28,13 @@ const Timeline = () => {
 
   return (
     <View style={styles.timelineContainer}>
-      <SectionHeader title="Following" onSeeAllClick={onRefreshClick} containerStyle={styles.headerStyle} />
+      {/* <SectionHeader title="Following" onSeeAllClick={onRefreshClick}
+      containerStyle={styles.headerStyle} />
       <Loading visible={isLoading} />
-      {nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
+       nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
         nftsStore.nfts.map((nft) => <Nft key={`nft_${nft.tokenId}`} nft={nft} />)
-      ) : null}
+      ) : null */}
+      <Insta />
     </View>
   );
 };

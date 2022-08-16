@@ -1086,6 +1086,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@egjs/hammerjs@^2.0.17":
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
+  integrity sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==
+  dependencies:
+    "@types/hammerjs" "^2.0.36"
+
 "@eslint/eslintrc@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.0.5.tgz#33f1b838dbf1f923bfa517e008362b78ddbbf318"
@@ -1640,6 +1647,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/masked-view@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
+  integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
+
 "@react-native-community/slider@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.2.1.tgz#8f1c8cf62de1bd91ce1e32585f7eb666f21e5025"
@@ -1859,6 +1871,11 @@
   integrity sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==
   dependencies:
     "@types/node" "*"
+
+"@types/hammerjs@^2.0.36":
+  version "2.0.41"
+  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.41.tgz#f6ecf57d1b12d2befcce00e928a6a097c22980aa"
+  integrity sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==
 
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
@@ -2167,6 +2184,11 @@ abort-controller@^3.0.0:
   integrity sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
   dependencies:
     event-target-shim "^5.0.0"
+
+abs-svg-path@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/abs-svg-path/-/abs-svg-path-0.1.1.tgz#df601c8e8d2ba10d4a76d625e236a9a39c2723bf"
+  integrity sha512-d8XPSGjfyzlXC3Xx891DJRyZfqk5JU0BJrDQcsWomFIV1/BIzPW5HDH5iDdWpqWaav0YVIEzT1RHTwWr0FFshA==
 
 absolute-path@^0.0.0:
   version "0.0.0"
@@ -3940,7 +3962,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0:
+core-js@^2.4.0, core-js@^2.4.1:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
@@ -5524,6 +5546,20 @@ fbjs@^0.8.4:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.30"
 
+fbjs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-1.0.0.tgz#52c215e0883a3c86af2a7a776ed51525ae8e0a5a"
+  integrity sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA==
+  dependencies:
+    core-js "^2.4.1"
+    fbjs-css-vars "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
+
 fbjs@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-3.0.2.tgz#dfae08a85c66a58372993ce2caf30863f569ff94"
@@ -6115,6 +6151,11 @@ hmac-drbg@^1.0.1:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+hoist-non-react-statics@^2.3.1:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+  integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
 
 hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
@@ -8101,6 +8142,13 @@ normalize-path@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+normalize-svg-path@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/normalize-svg-path/-/normalize-svg-path-1.1.0.tgz#0e614eca23c39f0cffe821d6be6cd17e569a766c"
+  integrity sha512-r9KHKG2UUeB5LoTouwDzBy2VxXlHsiM6fyLQvnJa0S5hrhzqElH/CH7TUGhT1fVvIYBIKf3OpY4YJ4CK+iaqHg==
+  dependencies:
+    svg-arc-to-cubic-bezier "^3.0.0"
+
 normalize-url@^4.1.0:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.1.tgz#0dd90cf1288ee1d1313b87081c9a5932ee48518a"
@@ -8458,6 +8506,11 @@ parse-json@^5.0.0:
     error-ex "^1.3.1"
     json-parse-even-better-errors "^2.3.0"
     lines-and-columns "^1.1.6"
+
+parse-svg-path@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/parse-svg-path/-/parse-svg-path-0.1.2.tgz#7a7ec0d1eb06fa5325c7d3e009b859a09b5d49eb"
+  integrity sha512-JyPSBnkTJ0AI8GGJLfMXvKq42cj5c006fnLz6fXy6zfoVjJizi8BNTpu8on8ziI1cKy9d9DGNuY17Ce7wuejpQ==
 
 parseurl@~1.3.3:
   version "1.3.3"
@@ -8992,6 +9045,16 @@ react-native-flatlist-slider@^1.0.6:
   resolved "https://registry.yarnpkg.com/react-native-flatlist-slider/-/react-native-flatlist-slider-1.0.6.tgz#46b26e6d1b357f1934b3e4157cf3da2ad8a57596"
   integrity sha512-F1C87eGIte9nfBU/MyNI6OOVKR/uCwFMrjVGv2j5u0LZjBm2WoEso96kPF2j0PIG8+XerD7Y2pmtGdCMCWxtcA==
 
+react-native-gesture-handler@~1.6.0:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
+  integrity sha512-gQgIKhDiYf754yzhhliagLuLupvGb6ZyBdzYzr7aus3Fyi87TLOw63ers+r4kGw0h26oAWTAdHd34JnF4NeL6Q==
+  dependencies:
+    "@egjs/hammerjs" "^2.0.17"
+    hoist-non-react-statics "^2.3.1"
+    invariant "^2.2.4"
+    prop-types "^15.7.2"
+
 react-native-get-random-values@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/react-native-get-random-values/-/react-native-get-random-values-1.7.2.tgz#60a9b6497d22e713779b71139f016a5fcec7ac04"
@@ -9022,6 +9085,22 @@ react-native-randombytes@^3.5.1:
   dependencies:
     buffer "^4.9.1"
     sjcl "^1.0.3"
+
+react-native-reanimated@~1.7.0:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.7.1.tgz#6363c7f3ebbabc56a05d5dccaf09d95f3b6a2d69"
+  integrity sha512-aBwhoQdH4shkeTPbi7vKcAwYOzBp/6zElEKuIOgby11TceoM7y5SgNImC3HbDWWld3QV2PA2AgQGwAy51WgF3Q==
+  dependencies:
+    fbjs "^1.0.0"
+
+react-native-redash@^14.2.1:
+  version "14.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-14.2.4.tgz#5dbb4b2f1a7441bb304fe3494b89e0dc9010c8ef"
+  integrity sha512-/1R9UxXv3ffKcrbxolqa2B247Cgd3ikyEm2q1VlBng77Es6PAD4LAOXQ83pBavvwNfOsbhF3ebkbMpJcLaVt3Q==
+  dependencies:
+    abs-svg-path "^0.1.1"
+    normalize-svg-path "^1.0.1"
+    parse-svg-path "^0.1.2"
 
 react-native-safe-area-context@^3.3.2:
   version "3.4.1"
@@ -10175,6 +10254,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+svg-arc-to-cubic-bezier@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/svg-arc-to-cubic-bezier/-/svg-arc-to-cubic-bezier-3.2.0.tgz#390c450035ae1c4a0104d90650304c3bc814abe6"
+  integrity sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==
+
 svg-parser@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
@@ -10477,7 +10561,7 @@ typescript@~4.3.5:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
   integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
-ua-parser-js@^0.7.30:
+ua-parser-js@^0.7.18, ua-parser-js@^0.7.30:
   version "0.7.31"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
   integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
