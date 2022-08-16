@@ -64,6 +64,8 @@ const Gallery = ({
       });
   };
 
+  // TODO This is not working properly
+  // It's searching for .mp3 files and IOS does not seem to support them
   const getAudioFiles = async () => {
     const media = await MediaLibrary.getAssetsAsync({
       mediaType: MediaLibrary.MediaType.audio, // Changed mediaType
@@ -108,8 +110,8 @@ const Gallery = ({
     >
       <View style={styles.container}>
         <Camera onCameraPress={onCameraPress} />
-        <Audio startRecording={startRecording} stopRecording={stopRecording} record />
-        <Audio startRecording={startRecording} stopRecording={stopRecording} record={false} />
+        {/* <Audio startRecording={startRecording} stopRecording={stopRecording} record />
+        <Audio startRecording={startRecording} stopRecording={stopRecording} record={false} /> */}
         {images.map((i) => (
           <ImageTile key={`img_${i.id}`} image={i} onPress={onSelectedImage} />
         ))}
@@ -124,8 +126,8 @@ const Gallery = ({
 Gallery.propTypes = {
   setSelectedImage: PropTypes.func.isRequired,
   onCameraPress: PropTypes.func.isRequired,
-  startRecording: PropTypes.func.isRequired,
-  stopRecording: PropTypes.func.isRequired,
+  // startRecording: PropTypes.func.isRequired,
+  // stopRecording: PropTypes.func.isRequired,
 };
 
 export default Gallery;

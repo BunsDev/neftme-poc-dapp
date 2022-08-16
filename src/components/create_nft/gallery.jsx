@@ -6,6 +6,8 @@ import { Gallery } from '@library';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
+import { postAPINFT } from '../../services/nft';
+import { getNFTByTokenId } from '../../features/neftme_api/nft';
 import Header from './header';
 
 const { width } = Dimensions.get('window');
@@ -51,13 +53,14 @@ const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recording, setRecording] = useState();
   const [recordings, setRecordings] = useState([]);
-  const [message, setMessage] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
-  const goNext = (imageUri) => {
+  const [nft, setNft] = useState(null);
+
+  const goNext = (resourceURI) => {
     navigation.navigate('CreateNFT', {
       screen: 'CreateNFTDetails',
-      params: { nftImage: imageUri, origin: route.params },
+      params: { resource: resourceURI, origin: route.params },
     });
   };
 
@@ -85,11 +88,9 @@ const ImageGallery = () => {
         );
 
         setRecording(recording);
-      } else {
-        setMessage('Please grant permission to app to access microphone');
       }
     } catch (err) {
-      console.error('Failed to start recording', err);
+      // ye
     }
   };
 
@@ -112,18 +113,60 @@ const ImageGallery = () => {
 
     const updatedRecordings = [...recordings];
     const { sound, status } = await recording.createNewLoadedSoundAsync();
-    sound.setVolumeAsync(1.0);
+
     updatedRecordings.push({
       sound,
       duration: getDurationFormatted(status.durationMillis),
       file: recording.getURI(),
     });
+    /*
+    updatedRecordings.push({
+      sound,
+      duration: 20,
+      file: 'https://neftme-test-bucket.s3.eu-west-2.amazonaws.com/sample3.m4a',
+    }); */
+
+    const communityPercentage = 10;
+    const tempNFT = {
+      title: 'teste teste 12',
+      description: 'descricao',
+      communityPercentage,
+      resource: recording.getURI(),
+      resource_type: 'm4a',
+    };
+
+    setNft(tempNFT);
 
     setRecordings(updatedRecordings);
   };
 
+  const upload = async () => {
+    if (nft != null) {
+      await postAPINFT(nft);
+    }
+  };
+
+  const streamFromAWS = async () => {
+    const b = await getNFTByTokenId(66);
+
+    const source = { uri: b?.resource };
+    const initialStatus = {
+      shouldPlay: false,
+      rate: 1.0,
+      volume: 1.0,
+    };
+
+    const { sound } = await Audio.Sound.createAsync(
+      source,
+      initialStatus,
+    );
+
+    sound.replayAsync();
+  };
+
   function getRecordingLines() {
     return recordings.map((recordingLine, index) => (
+      // eslint-disable-next-line react/no-array-index-key
       <View key={index} style={styles.row}>
         <Text style={styles.fill}>
           Recording
@@ -132,7 +175,8 @@ const ImageGallery = () => {
           -
           {recordingLine.duration}
         </Text>
-        <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play" />
+        <Button style={styles.button} onPress={() => streamFromAWS()} title="Stream from AWS" />
+        <Button style={styles.button} onPress={() => recordingLine.sound.stopAsync()} title="Stop" />
       </View>
     ));
   }
@@ -147,11 +191,39 @@ const ImageGallery = () => {
       <View style={styles.galleryContainer}>
         <Button onPress={() => startRecording()} title="PLAY"> </Button>
         <Button onPress={() => stopRecording()} title="STOP"> </Button>
+        <Button onPress={() => upload()} title="Upload"> </Button>
         {getRecordingLines()}
       </View>
     </View>
 
   );
+
+  /* ORIGINAL
+  <View style={styles.container}>
+      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
+      {selectedImage ? (
+        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
+      ) : null}
+      <View style={styles.galleryContainer}>
+        <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
+      </View>
+    </View>
+
+  */
+
+  // CENAS DE RECORDING SONS
+  /*
+    <View style={styles.container}>
+      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
+      {selectedImage ? (
+        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
+      ) : null}
+      <View style={styles.galleryContainer}>
+        <Button onPress={() => startRecording()} title="PLAY"> </Button>
+        <Button onPress={() => stopRecording()} title="STOP"> </Button>
+        {getRecordingLines()}
+      </View>
+    </View> */
 };
 
 export default ImageGallery;

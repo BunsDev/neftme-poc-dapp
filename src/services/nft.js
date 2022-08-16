@@ -2,9 +2,9 @@ import Constants from 'expo-constants';
 import { convertToNFTAmount } from '@utils/nft';
 import { getData } from './storage';
 
-const postAPINFT = async (nft) => {
+export const postAPINFT = async (nft) => {
   try {
-    const filename = nft.image.split('/').pop();
+    const filename = nft.resource.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `image/${match[1]}` : 'image';
 
@@ -12,7 +12,8 @@ const postAPINFT = async (nft) => {
     formData.append('title', nft.title);
     formData.append('description', nft.description);
     formData.append('communityPercentage', nft.communityPercentage);
-    formData.append('image', { uri: nft.image, name: filename, type });
+    formData.append('resource', { uri: nft.resource, name: filename });
+    formData.append('resource_type', nft.resource_type);
 
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft`, {
       method: 'POST',
@@ -26,7 +27,6 @@ const postAPINFT = async (nft) => {
     });
 
     if (response?.status !== 200) return null;
-
     return response.json();
   } catch (err) {
     return null;

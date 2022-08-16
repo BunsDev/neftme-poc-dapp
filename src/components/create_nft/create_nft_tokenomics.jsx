@@ -29,7 +29,8 @@ const CreateNFTTokenomics = () => {
         title: route.params.nft.title,
         description: route.params.nft.description,
         communityPercentage,
-        image: route.params.nft.image,
+        resource: route.params.nft.resource,
+        resource_type: route.params.nft.resource_type,
       };
 
       const contractMethods = await getContractMethods(

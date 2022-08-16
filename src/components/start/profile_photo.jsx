@@ -49,7 +49,7 @@ const ProfilePhoto = () => {
 
   useEffect(() => {
     if (route?.params?.nft?.image) {
-      setProfilePhoto(route.params.nft.image);
+      setProfilePhoto(route.params.nft.resource);
     }
   }, [route]);
 
@@ -71,7 +71,7 @@ const ProfilePhoto = () => {
         description: route?.params?.nft?.description || 'My Profile Photo',
         price: 0,
         communityPercentage: 0,
-        image: profilePhoto,
+        resource: profilePhoto,
       };
       const contractMethods = await getContractMethods(
         Constants.manifest.extra.neftmeErc721Address,

@@ -44,13 +44,13 @@ const EditProfile = () => {
         setNewProfileImage({
           title: route.params.nft.title,
           description: route.params.nft.description,
-          image: route.params.nft.image,
+          image: route.params.nft.resource,
         });
       } else if (route?.params?.type === 'cover') {
         setNewCoverImage({
           title: route.params.nft.title,
           description: route.params.nft.description,
-          image: route.params.nft.image,
+          image: route.params.nft.resource,
         });
       }
     }

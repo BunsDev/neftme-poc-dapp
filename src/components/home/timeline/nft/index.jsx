@@ -41,7 +41,7 @@ const Nft = ({ nft }) => {
         {/* TODO: ADD Save Favorite feature;
         <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
         <Pressable onPress={() => navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })}>
-          <Image source={{ uri: nft.image }} style={styles.nftNFTPhoto} />
+          <Image source={{ uri: nft.resource }} style={styles.nftNFTPhoto} />
         </Pressable>
       </View>
       <SocialInfo nft={nft} />

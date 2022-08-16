@@ -36,7 +36,7 @@ const CreateNFTDetails = () => {
           screen: 'ProfilePhoto',
           params: {
             nft: {
-              image: route.params.nftImage,
+              resource: route.params.nftImage,
               title,
               description,
             },
@@ -46,7 +46,7 @@ const CreateNFTDetails = () => {
         navigation.navigate('EditProfile', {
           type: route.params.origin?.type,
           nft: {
-            image: route.params.nftImage,
+            resource: route.params.nftImage,
             title,
             description,
           },
@@ -57,7 +57,7 @@ const CreateNFTDetails = () => {
         screen: 'CreateNFTTokenomics',
         params: {
           nft: {
-            image: route.params.nftImage,
+            resource: route.params.resource,
             title,
             description,
           },

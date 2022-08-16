@@ -61,7 +61,6 @@
       "neftmeErc721Address": "0xA8C40bdE8BE47D47999d3637dD9683C5F1dc317B",
       "neftmeViewContractAddress": "0x83Db0941EEAf17a0f078A07c1dD0799847e5c293",
       "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
-      "alfajoresChainId": 44787,
       "chainId": 44787,
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
@@ -70,6 +69,11 @@
         "madeOffer": "BidCreated",
         "mintedNft": "Transfer",
         "bidAccepted": "BidAccepted"
+      },
+      "nftType": {
+        "IMAGE": "jpg",
+        "AUDIO": "m4a",
+        "VIDEO": "mp4"
       }
     }
   }
