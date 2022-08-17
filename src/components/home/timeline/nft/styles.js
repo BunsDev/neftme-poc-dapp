@@ -48,7 +48,7 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   nftNFTPhoto: {
-    width: '100%',
+    width: '91.5%',
     height: 342,
   },
   detailsContainer: {

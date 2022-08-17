@@ -110,7 +110,7 @@ const a = createRef<PinchGestureHandler>();
         >
             <Animated.Image
               style={[
-                styles.image,
+                styles.nftNFTPhoto,
                 {
                   transform: [
                     ...translate(pinch),

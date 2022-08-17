@@ -8,8 +8,8 @@ import Timeline from './timeline';
 
 const Home = () => (
   <View style={styles.mainView}>
-    {/* <Header />
-     <FeaturedProfiles /> */}
+    <Header />
+    <FeaturedProfiles />
     <Timeline />
   </View>
 );
