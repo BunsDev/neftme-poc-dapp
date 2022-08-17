@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { Value, cond, eq, or } from "react-native-reanimated";
-import { useSafeArea, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import {
   PinchGestureHandler,
@@ -21,12 +21,6 @@ import { FOOTER_HEIGHT } from "./components/Footer";
 import { HEADER_HEIGHT } from "./components/Header";
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
-const { height } = Dimensions.get("window");
-const bottom =
-  height -
-  FOOTER_HEIGHT +
-  // In this app, the status bar on Android is translucent
-  (Platform.OS === "android" ? Constants.statusBarHeight : 0);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -52,7 +46,6 @@ export default function Insta() {
       typeof or
     >)
   );
-  const opacity = cond(isActive, 0.5, 0);
   return (
     <View style={styles.container}>
       <AnimatedScrollView
@@ -72,9 +65,8 @@ export default function Insta() {
       >
         {items.map(({ post, state, pinchRef }) => (
           <Post
-            key={post.id}
-            {...{ post, state, scrollView, pinchRef, pinchRefs }}
-          />
+            imageURI={"https://firebasestorage.googleapis.com/v0/b/react-native-e.appspot.com/o/8bbac5ad06b4a569b8a446825f7371c81ebac821.png?alt=media&token=73b33332-c587-464b-af68-52554221b73a"} key={post.id}
+            {...{ post, state, scrollView, pinchRef, pinchRefs }}/>
         ))}
       </AnimatedScrollView>
     </View>

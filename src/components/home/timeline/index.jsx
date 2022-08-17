@@ -1,16 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import React, {
+  useEffect, useState, useRef, createRef,
+} from 'react';
+import {
+  View, Animated,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading, SectionHeader } from '@library';
 import { fetchAllNFTs, selectNFTs } from '@features/nft';
-import Insta from '../../shared/Instagram.tsx';
+import { Value } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  PinchGestureHandler,
+  ScrollView,
+  State,
+} from 'react-native-gesture-handler';
+import Insta from '../../shared/Instagram';
 import Nft from './nft';
+import { Post } from '../../shared/components';
 import styles from './styles';
 
-const Timeline = () => {
+import { FOOTER_HEIGHT } from '../../shared/components/Footer.tsx';
+import { HEADER_HEIGHT } from '../../shared/components/Header.tsx';
+
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
+
+export default function Timeline() {
   const dispatch = useDispatch();
   const nftsStore = useSelector(selectNFTs);
   const [isLoading, setIsLoading] = useState(true);
+
+  // THIS BLOCK OF CODE IS FOR ZOOMING IN IMAGE
+  const scrollView = useRef < ScrollView > (null);
+  // This animation value needs to come from Vanilla Animated
+  const y = new Animated.Value(0);
+  const insets = useSafeAreaInsets();
+  const paddingTop = HEADER_HEIGHT + insets.top;
+  const paddingBottom = FOOTER_HEIGHT + insets.bottom;
+  const items = nftsStore.nfts.map((nft) => ({
+    nft,
+    state: new Value(State.UNDETERMINED),
+    pinchRef: useRef < PinchGestureHandler > (null),
+  }));
+  const pinchRefs = items.map(({ pinchRef }) => pinchRef);
 
   useEffect(() => {
     dispatch(fetchAllNFTs());
@@ -26,17 +57,53 @@ const Timeline = () => {
     dispatch(fetchAllNFTs({ forceRefresh: true }));
   };
 
+  const t = createRef < ScrollView > (null);
+
   return (
     <View style={styles.timelineContainer}>
-      {/* <SectionHeader title="Following" onSeeAllClick={onRefreshClick}
-      containerStyle={styles.headerStyle} />
+      <SectionHeader
+        title="Following"
+        onSeeAllClick={onRefreshClick}
+        containerStyle={styles.headerStyle}
+      />
       <Loading visible={isLoading} />
-       nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
-        nftsStore.nfts.map((nft) => <Nft key={`nft_${nft.tokenId}`} nft={nft} />)
-      ) : null */}
-      <Insta />
+      <AnimatedScrollView
+        pinchGestureEnabled={false}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        waitFor={pinchRefs}
+        simultaneousHandlers={pinchRefs}
+        contentContainerStyle={{
+          paddingTop,
+          paddingBottom,
+        }}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y } } }], {
+          useNativeDriver: true,
+        })}
+      >
+        {/* nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
+          nftsStore.nfts.map((nft) => (
+            <Nft
+              key={`nft_${nft.tokenId}`}
+              nft={nft}
+              state={new Value(State.UNDETERMINED)}
+              scrollView
+              pinchRef={useRef < PinchGestureHandler > (null)}
+              pinchRefs
+            />
+          ))
+          ) : null */ }
+        {nftsStore.status === 'succeeded' && nftsStore.nfts.length
+          ? (items.map(({ nft, state, pinchRef }) => (
+            <Post
+              key={`nft_${nft.tokenId}`}
+              nft={nft}
+              {...{
+                state, scrollView, pinchRef, pinchRefs,
+              }}
+            />
+          ))) : null }
+      </AnimatedScrollView>
     </View>
   );
-};
-
-export default Timeline;
+}

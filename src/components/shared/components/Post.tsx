@@ -1,5 +1,5 @@
-import React, { RefObject } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import React, { RefObject, createRef } from "react";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   Value,
   block,
@@ -22,34 +22,20 @@ import {
   translate,
   vec,
 } from "react-native-redash";
-
-import PostHeader from "./PostHeader";
-import PostFooter from "./PostFooter";
+import NftHeader from "../../home/timeline/nft/header";
+import NftFooter from "../../home/timeline/nft/footer";
+import styles from "../../home/timeline/nft/styles";
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get("window");
 const SIZE = width;
-const styles = StyleSheet.create({
-  image: {
-    ...StyleSheet.absoluteFillObject,
-    width: undefined,
-    height: undefined,
-    resizeMode: "cover",
-  },
-});
 
-interface Post {
-  user: string;
-  picture: {
-    uri: string;
-  };
-  caption: string;
-  timestamp: number;
-  likes: number;
-  avatar: string;
+interface nftProps {
+  image: string;
+  tokenId: number;
 }
-
 interface PostProps {
-  post: Post;
+  nft: nftProps;
   state: Animated.Value<State>;
   pinchRef: RefObject<PinchGestureHandler>;
   pinchRefs: RefObject<PinchGestureHandler>[];
@@ -57,12 +43,13 @@ interface PostProps {
 }
 
 export default ({
-  post,
+  nft,
   state,
   pinchRef,
   pinchRefs,
   scrollView,
 }: PostProps) => {
+
   const origin = vec.createValue(0, 0);
   const pinch = vec.createValue(0, 0);
   const focal = vec.createValue(0, 0);
@@ -83,6 +70,9 @@ export default ({
     },
     focal
   );
+
+  const navigation = useNavigation();
+    
   useCode(
     () =>
       block([
@@ -99,11 +89,13 @@ export default ({
       ]),
     [adjustedFocal, numberOfPointers, origin, pinch, scale, state]
   );
+const a = createRef<PinchGestureHandler>();
   return (
-    <>
+  <View style={styles.headerContainer}>
+    <NftHeader nft={nft}/>
       <Animated.View style={{ width: SIZE, height: SIZE, zIndex }}>
         <PinchGestureHandler
-          ref={pinchRef}
+          ref={a}
           simultaneousHandlers={[
             scrollView,
             ...pinchRefs.filter((ref) => ref !== pinchRef),
@@ -111,6 +103,11 @@ export default ({
           {...pinchGestureHandler}
         >
           <Animated.View style={StyleSheet.absoluteFill}>
+          <Pressable onPress={() => navigation.navigate(
+          "NFTDetail",
+          { nftTokenId: nft.tokenId },
+        )}
+        >
             <Animated.Image
               style={[
                 styles.image,
@@ -121,11 +118,13 @@ export default ({
                   ],
                 },
               ]}
-              source={{ uri: post.picture.uri }}
+              source={{ uri: nft.image }}
             />
+            </Pressable>
           </Animated.View>
         </PinchGestureHandler>
       </Animated.View>
-    </>
+      <NftFooter nft={nft}/>
+  </View>
   );
 };
