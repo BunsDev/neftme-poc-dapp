@@ -1,4 +1,4 @@
-import React, { RefObject, createRef } from "react";
+import React, { RefObject, createRef, useEffect } from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   Value,
@@ -20,6 +20,8 @@ import {
   timing,
   transformOrigin,
   translate,
+  useGestureHandler,
+  useValue,
   vec,
 } from "react-native-redash";
 import NftHeader from "../../home/timeline/nft/header";
@@ -27,8 +29,7 @@ import NftFooter from "../../home/timeline/nft/footer";
 import styles from "../../home/timeline/nft/styles";
 import { useNavigation } from '@react-navigation/native';
 
-const { width } = Dimensions.get("window");
-const SIZE = width;
+
 
 interface nftProps {
   image: string;
@@ -50,12 +51,14 @@ export default ({
   scrollView,
 }: PostProps) => {
 
+  const { width } = Dimensions.get("window");
+  const SIZE = width;
   const origin = vec.createValue(0, 0);
   const pinch = vec.createValue(0, 0);
   const focal = vec.createValue(0, 0);
-  const scale = new Value(1);
-  const numberOfPointers = new Value(0);
-  const pinchGestureHandler = onGestureEvent({
+  const scale = useValue(1);
+  const numberOfPointers = useValue(0);
+  const pinchGestureHandler = useGestureHandler({
     numberOfPointers,
     scale,
     state,
@@ -72,7 +75,9 @@ export default ({
   );
 
   const navigation = useNavigation();
+  useEffect(() => {
     
+  }, []);
   useCode(
     () =>
       block([

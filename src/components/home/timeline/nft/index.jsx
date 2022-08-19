@@ -11,7 +11,7 @@ import { pluralizeFollowers } from '@utils/words';
 import styles from './styles';
 import Tokenomics from './tokenomics';
 import SocialInfo from './social_info';
-import { Post } from '../../../shared/components/Post.tsx';
+import { Post } from '../../../shared/components/Post.jsx';
 
 const Nft = ({
   nft,

@@ -2,20 +2,20 @@ import React, {
   useEffect, useState, useRef, createRef,
 } from 'react';
 import {
-  View, Animated,
+  View, Animated, Dimensions,
 } from 'react-native';
+import {
+  Value,
+} from 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading, SectionHeader } from '@library';
 import { fetchAllNFTs, selectNFTs } from '@features/nft';
-import { Value } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   PinchGestureHandler,
   ScrollView,
   State,
 } from 'react-native-gesture-handler';
-import Insta from '../../shared/Instagram';
-import Nft from './nft';
 import { Post } from '../../shared/components';
 import styles from './styles';
 
@@ -42,6 +42,7 @@ export default function Timeline() {
     pinchRef: useRef < PinchGestureHandler > (null),
   }));
   const pinchRefs = items.map(({ pinchRef }) => pinchRef);
+  const t = useRef < ScrollView > (null);
 
   useEffect(() => {
     dispatch(fetchAllNFTs());
@@ -57,8 +58,7 @@ export default function Timeline() {
     dispatch(fetchAllNFTs({ forceRefresh: true }));
   };
 
-  const t = createRef < ScrollView > (null);
-
+  // TODO FALTA ADICIONAR O REF AO ANIMATED SCROLL VIEW
   return (
     <View style={styles.timelineContainer}>
       <SectionHeader
@@ -81,18 +81,6 @@ export default function Timeline() {
           useNativeDriver: true,
         })}
       >
-        {/* nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
-          nftsStore.nfts.map((nft) => (
-            <Nft
-              key={`nft_${nft.tokenId}`}
-              nft={nft}
-              state={new Value(State.UNDETERMINED)}
-              scrollView
-              pinchRef={useRef < PinchGestureHandler > (null)}
-              pinchRefs
-            />
-          ))
-          ) : null */ }
         {nftsStore.status === 'succeeded' && nftsStore.nfts.length
           ? (items.map(({ nft, state, pinchRef }) => (
             <Post
