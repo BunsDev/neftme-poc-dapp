@@ -1,8 +1,8 @@
 import React, {
-  useEffect, useState, useRef, createRef,
+  useEffect, useState, useRef,
 } from 'react';
 import {
-  View, Animated, Dimensions,
+  View, Animated,
 } from 'react-native';
 import {
   Value,
@@ -16,7 +16,7 @@ import {
   ScrollView,
   State,
 } from 'react-native-gesture-handler';
-import { Post } from '../../shared/components';
+import Post from '../../shared/components/Post.tsx';
 import styles from './styles';
 
 import { FOOTER_HEIGHT } from '../../shared/components/Footer.tsx';
@@ -42,7 +42,7 @@ export default function Timeline() {
     pinchRef: useRef < PinchGestureHandler > (null),
   }));
   const pinchRefs = items.map(({ pinchRef }) => pinchRef);
-  const t = useRef < ScrollView > (null);
+  const t = useRef(null);
 
   useEffect(() => {
     dispatch(fetchAllNFTs());
@@ -58,7 +58,7 @@ export default function Timeline() {
     dispatch(fetchAllNFTs({ forceRefresh: true }));
   };
 
-  // TODO FALTA ADICIONAR O REF AO ANIMATED SCROLL VIEW
+  // TODO FALTA ADICIONAR O REF AO ANIMATED SCROLL VIEW  ref={scrollView}
   return (
     <View style={styles.timelineContainer}>
       <SectionHeader
@@ -68,6 +68,7 @@ export default function Timeline() {
       />
       <Loading visible={isLoading} />
       <AnimatedScrollView
+        ref={t}
         pinchGestureEnabled={false}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}

@@ -1,4 +1,4 @@
-import React, { RefObject, createRef, useEffect } from "react";
+import React, { RefObject, createRef, useEffect, useRef } from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   Value,
@@ -7,6 +7,7 @@ import Animated, {
   eq,
   set,
   useCode,
+  lessThan,
 } from "react-native-reanimated";
 import {
   PinchGestureHandler,
@@ -28,8 +29,6 @@ import NftHeader from "../../home/timeline/nft/header";
 import NftFooter from "../../home/timeline/nft/footer";
 import styles from "../../home/timeline/nft/styles";
 import { useNavigation } from '@react-navigation/native';
-
-
 
 interface nftProps {
   image: string;
@@ -75,9 +74,16 @@ export default ({
   );
 
   const navigation = useNavigation();
-  useEffect(() => {
+  const teste = () => {
+    console.log('a');
     
-  }, []);
+  }
+  /**
+   navigation.navigate(
+          "NFTDetail",
+          { nftTokenId: nft.tokenId },
+        )
+   */
   useCode(
     () =>
       block([
@@ -90,10 +96,12 @@ export default ({
           set(pinch.x, timing({ from: pinch.x, to: 0 })),
           set(pinch.y, timing({ from: pinch.y, to: 0 })),
           set(scale, timing({ from: scale, to: 1 })),
-        ]),
-      ]),
+        ])
+        ]
+      ),
     [adjustedFocal, numberOfPointers, origin, pinch, scale, state]
   );
+  //TODO REMOVER | PREGO
 const a = createRef<PinchGestureHandler>();
   return (
   <View style={styles.headerContainer}>
@@ -108,10 +116,7 @@ const a = createRef<PinchGestureHandler>();
           {...pinchGestureHandler}
         >
           <Animated.View style={StyleSheet.absoluteFill}>
-          <Pressable onPress={() => navigation.navigate(
-          "NFTDetail",
-          { nftTokenId: nft.tokenId },
-        )}
+          <Pressable onPress={() => teste()}
         >
             <Animated.Image
               style={[
