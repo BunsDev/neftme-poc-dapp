@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
 });
 
 const SettingsModal = ({
-  // eslint-disable-next-line react/prop-types
   isCurrentUser, isSettingsModalVisible, setSettingsModalVisible,
 }) => {
   const navigation = useNavigation();
@@ -163,11 +162,6 @@ SettingsModal.propTypes = {
   isCurrentUser: PropTypes.bool.isRequired,
   isSettingsModalVisible: PropTypes.bool.isRequired,
   setSettingsModalVisible: PropTypes.func.isRequired,
-  currentUser: PropTypes.shape(
-    {
-      email: PropTypes.string.isRequired,
-    },
-  ).isRequired,
 };
 
 export default SettingsModal;
