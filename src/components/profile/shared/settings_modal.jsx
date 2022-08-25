@@ -69,18 +69,16 @@ const styles = StyleSheet.create({
 
 const SettingsModal = ({
   // eslint-disable-next-line react/prop-types
-  isCurrentUser, isSettingsModalVisible, setSettingsModalVisible, currentUser,
+  isCurrentUser, isSettingsModalVisible, setSettingsModalVisible,
 }) => {
   const navigation = useNavigation();
   const connector = useWalletConnect();
 
   const disconnectAccountAndNavigate = async () => {
     try {
-      // TODO call remove session from DB request
-      // console.log(currentUser.email);
-      await doLogout('guest@neftme.com', 'neftmeTest');
-      removeData('auth_token');
-      removeData('newUser');
+      await doLogout();
+      await removeData('auth_token');
+      await removeData('newUser');
       setSettingsModalVisible(false);
       navigation.navigate({
         name: 'Start',
