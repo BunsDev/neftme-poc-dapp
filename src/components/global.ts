@@ -1,4 +1,6 @@
 import { Platform, LogBox } from "react-native";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 export interface Global {
   btoa: any
@@ -35,3 +37,5 @@ global.process.version = 'v9.40';
 global.location = {
   protocol: 'https',
 }
+
+TimeAgo.addDefaultLocale(en);
