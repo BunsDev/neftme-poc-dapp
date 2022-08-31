@@ -10,6 +10,7 @@ const withMainScrollView = (showStatusBar, showBottomBar, backgroundColor = '#14
       <ScrollView
         style={{ backgroundColor, marginBottom: showBottomBar ? 78 : 0 }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
       >
         <LinearGradient
           colors={['#303040', backgroundColor]}

@@ -74,6 +74,7 @@ export default StyleSheet.create({
   totalLikesText: {
     color: '#FFF',
     fontSize: 10,
+    marginTop: 3,
   },
   commentPlaceholderContainer: {
     paddingVertical: 23,
@@ -86,7 +87,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 12,
-    // flex: 1,
   },
   profileImageCommentContainer: {
     width: 30,
@@ -107,5 +107,22 @@ export default StyleSheet.create({
   },
   justifyCenter: {
     justifyContent: 'center',
+  },
+  flexDirectionRow: {
+    flexDirection: 'row',
+  },
+  creatorTextContainer: {
+    backgroundColor: '#F6C138',
+    borderRadius: 8,
+    marginLeft: 15,
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    justifyContent: 'center',
+  },
+  creatorText: {
+    textTransform: 'uppercase',
+    fontSize: 8,
+    fontWeight: '700',
+    color: '#2B2F3A',
   },
 });

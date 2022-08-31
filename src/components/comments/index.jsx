@@ -16,7 +16,7 @@ import { fetchNFTByTokenID } from '@features/nft';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Modal from 'react-native-modal';
 import { useGetCurrentUserQuery } from '@features/current_user';
-import { ProfileImage } from '@library';
+import { Loading, ProfileImage } from '@library';
 import CloseIcon from '@assets/icons/simple_close_icon.svg';
 import SendCommentIcon from '@assets/icons/send_comment.svg';
 import { addComment } from '@services/nft/nft_comment';
@@ -27,23 +27,36 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
   const dispatch = useDispatch();
   const [newComment, setNewComment] = useState('');
   const [writeNewComment, setWriteNewComment] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const newCommentRef = useRef(null);
+  const commentsScrollView = useRef(null);
   const { data: currentUser } = useGetCurrentUserQuery();
 
   useEffect(() => {
     if (writeNewComment && newCommentRef?.current) {
       newCommentRef.current.focus();
+      setTimeout(() => commentsScrollView.current.scrollToEnd({ animated: true }), 500);
     }
   }, [writeNewComment]);
 
-  const postComment = async () => {
-    const response = await addComment(nftTokenId, newComment);
-    if (!response) {
-      Alert.alert('Error', 'Something went wrong. Please try again');
-      return;
+  useEffect(() => {
+    if (newCommentRef?.current) {
+      setTimeout(() => commentsScrollView.current.scrollToEnd({ animated: true }), 500);
     }
-    dispatch(fetchNFTByTokenID({ tokenId: nftTokenId, forceRefresh: true }));
-    setNewComment('');
+  }, [comments]);
+
+  const postComment = async () => {
+    if (newComment.trim()) {
+      setIsLoading(true);
+      const response = await addComment(nftTokenId, newComment);
+      if (!response) {
+        Alert.alert('Error', 'Something went wrong. Please try again');
+        return;
+      }
+      dispatch(fetchNFTByTokenID({ tokenId: nftTokenId, forceRefresh: true }));
+      setNewComment('');
+      setTimeout(() => setIsLoading(false), 500);
+    }
   };
 
   return (
@@ -59,6 +72,7 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
         )}
       >
         <View style={styles.actionModalView}>
+          <Loading visible={isLoading} />
           <View style={styles.header}>
             <Text style={styles.title}>{`${comments.length} comments`}</Text>
             <TouchableOpacity>
@@ -67,9 +81,20 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
               </Pressable>
             </TouchableOpacity>
           </View>
-          <ScrollView>
+          <ScrollView
+            ref={commentsScrollView}
+            onContentSizeChange={() => commentsScrollView.current.scrollToEnd({ animated: true })}
+            keyboardShouldPersistTaps="always"
+          >
             <View style={styles.commentsContainer}>
-              {comments.map((comment) => <Comment comment={comment} key={`comment${comment.id}`} />)}
+              {comments.map((comment) => (
+                <Comment
+                  comment={comment}
+                  key={`comment${comment.id}`}
+                  nftTokenId={nftTokenId}
+                  setIsLoading={setIsLoading}
+                />
+              ))}
             </View>
           </ScrollView>
           {!writeNewComment && (
