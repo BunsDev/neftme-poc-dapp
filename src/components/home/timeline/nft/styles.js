@@ -141,4 +141,7 @@ export default StyleSheet.create({
   fontWeight700: {
     fontWeight: '700',
   },
+  marginLeft16: {
+    marginLeft: 16,
+  },
 });
