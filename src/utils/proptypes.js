@@ -23,8 +23,11 @@ export const NFTCommentPropTypes = PropTypes.shape({
   id: PropTypes.number.isRequired,
   comment: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
+  isNftCreator: PropTypes.bool.isRequired,
   authorProfileImage: PropTypes.string.isRequired,
   authorProfileColor: PropTypes.string.isRequired,
+  totalLikes: PropTypes.number.isRequired,
+  currentUserLikes: PropTypes.bool.isRequired,
   date: PropTypes.string.isRequired,
 }).isRequired;
 
