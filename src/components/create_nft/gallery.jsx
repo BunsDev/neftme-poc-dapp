@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
 const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(undefined);
-  const [editorVisible, setEditorVisible] = React.useState(false);
+  const [editorVisible, setEditorVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
   const goNext = (imageUri) => {
