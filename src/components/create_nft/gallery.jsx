@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Dimensions, Image, StyleSheet, View,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { Gallery } from '@library';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { ImageEditor } from 'expo-image-editor';
 import Header from './header';
 
 const { width } = Dimensions.get('window');
@@ -34,7 +33,8 @@ const styles = StyleSheet.create({
 });
 
 const ImageGallery = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(undefined);
+  const [editorVisible, setEditorVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
   const goNext = (imageUri) => {
@@ -46,22 +46,52 @@ const ImageGallery = () => {
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
+      allowsEditing: false,
     });
     if (!photo.cancelled && photo.uri) {
-      goNext(photo.uri);
+      setSelectedImage(photo);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
-      {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
-      </View>
+      {!selectedImage && <Header showNext onPress={null} step={1} />}
+      {selectedImage && (
+        <ImageEditor
+          asView
+          visible={editorVisible}
+          onCloseEditor={() => {
+            setSelectedImage(undefined);
+            setEditorVisible(false);
+          }}
+          imageUri={selectedImage?.uri || undefined}
+          fixedCropAspectRatio={1.6}
+          lockAspectRatio={false}
+          minimumCropDimensions={{
+            width: 100,
+            height: 100,
+          }}
+          onEditingComplete={(result) => {
+            if (result?.uri) {
+              setSelectedImage(result.uri);
+              goNext(selectedImage.uri);
+            }
+          }}
+          throttleBlur={false}
+          mode="crop-only"
+        />
+      )}
+      {!selectedImage && (
+        <View style={styles.galleryContainer}>
+          <Gallery
+            onCameraPress={onCameraPress}
+            setSelectedImage={(image) => {
+              setSelectedImage(image);
+              setEditorVisible(true);
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };
