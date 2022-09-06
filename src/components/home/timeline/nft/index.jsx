@@ -1,5 +1,5 @@
 import React from 'react';
-import { NFTPopTypes } from '@utils/proptypes';
+import { NFTPropTypes } from '@utils/proptypes';
 import {
   Image, Pressable, Text, View,
 } from 'react-native';
@@ -55,7 +55,7 @@ const Nft = ({ nft }) => {
 
 Nft.propTypes = {
   // eslint-disable-next-line react/require-default-props
-  nft: NFTPopTypes,
+  nft: NFTPropTypes,
 };
 
 export default Nft;
