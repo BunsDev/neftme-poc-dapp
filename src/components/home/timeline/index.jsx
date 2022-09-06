@@ -17,7 +17,7 @@ const Timeline = () => {
 
   useEffect(() => {
     if (nftsStore?.status === 'succeeded') {
-      setTimeout(() => setIsLoading(false), 500);
+      setIsLoading(false);
     }
   }, [nftsStore]);
 
