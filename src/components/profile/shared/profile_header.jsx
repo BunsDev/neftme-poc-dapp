@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 });
 
 const ProfileHeader = ({
-  coverImage, profileColor, goBack, isCurrentUser, currentUser,
+  coverImage, profileColor, goBack, isCurrentUser,
 }) => {
   const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
 
@@ -92,7 +92,6 @@ const ProfileHeader = ({
         isCurrentUser={isCurrentUser}
         isSettingsModalVisible={isSettingsModalVisible}
         setSettingsModalVisible={setSettingsModalVisible}
-        currentUser={currentUser}
       />
       <Pressable style={styles.backIcon} onPress={goBack}>
         <BackIcon width={30} height={30} />

@@ -99,4 +99,4 @@ const CreatorProfile = () => {
   );
 };
 
-export default withMainScrollView(false, true)(CreatorProfile);
+export default withMainScrollView(false, false)(CreatorProfile);
