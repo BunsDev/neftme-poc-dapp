@@ -1,6 +1,6 @@
 import { abs, log10 } from 'mathjs';
 
-const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+const SI_SYMBOL = ['', 'k', 'M', 'B', 'T', 'P', 'E'];
 
 // eslint-disable-next-line import/prefer-default-export
 export const abbreviateNumber = (number, isDecimals) => {
