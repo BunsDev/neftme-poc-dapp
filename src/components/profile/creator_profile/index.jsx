@@ -101,7 +101,6 @@ const CreatorProfile = () => {
         profileColor={profileData.profileColor}
         goBack={navigation.goBack}
         isCurrentUser={isCurrentUser}
-        currentUser={currentUser}
       />
       <ProfileData profile={profileData} ProfileButton={ShareButton} />
       <SharedFollowers
