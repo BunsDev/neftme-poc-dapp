@@ -9,7 +9,7 @@ import styles from './styles';
 const Timeline = () => {
   const dispatch = useDispatch();
   const nftsStore = useSelector(selectNFTs);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(fetchAllNFTs());
