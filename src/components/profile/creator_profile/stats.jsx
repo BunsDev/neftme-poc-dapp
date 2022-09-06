@@ -92,7 +92,7 @@ const Stats = ({ userWalletAddress }) => {
         },
         {
           label: 'Avg royalties',
-          value: `${abbreviateNumber(convertFromNFTAmount(response[2]), true)}%`,
+          value: `${parseInt(abbreviateNumber(convertFromNFTAmount(response[2]), true), 10)}%`,
         },
         {
           label: "NFT's Supporters",
