@@ -96,15 +96,15 @@ const ProfileHeader = ({
       <Pressable style={styles.backIcon} onPress={goBack}>
         <BackIcon width={30} height={30} />
       </Pressable>
-      { isCurrentUser && (
-      <Pressable
-        style={styles.settingsBar}
-        onPress={
-        () => setSettingsModalVisible((prevValue) => !prevValue)
-        }
-      >
-        <Burger width={70} height={70} />
-      </Pressable>
+      {isCurrentUser && (
+        <Pressable
+          style={styles.settingsBar}
+          onPress={
+            () => setSettingsModalVisible((prevValue) => !prevValue)
+          }
+        >
+          <Burger width={70} height={70} />
+        </Pressable>
       )}
     </View>
   );
@@ -119,10 +119,6 @@ ProfileHeader.propTypes = {
   profileColor: PropTypes.string.isRequired,
   goBack: PropTypes.func.isRequired,
   isCurrentUser: PropTypes.bool.isRequired,
-  currentUser: PropTypes.shape(
-    {
-    },
-  ).isRequired,
 };
 
 export default ProfileHeader;
