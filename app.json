@@ -57,10 +57,11 @@
           "user_media"
         ]
       },
-      "neftmeViewContractAddress": "0x83Db0941EEAf17a0f078A07c1dD0799847e5c293",
-      "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
-      "alfajoresChainId": 44787,
-      "chainId": 44787,
+      "rpcUrl": "https://testnet.aurora.dev/",
+      "neftmeErc721Address": "0xF43Af6c2cCfC4Ba295c37BC3ca4a6aE4bBe8435f",
+      "neftmeViewContractAddress": "0xc7cF7d37E0CFe981559070c7991441f48dB17d49",
+      "neftmeErc20NEFTAddress": "0xA8572DcBE1e2d4FE66BC8f15CE37090Db571D418",
+      "chainId": 1313161555,
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
         "staked": "Staked",
@@ -68,6 +69,10 @@
         "madeOffer": "BidCreated",
         "mintedNft": "Transfer",
         "bidAccepted": "BidAccepted"
+      },
+      "mediaType": {
+        "image": "jpg",
+        "sound": "m4a"
       }
     }
   }
