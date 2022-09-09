@@ -60,14 +60,16 @@ const Gallery = ({ onCameraPress, setSelectedImage }) => {
       });
   };
 
-  useEffect(async () => {
-    await getPermissionsAsync();
-    MediaLibrary.addListener((event) => {
-      if (event?.hasIncrementalChanges === 0) {
-        getImages();
-      }
-    });
-    getImages();
+  useEffect(() => {
+    (async () => {
+      await getPermissionsAsync();
+      MediaLibrary.addListener((event) => {
+        if (event?.hasIncrementalChanges === 0) {
+          getImages();
+        }
+      });
+      getImages();
+    })();
   }, []);
 
   const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {

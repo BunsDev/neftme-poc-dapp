@@ -27,16 +27,18 @@ const { height, width } = Dimensions.get('window');
 const InfoScreen = () => {
   const navigation = useNavigation();
 
-  useEffect(async () => {
-    if (await getData('info_screen_skipped') === 'done') {
-      navigation.dispatch(CommonActions.reset({
-        index: 0,
-        routes: [{
-          name: 'Start',
-          params: { screen: 'ChooseLogin' },
-        }],
-      }));
-    }
+  useEffect(() => {
+    (async () => {
+      if (await getData('info_screen_skipped') === 'done') {
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{
+            name: 'Start',
+            params: { screen: 'ChooseLogin' },
+          }],
+        }));
+      }
+    })();
   }, []);
 
   const onSkipPress = async () => {

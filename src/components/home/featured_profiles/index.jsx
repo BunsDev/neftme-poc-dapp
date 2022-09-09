@@ -8,8 +8,8 @@ import styles from './styles';
 const FeaturedProfiles = () => {
   const [profiles, setProfiles] = useState([]);
 
-  useEffect(async () => {
-    setProfiles(await getFeaturedProfiles());
+  useEffect(() => {
+    (async () => setProfiles(await getFeaturedProfiles()))();
   }, []);
 
   return (
