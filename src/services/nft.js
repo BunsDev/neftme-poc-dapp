@@ -12,7 +12,8 @@ const postAPINFT = async (nft) => {
     formData.append('title', nft.title);
     formData.append('description', nft.description);
     formData.append('communityPercentage', nft.communityPercentage);
-    formData.append('image', { uri: nft.image, name: filename, type });
+    formData.append('resource', { uri: nft.image, name: filename, type });
+    formData.append('resource_type', Constants.manifest.extra.mediaType.image);
 
     const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft`, {
       method: 'POST',
@@ -83,18 +84,21 @@ export const mintNFT = async (contractMethods, nft, walletAddress) => {
     apiNFT.url,
     convertToNFTAmount(nft.communityPercentage),
   ).send({ from: walletAddress })
-    .then((receipt) => {
+    .then(async (receipt) => {
       const tokenId = receipt?.events?.Transfer?.returnValues?.tokenId;
       if (tokenId === undefined) {
         throw new Error('Returned tokenId is undefined');
       } else {
-        // Update apiNFT tokenId
-        return bindTokenId(apiNFT.id, tokenId)
-          .then(() => ({
+      // Update apiNFT tokenId
+        try {
+          await bindTokenId(apiNFT.id, tokenId);
+          return ({
             ...apiNFT,
             success: true,
-          }))
-          .catch(() => { throw new Error('Error binding tokenId to API NFT'); });
+          });
+        } catch (error) {
+          throw new Error('Error binding tokenId to API NFT');
+        }
       }
     })
     .catch((error) => deleteAPINFT(apiNFT.id)
