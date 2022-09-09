@@ -11,8 +11,10 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
     backgroundColor: '#21212b',
+  },
+  paddingTop60: {
+    paddingTop: 60,
   },
   chip: {
     width: 103,
@@ -37,12 +39,6 @@ const ImageGallery = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
-  const goNext = (imageUri) => {
-    navigation.navigate('CreateNFT', {
-      screen: 'CreateNFTDetails',
-      params: { nftImage: imageUri, origin: route.params },
-    });
-  };
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
@@ -54,7 +50,7 @@ const ImageGallery = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={editorVisible ? [styles.container] : [styles.container, styles.paddingTop60]}>
       {!selectedImage && <Header showNext onPress={null} step={1} />}
       {selectedImage && (
         <ImageEditor
@@ -74,7 +70,10 @@ const ImageGallery = () => {
           onEditingComplete={(result) => {
             if (result?.uri) {
               setSelectedImage(result.uri);
-              goNext(selectedImage.uri);
+              navigation.navigate('CreateNFT', {
+                screen: 'CreateNFTDetails',
+                params: { nftImage: result.uri, origin: route.params },
+              });
             }
           }}
           throttleBlur={false}
