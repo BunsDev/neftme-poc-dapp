@@ -17,8 +17,8 @@ const Search = () => {
   const [text, onChangeText] = React.useState('Search');
   const [profiles, setProfiles] = useState([]);
 
-  useEffect(async () => {
-    setProfiles(await getFeaturedProfiles());
+  useEffect(() => {
+    (async () => { setProfiles(await getFeaturedProfiles()); })();
   }, []);
 
   return (

@@ -34,8 +34,8 @@ const EditProfile = () => {
   const [newCoverImage, setNewCoverImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(async () => {
-    setAllCategories(await getCategories());
+  useEffect(() => {
+    (async () => { setAllCategories(await getCategories()); })();
   }, []);
 
   useEffect(() => {

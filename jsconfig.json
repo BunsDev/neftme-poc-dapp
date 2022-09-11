@@ -30,7 +30,8 @@
   },
   "include": [
     "src/**/*.js",
-    "src/**/*.jsx"
+    "src/**/*.jsx",
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
