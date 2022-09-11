@@ -73,7 +73,7 @@ const Wallet = () => {
         } else if (connector.connected && connector.chainId !== Constants.manifest.extra.chainId) {
           Alert.alert(
             'Wrong blockchain',
-            'You are not connected to the Alfajores Testnet. To proceed, please switch network',
+            'You are not connected to the correct network. To proceed, please switch network',
             [{ text: 'Switch', onPress: changeToAlfajores }],
           );
         }
