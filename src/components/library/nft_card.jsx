@@ -86,7 +86,7 @@ const NftCard = ({ nft }) => {
   return (
     <View style={styles.itemContainer}>
       <Pressable onPress={() => navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })}>
-        <Image source={{ uri: nft.image }} style={styles.image} />
+        <Image source={{ uri: nft.resource }} style={styles.image} />
       </Pressable>
       <Text style={styles.nftTitle}>{truncateWord(nft.title, 36)}</Text>
       <View style={styles.tokenContainer}>

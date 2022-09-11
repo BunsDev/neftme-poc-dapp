@@ -39,18 +39,18 @@ const EditProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (route?.params?.nft?.image) {
+    if (route?.params?.nft?.resource) {
       if (route?.params?.type === 'profile') {
         setNewProfileImage({
           title: route.params.nft.title,
           description: route.params.nft.description,
-          image: route.params.nft.image,
+          image: route.params.nft.resource,
         });
       } else if (route?.params?.type === 'cover') {
         setNewCoverImage({
           title: route.params.nft.title,
           description: route.params.nft.description,
-          image: route.params.nft.image,
+          image: route.params.nft.resource,
         });
       }
     }

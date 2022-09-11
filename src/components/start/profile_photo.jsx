@@ -48,8 +48,8 @@ const ProfilePhoto = () => {
   }, [connector]);
 
   useEffect(() => {
-    if (route?.params?.nft?.image) {
-      setProfilePhoto(route.params.nft.image);
+    if (route?.params?.nft?.resource) {
+      setProfilePhoto(route.params.nft.resource);
     }
   }, [route]);
 
