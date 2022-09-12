@@ -102,7 +102,7 @@ export const getFeaturedProfiles = async () => {
 export const saveProfilePhoto = async (
   title,
   description,
-  image,
+  resource,
   getContractMethods,
   mintNFT,
   connector,
@@ -113,7 +113,7 @@ export const saveProfilePhoto = async (
       description,
       price: 0,
       communityPercentage: 0,
-      image,
+      resource,
     };
 
     const contractMethods = await getContractMethods(

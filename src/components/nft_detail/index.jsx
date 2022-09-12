@@ -156,7 +156,7 @@ const NFTDetail = () => {
           <Pressable style={styles.backIcon} onPress={navigation.goBack}>
             <BackIcon width={18.67} height={18.67} />
           </Pressable>
-          <Image source={{ uri: nftData.image }} style={styles.image} />
+          <Image source={{ uri: nftData.resource }} style={styles.image} />
           <View>
             <SocialInfo nft={nftData} />
             <Text style={styles.nftTitle}>{nftData.title}</Text>

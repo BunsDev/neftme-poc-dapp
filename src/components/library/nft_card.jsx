@@ -117,7 +117,7 @@ const NftCard = ({ nft }) => {
 NftCard.propTypes = {
   nft: PropTypes.shape({
     tokenId: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    resource: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     totalStaked: PropTypes.string.isRequired,
     royalty: PropTypes.string.isRequired,
