@@ -1,8 +1,6 @@
 import React from 'react';
 import { NFTPropTypes } from '@utils/proptypes';
-import {
-  Image, Pressable, Text, View,
-} from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 // import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileImage, TruncatedText } from '@library';
@@ -13,14 +11,13 @@ import styles from './styles';
 
 const Nft = ({ nft }) => {
   const navigation = useNavigation();
-  const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: nft.username });
+  const navigateToProfile = () =>
+    navigation.navigate('CreatorProfile', { username: nft.username });
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.nftHeader}>
-        <Pressable
-          onPress={navigateToProfile}
-        >
+        <Pressable onPress={navigateToProfile}>
           <ProfileImage
             profileImage={nft.profilePhoto}
             containerStyle={{
@@ -34,13 +31,19 @@ const Nft = ({ nft }) => {
         </Pressable>
         <View style={styles.nftHeaderTitle}>
           <Text style={styles.nftHeaderName}>{nft.name}</Text>
-          <Text style={styles.nftHeaderFollowers}>{`${nft.followers} ${pluralizeFollowers(nft.followers)}`}</Text>
+          <Text style={styles.nftHeaderFollowers}>{`${
+            nft.followers
+          } ${pluralizeFollowers(nft.followers)}`}</Text>
         </View>
       </View>
       <View>
         {/* TODO: ADD Save Favorite feature;
         <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
-        <Pressable onPress={() => navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })
+          }
+        >
           <Image source={{ uri: nft.resource }} style={styles.nftNFTPhoto} />
         </Pressable>
       </View>
@@ -54,7 +57,6 @@ const Nft = ({ nft }) => {
 };
 
 Nft.propTypes = {
-  // eslint-disable-next-line react/require-default-props
   nft: NFTPropTypes,
 };
 

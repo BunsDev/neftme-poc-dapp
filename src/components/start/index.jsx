@@ -9,7 +9,10 @@ import Wallet from './wallet';
 const Stack = createNativeStackNavigator();
 
 const StartScreen = () => (
-  <Stack.Navigator initialRouteName="InfoScreen" screenOptions={{ headerShown: false }}>
+  <Stack.Navigator
+    initialRouteName="InfoScreen"
+    screenOptions={{ headerShown: false }}
+  >
     <Stack.Screen name="InfoScreen" component={InfoScreen} />
     <Stack.Screen name="ChooseLogin" component={ChooseLogin} />
     <Stack.Screen name="Wallet" component={Wallet} />

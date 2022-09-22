@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Neftme dApp",
+    "scheme": "neftme",
     "slug": "neftmedapp",
     "owner": "neftme",
     "description": "Neftme dApp",
