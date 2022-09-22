@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Pressable, StyleSheet, View,
-} from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import Burger from '@assets/icons/burger.svg';
 import { CoverImage } from '@library';
@@ -73,9 +71,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileHeader = ({
-  coverImage, profileColor, goBack, isCurrentUser,
-}) => {
+const ProfileHeader = ({ coverImage, profileColor, goBack, isCurrentUser }) => {
   const [isSettingsModalVisible, setSettingsModalVisible] = useState(false);
 
   return (
@@ -99,9 +95,7 @@ const ProfileHeader = ({
       {isCurrentUser && (
         <Pressable
           style={styles.settingsBar}
-          onPress={
-            () => setSettingsModalVisible((prevValue) => !prevValue)
-          }
+          onPress={() => setSettingsModalVisible((prevValue) => !prevValue)}
         >
           <Burger width={70} height={70} />
         </Pressable>

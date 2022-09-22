@@ -71,58 +71,6 @@ const NFTDetail = () => {
     },
   ]);
 
-  const fillActivityDetails = async (tokenID, eventName) => {
-    // Instead of the usual contract methods, to get events we need to use the contract instance
-    const activityMethods = await getContract(constant.neftmeErc721Address);
-
-    try {
-      const pastEvents = activityMethods.getPastEvents(eventName, {
-        filter: {
-          tokenId: tokenID,
-        },
-        // TODO -> get block number at NFT mint time to make search more efficient
-        fromBlock: 10000000,
-        toBlock: 'latest',
-      });
-      return pastEvents;
-    } catch (err) {
-      // console.log('partiu aqui');
-    }
-    return null;
-  };
-
-  const fillNFTDetails = async (tokenID) => {
-    // TODO chamar mais metodos
-    const stakedEvent = fillActivityDetails(tokenID, 'Staked');
-    const unstakedEvent = fillActivityDetails(tokenID, 'Unstaked');
-    const transferEvent = fillActivityDetails(tokenID, 'Transfer');
-    const bidEvent = fillActivityDetails(tokenID, 'BidCreated');
-    const bidAcceptedEvent = fillActivityDetails(tokenID, 'BidAccepted');
-    Promise.all([
-      stakedEvent,
-      unstakedEvent,
-      transferEvent,
-      bidEvent,
-      bidAcceptedEvent,
-    ]).then((response) => {
-      setActivity(
-        response
-          .flat()
-          .sort((a, b) => {
-            if (a.blockNumber > b.blockNumber) return -1;
-            if (a.blockNumber < b.blockNumber) return 1;
-            return 0;
-          })
-          .map((pastEvent) => ({
-            eventName: pastEvent.event,
-            eventInfo: pastEvent.returnValues,
-            id: pastEvent.id,
-            blockNumber: pastEvent.blockNumber,
-          }))
-      );
-    });
-  };
-
   const showStakers = () => {
     if (nftStakers?.data?.length !== 0) {
       return nftStakers?.data?.map((stakerObj) => (
@@ -133,6 +81,59 @@ const NFTDetail = () => {
   };
 
   useEffect(() => {
+    console.log('tentei entrar aqui');
+
+    const fillActivityDetails = async (tokenID, eventName) => {
+      // Instead of the usual contract methods, to get events we need to use the contract instance
+      const activityMethods = await getContract(constant.neftmeErc721Address);
+
+      try {
+        const pastEvents = activityMethods.getPastEvents(eventName, {
+          filter: {
+            tokenId: tokenID,
+          },
+          // TODO -> get block number at NFT mint time to make search more efficient
+          fromBlock: 10000000,
+          toBlock: 'latest',
+        });
+        return pastEvents;
+      } catch (err) {
+        // console.log('partiu aqui');
+      }
+      return null;
+    };
+    const fillNFTDetails = async (tokenID) => {
+      // TODO chamar mais metodos
+      const stakedEvent = fillActivityDetails(tokenID, 'Staked');
+      const unstakedEvent = fillActivityDetails(tokenID, 'Unstaked');
+      const transferEvent = fillActivityDetails(tokenID, 'Transfer');
+      const bidEvent = fillActivityDetails(tokenID, 'BidCreated');
+      const bidAcceptedEvent = fillActivityDetails(tokenID, 'BidAccepted');
+      Promise.all([
+        stakedEvent,
+        unstakedEvent,
+        transferEvent,
+        bidEvent,
+        bidAcceptedEvent,
+      ]).then((response) => {
+        setActivity(
+          response
+            .flat()
+            .sort((a, b) => {
+              if (a.blockNumber > b.blockNumber) return -1;
+              if (a.blockNumber < b.blockNumber) return 1;
+              return 0;
+            })
+            .map((pastEvent) => ({
+              eventName: pastEvent.event,
+              eventInfo: pastEvent.returnValues,
+              id: pastEvent.id,
+              blockNumber: pastEvent.blockNumber,
+            }))
+        );
+      });
+    };
+
     const fetchData = async () => {
       const { neftmeErc721Address, neftmeViewContractAddress } =
         Constants.manifest.extra;
@@ -159,7 +160,14 @@ const NFTDetail = () => {
       fillNFTDetails(nftData.tokenId);
     };
     fetchData();
-  }, []);
+  }, [
+    connector.accounts,
+    constant.neftmeErc721Address,
+    dispatch,
+    getContract,
+    getContractMethods,
+    nftData.tokenId,
+  ]);
 
   useEffect(() => {
     if (
@@ -179,7 +187,10 @@ const NFTDetail = () => {
       <Loading visible={isLoading} />
       {isLoading ? null : (
         <>
-          <Pressable style={styles.backIcon} onPress={navigation.goBack}>
+          <Pressable
+            style={styles.backIcon}
+            onPress={navigation.navigate('Home')}
+          >
             <BackIcon width={18.67} height={18.67} />
           </Pressable>
           <Image source={{ uri: nftData.resource }} style={styles.image} />

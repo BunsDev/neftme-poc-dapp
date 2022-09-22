@@ -28,16 +28,6 @@ export default function App() {
     },
   };
 
-  const redirectUrl = Linking.createURL('nftdetail', {
-    queryParams: { tokenId: 3 },
-  });
-
-  const url = Linking.useURL();
-  console.log(redirectUrl);
-  console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-  console.log('lalalal');
-  console.log(url);
-
   return (
     <Provider store={store}>
       <NavigationContainer linking={linking}>
