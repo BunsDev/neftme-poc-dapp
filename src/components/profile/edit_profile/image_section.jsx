@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert, StyleSheet, Text, TouchableOpacity, View,
-} from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from '@library';
 import UploadIcon from '@assets/icons/upload.svg';
 import CloseIcon from '@assets/icons/close_background.svg';
@@ -50,7 +48,11 @@ const styles = StyleSheet.create({
 });
 
 const ImageSection = ({
-  title, children, onUploadPhotoPress, newImage, clearImage,
+  title,
+  children,
+  onUploadPhotoPress,
+  newImage,
+  clearImage,
 }) => (
   <View style={styles.container}>
     <Text style={styles.title}>{title}</Text>
@@ -64,10 +66,20 @@ const ImageSection = ({
     </View>
     <View style={styles.buttonsContainer}>
       <View style={[styles.flex05, styles.marginRight4]}>
-        <Button primary text="Select NFTs" onPress={() => Alert.alert('Available soon')} />
+        <Button
+          primary
+          text="Select NFTs"
+          onPress={() => Alert.alert('Available soon')}
+        />
       </View>
       <View style={[styles.flex05, styles.marginLeft4]}>
-        <Button primary={false} text="Upload" Icon={UploadIcon} iconStyle={styles.buttonIcon} onPress={onUploadPhotoPress} />
+        <Button
+          primary={false}
+          text="Upload"
+          Icon={UploadIcon}
+          iconStyle={styles.buttonIcon}
+          onPress={onUploadPhotoPress}
+        />
       </View>
     </View>
   </View>

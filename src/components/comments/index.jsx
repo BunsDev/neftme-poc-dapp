@@ -35,13 +35,19 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
   useEffect(() => {
     if (writeNewComment && newCommentRef?.current) {
       newCommentRef.current.focus();
-      setTimeout(() => commentsScrollView.current.scrollToEnd({ animated: true }), 500);
+      setTimeout(
+        () => commentsScrollView.current.scrollToEnd({ animated: true }),
+        500
+      );
     }
   }, [writeNewComment]);
 
   useEffect(() => {
     if (newCommentRef?.current) {
-      setTimeout(() => commentsScrollView.current.scrollToEnd({ animated: true }), 500);
+      setTimeout(
+        () => commentsScrollView.current.scrollToEnd({ animated: true }),
+        500
+      );
     }
   }, [comments]);
 
@@ -65,11 +71,11 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
         isVisible
         avoidKeyboard
         style={styles.commentModal}
-        customBackdrop={(
+        customBackdrop={
           <TouchableWithoutFeedback onPress={closeModal}>
             <View style={{ flex: 1, backgroundColor: '#000' }} />
           </TouchableWithoutFeedback>
-        )}
+        }
       >
         <View style={styles.actionModalView}>
           <Loading visible={isLoading} />
@@ -83,7 +89,9 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
           </View>
           <ScrollView
             ref={commentsScrollView}
-            onContentSizeChange={() => commentsScrollView.current.scrollToEnd({ animated: true })}
+            onContentSizeChange={() =>
+              commentsScrollView.current.scrollToEnd({ animated: true })
+            }
             keyboardShouldPersistTaps="always"
           >
             <View style={styles.commentsContainer}>
@@ -100,7 +108,11 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
           {!writeNewComment && (
             <View style={styles.commentPlaceholderContainer}>
               <Pressable onPress={() => setWriteNewComment(true)}>
-                <Text style={{ color: newComment ? '#FFF' : 'rgba(255,255,255,0.54)' }}>
+                <Text
+                  style={{
+                    color: newComment ? '#FFF' : 'rgba(255,255,255,0.54)',
+                  }}
+                >
                   {newComment || 'Add comment...'}
                 </Text>
               </Pressable>
@@ -139,7 +151,6 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
 };
 
 Comments.propTypes = {
-  // eslint-disable-next-line react/require-default-props
   comments: NFTCommentsPropTypes,
   closeModal: PropTypes.func.isRequired,
   nftTokenId: PropTypes.string.isRequired,

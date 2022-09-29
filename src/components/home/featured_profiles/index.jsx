@@ -14,23 +14,26 @@ const FeaturedProfiles = () => {
 
   return (
     <>
-      <SectionHeader title="Trending" containerStyle={styles.headerContainerStyle} />
+      <SectionHeader
+        title="Trending"
+        containerStyle={styles.headerContainerStyle}
+      />
       <View style={styles.profilesList}>
-        {profiles.length === 0
-          ? (
-            <View style={styles.profilesListPlaceholder}>
-              <ActivityIndicator size="large" color="white" />
-            </View>
-          )
-          : (
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={profiles}
-              keyExtractor={(item) => item.username}
-              renderItem={({ item, index }) => <ProfileCard profile={item} index={index} />}
-            />
-          )}
+        {profiles.length === 0 ? (
+          <View style={styles.profilesListPlaceholder}>
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        ) : (
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={profiles}
+            keyExtractor={(item) => item.username}
+            renderItem={({ item, index }) => (
+              <ProfileCard profile={item} index={index} />
+            )}
+          />
+        )}
       </View>
     </>
   );

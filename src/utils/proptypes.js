@@ -45,7 +45,6 @@ export const NFTPropTypes = PropTypes.shape({
   profileColor: PropTypes.string.isRequired,
   profilePhoto: PropTypes.string,
   profitPercentage: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   tokenId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 }).isRequired;

@@ -18,8 +18,16 @@ import styles from './styles';
 const PERCENTAGES = [25, 50, 75, 100];
 
 const ActionModal = ({
-  actionModalVisible, children, inputSubTitle, isLoading, modalTitle, neftBalance,
-  setActionModalVisible, showPercentages, tokensAmount, setTokensAmount,
+  actionModalVisible,
+  children,
+  inputSubTitle,
+  isLoading,
+  modalTitle,
+  neftBalance,
+  setActionModalVisible,
+  showPercentages,
+  tokensAmount,
+  setTokensAmount,
 }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(null);
 
@@ -29,7 +37,9 @@ const ActionModal = ({
   };
 
   return (
-    <GestureRecognizer onSwipeDown={() => setActionModalVisible((prevValue) => !prevValue)}>
+    <GestureRecognizer
+      onSwipeDown={() => setActionModalVisible((prevValue) => !prevValue)}
+    >
       <Modal
         animationType="slide"
         transparent
@@ -57,9 +67,13 @@ const ActionModal = ({
                       keyboardType="numeric"
                       style={styles.neftAmountText}
                       value={tokensAmount}
-                      onChange={(event) => setTokensAmount(event.nativeEvent.text)}
+                      onChange={(event) =>
+                        setTokensAmount(event.nativeEvent.text)
+                      }
                     />
-                    <Text style={styles.availableNeftText}>{inputSubTitle}</Text>
+                    <Text style={styles.availableNeftText}>
+                      {inputSubTitle}
+                    </Text>
                   </View>
                   {showPercentages ? (
                     <View style={styles.percentageButtonsContainer}>
@@ -69,7 +83,9 @@ const ActionModal = ({
                           primary={selectedPercentage === p}
                           buttonStyle={[
                             styles.actionPercentageButton,
-                            index > 0 ? styles.actionPercentageButtonMargin : {},
+                            index > 0
+                              ? styles.actionPercentageButtonMargin
+                              : {},
                           ]}
                           onPress={() => onPercentagePress(p)}
                           text={`${p}%`}

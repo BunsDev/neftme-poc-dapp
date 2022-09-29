@@ -45,7 +45,7 @@ const useChainCheck = () => {
             params: [
               {
                 chainId: web3.utils.toHex(configs.chainId),
-                chainName: 'Alfajores Testnet',
+                chainName: [configs.chainName],
                 rpcUrls: [configs.rpcUrl],
               },
             ],

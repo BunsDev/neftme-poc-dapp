@@ -7,15 +7,9 @@ import RankingItem from './ranking_item';
 
 const Ranking = ({ ranking }) => (
   <View style={styles.rankingContainer}>
-    <SectionHeader
-      title={ranking.label}
-      containerStyle={styles.headerStyle}
-    />
+    <SectionHeader title={ranking.label} containerStyle={styles.headerStyle} />
     {ranking.values.map((item) => (
-      <RankingItem
-        key={`ranking_item_${item.rank}`}
-        item={item}
-      />
+      <RankingItem key={`ranking_item_${item.rank}`} item={item} />
     ))}
   </View>
 );

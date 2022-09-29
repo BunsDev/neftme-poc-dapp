@@ -100,7 +100,6 @@ export const getFeaturedProfiles = async () => {
 };
 
 export const saveProfilePhoto = async (
-  title,
   description,
   resource,
   getContractMethods,
@@ -109,7 +108,6 @@ export const saveProfilePhoto = async (
 ) => {
   try {
     const nft = {
-      title,
       description,
       price: 0,
       communityPercentage: 0,

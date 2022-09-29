@@ -9,7 +9,6 @@ const postAPINFT = async (nft) => {
     const type = match ? `image/${match[1]}` : 'image';
 
     const formData = new FormData();
-    formData.append('title', nft.title);
     formData.append('description', nft.description);
     formData.append('communityPercentage', nft.communityPercentage);
     formData.append('resource', { uri: nft.resource, name: filename, type });
