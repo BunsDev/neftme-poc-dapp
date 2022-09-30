@@ -87,8 +87,8 @@ const StakerItem = ({ stakerInfo }) => {
     }
   };
 
-  useEffect(async () => {
-    await loadStaker();
+  useEffect(() => {
+    (async () => { await loadStaker(); })();
   }, []);
 
   if (!staker) return null;

@@ -19,8 +19,22 @@ export const ProfileDataPropTypes = PropTypes.shape({
   walletAddress: PropTypes.string,
 }).isRequired;
 
-export const NFTPopTypes = PropTypes.shape({
-  comments: PropTypes.number.isRequired,
+export const NFTCommentPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  isNftCreator: PropTypes.bool.isRequired,
+  authorProfileImage: PropTypes.string.isRequired,
+  authorProfileColor: PropTypes.string.isRequired,
+  totalLikes: PropTypes.number.isRequired,
+  currentUserLikes: PropTypes.bool.isRequired,
+  date: PropTypes.string.isRequired,
+}).isRequired;
+
+export const NFTCommentsPropTypes = PropTypes.arrayOf(NFTCommentPropTypes).isRequired;
+
+export const NFTPropTypes = PropTypes.shape({
+  comments: NFTCommentsPropTypes,
   currentUserLike: PropTypes.bool.isRequired,
   description: PropTypes.string.isRequired,
   followers: PropTypes.number.isRequired,
@@ -31,7 +45,6 @@ export const NFTPopTypes = PropTypes.shape({
   profileColor: PropTypes.string.isRequired,
   profilePhoto: PropTypes.string,
   profitPercentage: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   tokenId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 }).isRequired;

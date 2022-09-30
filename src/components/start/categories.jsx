@@ -14,8 +14,8 @@ const Categories = () => {
   const [loading, setLoading] = useState(false);
   const [updateCurrentUser] = useUpdateCurrentUserMutation();
 
-  useEffect(async () => {
-    setAllCategories(await getCategories());
+  useEffect(() => {
+    (async () => { setAllCategories(await getCategories()); })();
   }, []);
 
   const onCategorySelect = (id) => {

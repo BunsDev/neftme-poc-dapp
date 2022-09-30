@@ -1,8 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import {
-  Platform, ScrollView, StyleSheet, View,
-} from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { InputField } from '@library';
 import Header from './header';
 
@@ -27,7 +25,6 @@ const styles = StyleSheet.create({
 const CreateNFTDetails = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const onNextPress = () => {
     if (route.params.origin?.profilePhoto) {
@@ -37,7 +34,6 @@ const CreateNFTDetails = () => {
           params: {
             nft: {
               resource: route.params.nftImage,
-              title,
               description,
             },
           },
@@ -47,7 +43,6 @@ const CreateNFTDetails = () => {
           type: route.params.origin?.type,
           nft: {
             resource: route.params.nftImage,
-            title,
             description,
           },
         });
@@ -57,8 +52,7 @@ const CreateNFTDetails = () => {
         screen: 'CreateNFTTokenomics',
         params: {
           nft: {
-            resource: route.params.resource,
-            title,
+            resource: route.params.nftImage,
             description,
           },
         },
@@ -68,16 +62,9 @@ const CreateNFTDetails = () => {
 
   return (
     <View style={styles.container}>
-      <Header showNext onPress={title && description ? onNextPress : null} step={2} />
+      <Header showNext onPress={onNextPress} step={2} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.formContainer}>
-          <InputField
-            labelName="Title"
-            value={title}
-            onFieldChange={setTitle}
-            inputPlaceholder="NFT Title"
-            containerStyle={styles.marginTop16}
-          />
           <InputField
             labelName="Bio"
             value={description}

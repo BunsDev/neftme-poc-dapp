@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Dimensions, Image, StyleSheet, Text, View, Pressable,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
 } from 'react-native';
 import { abbreviateNumber } from '@utils/numbers';
-import { truncateWord } from '@utils/words';
 import { convertFromNFTAmount } from '@utils/nft';
 import TokenIcon from '@assets/icons/token.svg';
-import {
-  useNavigation,
-} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -85,25 +87,27 @@ const NftCard = ({ nft }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable onPress={() => navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })
+        }
+      >
         <Image source={{ uri: nft.resource }} style={styles.image} />
       </Pressable>
-      <Text style={styles.nftTitle}>{truncateWord(nft.title, 36)}</Text>
       <View style={styles.tokenContainer}>
         <View style={styles.stakedContainer}>
           <TokenIcon width={13.56} height={13.1} style={styles.tokenIcon} />
           <Text style={styles.stakedText}>STAKED</Text>
         </View>
         <Text style={styles.totalStaked}>
-          {nft.totalStaked}
-          {' '}
-          <Text style={{ fontWeight: '400' }}>NEFTS</Text>
+          {nft.totalStaked} <Text style={{ fontWeight: '400' }}>NEFTS</Text>
         </Text>
       </View>
       <View style={styles.supportersContainer}>
         <Text style={styles.tokenomicsText}>
-          <Text style={{ fontWeight: '700' }}>{`${convertFromNFTAmount(nft.royalty)}%`}</Text>
-          {' '}
+          <Text style={{ fontWeight: '700' }}>{`${convertFromNFTAmount(
+            nft.royalty
+          )}%`}</Text>{' '}
           goes to
         </Text>
         <Text style={styles.tokenomicsText}>
@@ -118,7 +122,6 @@ NftCard.propTypes = {
   nft: PropTypes.shape({
     tokenId: PropTypes.string.isRequired,
     resource: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     totalStaked: PropTypes.string.isRequired,
     royalty: PropTypes.string.isRequired,
     totalSupporters: PropTypes.string.isRequired,

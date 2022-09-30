@@ -36,21 +36,30 @@ const styles = StyleSheet.create({
 
 const SharedFollowers = ({ sharedFollowers, totalSharedFollowers }) => (
   <View style={styles.container}>
-    <View style={styles.flexDirectionRow}>
-      {sharedFollowers.map((profile, index) => (
-        <Image
-          key={`sharedFollowerPicture${profile.name}`}
-          style={[styles.profilePhoto, styles[`profile${index}`]]}
-          source={{ uri: profile.profile_photo }}
-        />
-      ))}
-    </View>
-    <View style={styles.flex}>
-      <Text style={styles.followedBy}>Mutual friends following</Text>
-      <Text style={styles.followersNames}>
-        {`${sharedFollowers.map((p) => p.name).join(', ')} and ${totalSharedFollowers} others`}
-      </Text>
-    </View>
+    {sharedFollowers.length > 0
+      && (
+        <>
+          <View style={styles.flexDirectionRow}>
+
+            {sharedFollowers.map((profile, index) => (
+              <Image
+                key={`sharedFollowerPicture${profile.name}`}
+                style={[styles.profilePhoto, styles[`profile${index}`]]}
+                source={{ uri: profile.profile_photo }}
+              />
+            ))}
+            {sharedFollowers.length === 1 && <Text>{'   '}</Text>}
+          </View>
+          <View style={styles.flex}>
+
+            <Text style={styles.followedBy}>Mutual friends following</Text>
+            <Text style={styles.followersNames}>
+              {`${sharedFollowers.map((p) => p.name).join(', ')}`}
+              {totalSharedFollowers - sharedFollowers.length > 0 && ` and ${totalSharedFollowers - sharedFollowers.length} ${totalSharedFollowers - sharedFollowers.length === 1 ? 'other' : 'others'}`}
+            </Text>
+          </View>
+        </>
+      )}
   </View>
 );
 
@@ -58,7 +67,7 @@ SharedFollowers.propTypes = {
   sharedFollowers: PropTypes.arrayOf(PropTypes.shape({
     profile_photo: PropTypes.string.isRequired,
   })).isRequired,
-  totalSharedFollowers: PropTypes.string.isRequired,
+  totalSharedFollowers: PropTypes.number.isRequired,
 };
 
 export default SharedFollowers;

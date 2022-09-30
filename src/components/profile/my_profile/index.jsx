@@ -30,6 +30,7 @@ const CreatorProfile = () => {
   const navigation = useNavigation();
   const { getContractMethods } = useSmartContract();
   const { data: currentUser } = useGetCurrentUserQuery();
+
   const [nftsData, setNftsData] = useState({
     created: [],
     owned: [],
@@ -81,6 +82,8 @@ const CreatorProfile = () => {
         coverImage={currentUser.coverImage}
         profileColor={currentUser.profileColor}
         goBack={navigation.goBack}
+        isCurrentUser
+        currentUser={currentUser}
       />
       <ProfileData profile={currentUser} ProfileButton={EditButton} />
       <Button
@@ -96,4 +99,4 @@ const CreatorProfile = () => {
   );
 };
 
-export default withMainScrollView(false, true)(CreatorProfile);
+export default withMainScrollView(false, false)(CreatorProfile);

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Alert, Platform, ScrollView, View,
-} from 'react-native';
+import { Alert, Platform, ScrollView, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import { getCategories } from '@services/categories';
@@ -10,7 +8,11 @@ import { saveProfilePhoto } from '@services/user';
 import { mintNFT } from '@services/nft';
 import { useSmartContract } from '@hooks';
 import {
-  FavoriteCategories, InputField, Loading, ProfileImage, StatusBar,
+  FavoriteCategories,
+  InputField,
+  Loading,
+  ProfileImage,
+  StatusBar,
 } from '@library';
 import CoverImage from './cover_image';
 import ImageSection from './image_section';
@@ -34,21 +36,21 @@ const EditProfile = () => {
   const [newCoverImage, setNewCoverImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(async () => {
-    setAllCategories(await getCategories());
+  useEffect(() => {
+    (async () => {
+      setAllCategories(await getCategories());
+    })();
   }, []);
 
   useEffect(() => {
-    if (route?.params?.nft?.image) {
+    if (route?.params?.nft?.resource) {
       if (route?.params?.type === 'profile') {
         setNewProfileImage({
-          title: route.params.nft.title,
           description: route.params.nft.description,
           image: route.params.nft.resource,
         });
       } else if (route?.params?.type === 'cover') {
         setNewCoverImage({
-          title: route.params.nft.title,
           description: route.params.nft.description,
           image: route.params.nft.resource,
         });
@@ -88,12 +90,11 @@ const EditProfile = () => {
     let { profileImage, coverImage } = profileFields;
     if (newProfileImage !== null) {
       profileImage = await saveProfilePhoto(
-        newProfileImage.title,
         newProfileImage.description,
         newProfileImage.image,
         getContractMethods,
         mintNFT,
-        connector,
+        connector
       );
       if (!profileImage) {
         setIsLoading(false);
@@ -105,12 +106,11 @@ const EditProfile = () => {
     }
     if (newCoverImage !== null) {
       coverImage = await saveProfilePhoto(
-        newCoverImage.title,
         newCoverImage.description,
         newCoverImage.image,
         getContractMethods,
         mintNFT,
-        connector,
+        connector
       );
       if (!coverImage) {
         setIsLoading(false);
@@ -131,7 +131,12 @@ const EditProfile = () => {
       favoriteCategories: profileFields.favoriteCategories,
     });
     setIsLoading(false);
-    Alert.alert('Profile', response?.data ? 'Profile was successfully saved' : 'Something went wrong, please try again');
+    Alert.alert(
+      'Profile',
+      response?.data
+        ? 'Profile was successfully saved'
+        : 'Something went wrong, please try again'
+    );
   };
 
   const onCategorySelect = (id) => {
@@ -174,7 +179,9 @@ const EditProfile = () => {
             clearImage={() => setNewProfileImage(null)}
           >
             <ProfileImage
-              profileImage={newProfileImage?.image || profileFields.profileImage}
+              profileImage={
+                newProfileImage?.image || profileFields.profileImage
+              }
               containerStyle={{
                 ...styles.profileImageContainer,
                 backgroundColor: profileFields.profileColor,
@@ -190,7 +197,9 @@ const EditProfile = () => {
             newImage={newCoverImage !== null}
             clearImage={() => setNewCoverImage(null)}
           >
-            <CoverImage coverImage={newCoverImage?.image || profileFields.coverImage} />
+            <CoverImage
+              coverImage={newCoverImage?.image || profileFields.coverImage}
+            />
           </ImageSection>
           <InputField
             labelName="Name"

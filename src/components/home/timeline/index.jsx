@@ -9,7 +9,7 @@ import styles from './styles';
 const Timeline = () => {
   const dispatch = useDispatch();
   const nftsStore = useSelector(selectNFTs);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllNFTs());
@@ -17,7 +17,7 @@ const Timeline = () => {
 
   useEffect(() => {
     if (nftsStore?.status === 'succeeded') {
-      setTimeout(() => setIsLoading(false), 500);
+      // setTimeout(() => setIsLoading(false), 500);
     }
   }, [nftsStore]);
 

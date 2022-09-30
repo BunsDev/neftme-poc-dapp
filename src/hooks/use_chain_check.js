@@ -12,7 +12,7 @@ const useChainCheck = () => {
 
   const provider = new WalletConnectProvider({
     rpc: {
-      [configs.chainId]: configs.alfajoresRpcUrl,
+      [configs.chainId]: configs.rpcUrl,
     },
     connector,
     qrcode: false,
@@ -24,7 +24,7 @@ const useChainCheck = () => {
     const web3 = new Web3(provider);
     try {
       provider.on('chainChanged', async (chainId) => {
-        await connector.updateSession({
+        connector.updateSession({
           chainId,
           accounts: connector.accounts[0],
         });
@@ -33,7 +33,7 @@ const useChainCheck = () => {
 
       await web3.currentProvider.send({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: web3.utils.toHex(44787) }],
+        params: [{ chainId: web3.utils.toHex(configs.chainId) }],
         from: connector.accounts[0],
       });
     } catch (switchError) {
@@ -44,9 +44,9 @@ const useChainCheck = () => {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: web3.utils.toHex(44787),
-                chainName: 'Alfajores Testnet',
-                rpcUrls: [configs.alfajoresRpcUrl],
+                chainId: web3.utils.toHex(configs.chainId),
+                chainName: [configs.chainName],
+                rpcUrls: [configs.rpcUrl],
               },
             ],
             from: connector.accounts[0],

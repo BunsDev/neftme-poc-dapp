@@ -8,6 +8,11 @@ import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
 import { postAPINFT } from '../../services/nft';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Gallery } from '@library';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import { ImageEditor } from 'expo-image-editor';
 import Header from './header';
 
 const { width } = Dimensions.get('window');
@@ -15,8 +20,10 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
     backgroundColor: '#21212b',
+  },
+  paddingTop60: {
+    paddingTop: 60,
   },
   chip: {
     width: 103,
@@ -66,10 +73,10 @@ const ImageGallery = () => {
 
   const onCameraPress = async () => {
     const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
+      allowsEditing: false,
     });
     if (!photo.cancelled && photo.uri) {
-      goNext(photo.uri);
+      setSelectedImage(photo);
     }
   };
 
@@ -207,6 +214,47 @@ const ImageGallery = () => {
       <View style={styles.galleryContainer}>
         <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
       </View>
+    <View style={editorVisible ? [styles.container] : [styles.container, styles.paddingTop60]}>
+      {!selectedImage && <Header showNext onPress={null} step={1} />}
+      {selectedImage && (
+        <ImageEditor
+          asView
+          visible={editorVisible}
+          onCloseEditor={() => {
+            setSelectedImage(undefined);
+            setEditorVisible(false);
+          }}
+          imageUri={selectedImage?.uri || undefined}
+          fixedCropAspectRatio={1.6}
+          lockAspectRatio={false}
+          minimumCropDimensions={{
+            width: 100,
+            height: 100,
+          }}
+          onEditingComplete={(result) => {
+            if (result?.uri) {
+              setSelectedImage(result.uri);
+              navigation.navigate('CreateNFT', {
+                screen: 'CreateNFTDetails',
+                params: { nftImage: result.uri, origin: route.params },
+              });
+            }
+          }}
+          throttleBlur={false}
+          mode="crop-only"
+        />
+      )}
+      {!selectedImage && (
+        <View style={styles.galleryContainer}>
+          <Gallery
+            onCameraPress={onCameraPress}
+            setSelectedImage={(image) => {
+              setSelectedImage(image);
+              setEditorVisible(true);
+            }}
+          />
+        </View>
+      )}
     </View>
 
   */

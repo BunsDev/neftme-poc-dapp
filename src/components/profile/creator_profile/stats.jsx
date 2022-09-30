@@ -88,11 +88,11 @@ const Stats = ({ userWalletAddress }) => {
         },
         {
           label: "NEFT's Staked",
-          value: abbreviateNumber(convertFromETH18(response[1])),
+          value: abbreviateNumber(convertFromETH18(response[1]), true),
         },
         {
           label: 'Avg royalties',
-          value: `${convertFromNFTAmount(response[2])}%`,
+          value: `${parseInt(abbreviateNumber(convertFromNFTAmount(response[2]), true), 10)}%`,
         },
         {
           label: "NFT's Supporters",

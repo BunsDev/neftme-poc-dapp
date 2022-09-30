@@ -1,12 +1,8 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React, { useState } from 'react';
-import {
-  Alert, ScrollView, Text, View,
-} from 'react-native';
-import {
-  Button, CustomTextInput, Loading,
-} from '@library';
+import { Alert, ScrollView, Text, View } from 'react-native';
+import { Button, CustomTextInput, Loading } from '@library';
 import Slider from '@react-native-community/slider';
 import { useSmartContract } from '@hooks';
 import { mintNFT } from '@services/nft';
@@ -26,7 +22,6 @@ const CreateNFTTokenomics = () => {
     try {
       setIsLoading(true);
       const nft = {
-        title: route.params.nft.title,
         description: route.params.nft.description,
         communityPercentage,
         resource: route.params.nft.resource,
@@ -34,9 +29,13 @@ const CreateNFTTokenomics = () => {
       };
 
       const contractMethods = await getContractMethods(
-        Constants.manifest.extra.neftmeErc721Address,
+        Constants.manifest.extra.neftmeErc721Address
       );
-      const mintedNFT = await mintNFT(contractMethods, nft, connector.accounts[0]);
+      const mintedNFT = await mintNFT(
+        contractMethods,
+        nft,
+        connector.accounts[0]
+      );
       setIsLoading(false);
       if (mintedNFT?.success === true) {
         Alert.alert('NFT Minted', 'Your NFT was successfully minted', [
@@ -74,15 +73,13 @@ const CreateNFTTokenomics = () => {
                 value={`${communityPercentage}%`}
                 inputPlaceholder=""
                 keyboardType="numeric"
-                onChangeText={(text) => setCommunityPercentage(text.replace('%', ''))}
+                onChangeText={(text) =>
+                  setCommunityPercentage(text.replace('%', ''))
+                }
               />
             </View>
           </View>
-          <Button
-            text="Mint NFT"
-            onPress={onMintNFTPress}
-            textStyle={{}}
-          />
+          <Button text="Mint NFT" onPress={onMintNFTPress} textStyle={{}} />
         </View>
       </ScrollView>
       <Loading visible={isLoading} />

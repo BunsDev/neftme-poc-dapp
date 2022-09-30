@@ -10,7 +10,7 @@ const useSmartContract = () => {
   const connector = useWalletConnect();
   const provider = new WalletConnectProvider({
     rpc: {
-      [configs.chainId]: configs.alfajoresRpcUrl,
+      [configs.chainId]: configs.rpcUrl,
     },
     connector,
     qrcode: false,

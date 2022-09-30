@@ -14,14 +14,13 @@ const NftItem = ({ nft }) => {
     dispatch(fetchNFTByTokenID({ tokenId: nft[0] }));
   }, []);
 
-  if (!nftData || !nftData.image) return null;
+  if (!nftData || !nftData.resource) return null;
 
   const nftParams = {
     creatorAddress: nft[5],
-    image: nftData.image,
+    resource: nftData.resource,
     ownerAddress: nft[4],
     royalty: nft[2],
-    title: nftData.title,
     tokenId: nft[0],
     totalStaked: abbreviateNumber(convertFromETH18(nft[1])),
     totalSupporters: nft[3],

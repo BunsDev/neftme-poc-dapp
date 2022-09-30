@@ -57,11 +57,12 @@
           "user_media"
         ]
       },
-      "alfajoresRpcUrl": "https://alfajores-forno.celo-testnet.org",
-      "neftmeErc721Address": "0xA8C40bdE8BE47D47999d3637dD9683C5F1dc317B",
-      "neftmeViewContractAddress": "0x83Db0941EEAf17a0f078A07c1dD0799847e5c293",
-      "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
-      "chainId": 44787,
+      "chainName": "Moonbeam Testnet",
+      "rpcUrl": "https://rpc.api.moonbase.moonbeam.network",
+      "neftmeErc721Address": "0xF43Af6c2cCfC4Ba295c37BC3ca4a6aE4bBe8435f",
+      "neftmeViewContractAddress": "0xc7cF7d37E0CFe981559070c7991441f48dB17d49",
+      "neftmeErc20NEFTAddress": "0xA8572DcBE1e2d4FE66BC8f15CE37090Db571D418",
+      "chainId": 1287,
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
         "staked": "Staked",
@@ -70,10 +71,9 @@
         "mintedNft": "Transfer",
         "bidAccepted": "BidAccepted"
       },
-      "nftType": {
-        "IMAGE": "jpg",
-        "AUDIO": "m4a",
-        "VIDEO": "mp4"
+      "mediaType": {
+        "image": "jpg",
+        "sound": "m4a"
       }
     }
   }
