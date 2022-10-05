@@ -57,7 +57,7 @@
           "user_media"
         ]
       },
-      "chainName": "Moonbeam Testnet",
+      "chainName": "Aurora Testnet",
       "rpcUrl": "https://rpc.api.moonbase.moonbeam.network",
       "neftmeErc721Address": "0xF43Af6c2cCfC4Ba295c37BC3ca4a6aE4bBe8435f",
       "neftmeViewContractAddress": "0xc7cF7d37E0CFe981559070c7991441f48dB17d49",
