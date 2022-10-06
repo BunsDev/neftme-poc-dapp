@@ -28,7 +28,7 @@ const CreateNFTTokenomics = () => {
       };
 
       const contractMethods = await getContractMethods(
-        Constants.manifest.extra.neftmeErc721Address
+        Constants.expoConfig.extra.neftmeErc721Address
       );
       const mintedNFT = await mintNFT(
         contractMethods,
