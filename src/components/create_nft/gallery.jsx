@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import {
-  Dimensions, Image, StyleSheet, View, Text, Button,
+  Dimensions,
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  Button,
 } from 'react-native';
-import { Gallery } from '@library';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
 import { postAPINFT } from '../../services/nft';
+import VideoNFT from './video_nft';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { Gallery } from '@library';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import { ImageEditor } from 'expo-image-editor';
 import Header from './header';
 
 const { width } = Dimensions.get('window');
@@ -91,7 +91,7 @@ const ImageGallery = () => {
         });
 
         const { recording } = await Audio.Recording.createAsync(
-          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
+          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
 
         setRecording(recording);
@@ -163,10 +163,7 @@ const ImageGallery = () => {
       volume: 1.0,
     };
 
-    const { sound } = await Audio.Sound.createAsync(
-      source,
-      initialStatus,
-    );
+    const { sound } = await Audio.Sound.createAsync(source, initialStatus);
 
     sound.replayAsync();
   };
@@ -177,32 +174,49 @@ const ImageGallery = () => {
       <View key={index} style={styles.row}>
         <Text style={styles.fill}>
           Recording
-          {index + 1}
-          {' '}
-          -
-          {recordingLine.duration}
+          {index + 1} -{recordingLine.duration}
         </Text>
-        <Button style={styles.button} onPress={() => streamFromAWS()} title="Stream from AWS" />
-        <Button style={styles.button} onPress={() => recordingLine.sound.stopAsync()} title="Stop" />
+        <Button
+          style={styles.button}
+          onPress={() => streamFromAWS()}
+          title="Stream from AWS"
+        />
+        <Button
+          style={styles.button}
+          onPress={() => recordingLine.sound.stopAsync()}
+          title="Stop"
+        />
       </View>
     ));
   }
 
   return (
-
-    <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
+    <VideoNFT />
+    /* <View style={styles.container}>
+       <Header
+        showNext
+        onPress={selectedImage ? () => goNext(selectedImage.uri) : null}
+        step={1}
+      />
       {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
+        <Image
+          style={styles.selectedImage}
+          source={{ uri: selectedImage.uri }}
+        />
       ) : null}
       <View style={styles.galleryContainer}>
-        <Button onPress={() => startRecording()} title="PLAY"> </Button>
-        <Button onPress={() => stopRecording()} title="STOP"> </Button>
-        <Button onPress={() => upload()} title="Upload"> </Button>
+        <Button onPress={() => startRecording()} title="PLAY">
+          {' '}
+        </Button>
+        <Button onPress={() => stopRecording()} title="STOP">
+          {' '}
+        </Button>
+        <Button onPress={() => upload()} title="Upload">
+          {' '}
+        </Button>
         {getRecordingLines()}
       </View>
-    </View>
-
+    </View> */
   );
 
   /* ORIGINAL
