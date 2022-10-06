@@ -73,10 +73,12 @@ const Stats = ({ userWalletAddress }) => {
     if (!userWalletAddress) return;
 
     const contractMethods = await getContractMethods(
-      Constants.manifest.extra.neftmeViewContractAddress,
+      Constants.expoConfig.extra.neftmeViewContractAddress
     );
     try {
-      const response = await contractMethods.getStatsByAddress(userWalletAddress).call();
+      const response = await contractMethods
+        .getStatsByAddress(userWalletAddress)
+        .call();
       setUserStats([
         {
           label: 'Total Sales',
@@ -92,7 +94,10 @@ const Stats = ({ userWalletAddress }) => {
         },
         {
           label: 'Avg royalties',
-          value: `${parseInt(abbreviateNumber(convertFromNFTAmount(response[2]), true), 10)}%`,
+          value: `${parseInt(
+            abbreviateNumber(convertFromNFTAmount(response[2]), true),
+            10
+          )}%`,
         },
         {
           label: "NFT's Supporters",

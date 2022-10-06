@@ -38,7 +38,7 @@ const Splash = () => {
       if (connector && currentUser) {
         if (
           connector.connected &&
-          connector.chainId === Constants.manifest.extra.chainId
+          connector.chainId === Constants.expoConfig.extra.chainId
         ) {
           if (await isNewUser()) {
             navigateTo({

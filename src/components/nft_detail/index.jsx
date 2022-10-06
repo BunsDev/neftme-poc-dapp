@@ -54,7 +54,7 @@ const NFTDetail = () => {
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [chosenUser, setChosenUser] = useState({});
   const [chosenEventInfo, setChosenEventInfo] = useState({});
-  const constant = Constants.manifest.extra;
+  const constant = Constants.expoConfig.extra;
 
   const [activity, setActivity] = useState([
     {
@@ -128,7 +128,7 @@ const NFTDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { neftmeErc721Address, neftmeViewContractAddress } =
-        Constants.manifest.extra;
+        Constants.expoConfig.extra;
       const contractMethods = await getContractMethods(neftmeErc721Address);
       const viewContractMethods = await getContractMethods(
         neftmeViewContractAddress
@@ -235,21 +235,21 @@ const NFTDetail = () => {
             {
               // Activity
               selectedCategory === categories[2].id &&
-                activity.map((eventObject) => (
-                  <ActivityItem
-                    key={eventObject.id}
-                    activityInfo={eventObject.eventInfo}
-                    type={eventObject.eventName}
-                    blockNumber={eventObject.blockNumber}
-                    // TODO mudar la dentro para redux
-                    owner={nftDetails.data[4]}
-                    offerModalVisible={offerModalVisible}
-                    setOfferModalVisible={setOfferModalVisible}
-                    setChosenEventInfo={setChosenEventInfo}
-                    setChosenUser={setChosenUser}
-                    activity={activity}
-                  />
-                ))
+              activity.map((eventObject) => (
+                <ActivityItem
+                  key={eventObject.id}
+                  activityInfo={eventObject.eventInfo}
+                  type={eventObject.eventName}
+                  blockNumber={eventObject.blockNumber}
+                  // TODO mudar la dentro para redux
+                  owner={nftDetails.data[4]}
+                  offerModalVisible={offerModalVisible}
+                  setOfferModalVisible={setOfferModalVisible}
+                  setChosenEventInfo={setChosenEventInfo}
+                  setChosenUser={setChosenUser}
+                  activity={activity}
+                />
+              ))
             }
             {
               // Colection
