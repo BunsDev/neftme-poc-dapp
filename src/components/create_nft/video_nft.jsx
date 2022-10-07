@@ -1,9 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, Button } from 'react-native';
-import { Camera } from 'expo-camera';
+import {
+  StyleSheet,
+  View,
+  Text,
+  SafeAreaView,
+  Button,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
+import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { Video } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
 import { shareAsync } from 'expo-sharing';
+import VideoStartIcon from '@assets/icons/video_start.svg';
+import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
+import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
+import FlipCamerIcon from '@assets/icons/flip_camera.svg';
+import FlashIcon from '@assets/icons/flash.svg';
+import TimerIcon from '@assets/icons/timer.svg';
+import FilterIcon from '@assets/icons/filters.svg';
+import ExitXIcon from '@assets/icons/exit_x.svg';
+import GalleryIcon from '@assets/icons/galery.svg';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,8 +29,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end',
+    position: 'absolute',
+    alignItems: 'center',
+    marginHorizontal: 110,
+    marginTop: 8,
+  },
+  stopButton: {
+    position: 'absolute',
+    alignItems: 'center',
+    marginHorizontal: 127,
+    marginTop: 25,
+  },
+  greyRing: {
+    marginHorizontal: 102,
+    marginBottom: 100,
+  },
+  gallery: {
+    marginHorizontal: 10,
+    marginBottom: 1,
+  },
+  flipCamera: {
+    marginLeft: 320,
+    marginTop: 10,
+  },
+  optionsContainer: {
+    marginTop: 100,
+  },
+  flashCamera: {
+    marginLeft: 325,
+    marginTop: 10,
+  },
+  flipText: {
+    marginLeft: 320,
+    marginTop: 5,
+    color: '#FFFFFF',
+  },
+  recordButtonsContainer: {
+    alignItems: 'center',
+    marginTop: 300,
   },
   video: {
     flex: 1,
@@ -24,6 +77,8 @@ const styles = StyleSheet.create({
 const VideoNFT = () => {
   const [nft, setNft] = useState(null);
   const cameraRef = useRef();
+  const [type, setType] = useState(CameraType.back);
+  const [flash, setFlash] = useState(FlashMode.off);
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -72,6 +127,18 @@ const VideoNFT = () => {
     cameraRef.current.stopRecording();
   };
 
+  function toggleCameraType() {
+    setType((current) =>
+      current === CameraType.back ? CameraType.front : CameraType.back
+    );
+  }
+
+  function toggleFlash() {
+    setFlash((current) =>
+      current === FlashMode.off ? FlashMode.torch : FlashMode.off
+    );
+  }
+
   if (video) {
     const shareVideo = () => {
       shareAsync(video.uri).then(() => {
@@ -104,12 +171,44 @@ const VideoNFT = () => {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <Button
-          title={isRecording ? 'Stop Recording' : 'Record Video'}
-          onPress={isRecording ? stopRecording : recordVideo}
-        />
+    <Camera
+      style={styles.container}
+      ref={cameraRef}
+      type={type}
+      flashMode={flash}
+    >
+      <View>
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity onPress={() => toggleCameraType()}>
+            <FlipCamerIcon style={styles.flipCamera} />
+            <Text style={styles.flipText}> Flip </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => toggleCameraType()}>
+            <FilterIcon style={styles.flipCamera} />
+            <Text style={styles.flipText}> Filter </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => toggleFlash()}>
+            <TimerIcon style={styles.flashCamera} />
+            <Text style={styles.flipText}> Timer </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => toggleFlash()}>
+            <FlashIcon style={styles.flashCamera} />
+            <Text style={styles.flipText}> Flash </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.recordButtonsContainer}>
+          <TouchableOpacity onPress={isRecording ? stopRecording : recordVideo}>
+            {isRecording ? (
+              <VideoStopIcon style={styles.stopButton} />
+            ) : (
+              <VideoStartIcon style={styles.buttonContainer} />
+            )}
+            <GreyRingIcon style={styles.greyRing} />
+          </TouchableOpacity>
+        </View>
       </View>
     </Camera>
   );
