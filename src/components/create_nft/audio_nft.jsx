@@ -8,6 +8,7 @@ import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import MicrophoneIcon from '@assets/icons/microphone.svg';
 import { CountUp } from 'use-count-up';
 import { postAPINFT } from '../../services/nft';
+import { format, getDurationFormatted } from '../../utils/time';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
 
 const styles = StyleSheet.create({
@@ -56,31 +57,9 @@ const AudioNFT = () => {
   const [recording, setRecording] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [recordings, setRecordings] = useState([]);
-  const [counter, setCounter] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
   const [nft, setNft] = useState(null);
-
-  useEffect(() => {
-    const timer =
-      counter > 0 && setTimeout(() => setCounter(counter + 1), 1000);
-    return () => clearInterval(timer);
-  }, [counter]);
-
-  const padTime = (time) => {
-    return String(time).length === 1 ? `0${time}` : `${time}`;
-  };
-
-  const format = (time) => {
-    // Convert seconds into minutes and take the whole part
-    const minutes = Math.floor(time / 60);
-
-    // Get the seconds left after converting minutes
-    const seconds = time % 60;
-
-    // Return combined values as string in format mm:ss
-    return `${minutes}:${padTime(seconds)}`;
-  };
 
   const goNext = (resourceURI) => {
     navigation.navigate('CreateNFT', {
@@ -102,20 +81,11 @@ const AudioNFT = () => {
         const { recording } = await Audio.Recording.createAsync(
           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
-        setCounter(1);
         setRecording(recording);
       }
     } catch (err) {
       // ye
     }
-  };
-
-  const getDurationFormatted = (millis) => {
-    const minutes = millis / 1000 / 60;
-    const minutesDisplay = Math.floor(minutes);
-    const seconds = Math.round((minutes - minutesDisplay) * 60);
-    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
-    return `${minutesDisplay}:${secondsDisplay}`;
   };
 
   const stopRecording = async () => {
@@ -228,31 +198,6 @@ const AudioNFT = () => {
       </View>
     </View>
   );
-
-  // CENAS DE RECORDING SONS
-  /*
-    <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
-      {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Button onPress={() => startRecording()} title="PLAY"> </Button>
-        <Button onPress={() => stopRecording()} title="STOP"> </Button>
-        {getRecordingLines()}
-      </View>
-    </View>
-
-
-    {/* <TouchableOpacity onPress={() => setCounter(1)}>
-          <Text style={styles.text}>
-            {counter === 15 ? (
-              'Max time reached!'
-            ) : (
-              <Text>Counter {format(counter)} </Text>
-            )}
-          </Text>
-        </TouchableOpacity> */
 };
 
 export default AudioNFT;
