@@ -6,19 +6,16 @@ import {
   SafeAreaView,
   Button,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { Video } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
-import { shareAsync } from 'expo-sharing';
-import VideoStartIcon from '@assets/icons/video_start.svg';
-import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
+import PhotoTakeIcon from '@assets/icons/photo_nft_start.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import FlipCamerIcon from '@assets/icons/flip_camera.svg';
 import FlashIcon from '@assets/icons/flash.svg';
 import TimerIcon from '@assets/icons/timer.svg';
 import FilterIcon from '@assets/icons/filters.svg';
-import ExitXIcon from '@assets/icons/exit_x.svg';
 import GalleryIcon from '@assets/icons/galery.svg';
 
 const styles = StyleSheet.create({
@@ -33,19 +30,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 110,
     marginTop: 8,
   },
-  stopButton: {
-    position: 'absolute',
-    alignItems: 'center',
-    marginHorizontal: 127,
-    marginTop: 25,
+  galleryIcon: {
+    marginBottom: 50,
+  },
+  galleryText: {
+    marginBottom: 100,
+    color: '#FFFFFF',
   },
   greyRing: {
     marginHorizontal: 102,
     marginBottom: 100,
-  },
-  gallery: {
-    marginHorizontal: 10,
-    marginBottom: 1,
   },
   flipCamera: {
     marginLeft: 320,
@@ -66,6 +60,7 @@ const styles = StyleSheet.create({
   recordButtonsContainer: {
     alignItems: 'center',
     marginTop: 300,
+    flexDirection: 'row',
   },
   video: {
     flex: 1,
@@ -73,57 +68,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const VideoNFT = () => {
+const ImageNFT = () => {
   const [nft, setNft] = useState(null);
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
   const [hasCameraPermission, setHasCameraPermission] = useState();
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [isRecording, setIsRecording] = useState(false);
-  const [video, setVideo] = useState();
+  const [image, setImage] = useState();
 
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const microphonePermission =
-        await Camera.requestMicrophonePermissionsAsync();
       const mediaLibraryPermission =
         await MediaLibrary.requestPermissionsAsync();
 
       setHasCameraPermission(cameraPermission.status === 'granted');
-      setHasMicrophonePermission(microphonePermission.status === 'granted');
       setHasMediaLibraryPermission(mediaLibraryPermission.status === 'granted');
     })();
   }, []);
 
-  if (
-    hasCameraPermission === undefined ||
-    hasMicrophonePermission === undefined
-  ) {
-    return <Text>Requestion permissions...</Text>;
-  } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted.</Text>;
-  }
-
-  const recordVideo = () => {
-    setIsRecording(true);
+  const takePicture = () => {
     const options = {
       quality: '1080p',
-      maxDuration: 300,
-      mute: false,
     };
 
-    cameraRef.current.recordAsync(options).then((recordedVideo) => {
-      setVideo(recordedVideo);
-      setIsRecording(false);
+    cameraRef.current.takePictureAsync(options).then((newImage) => {
+      setImage(newImage);
     });
-  };
-
-  const stopRecording = () => {
-    setIsRecording(false);
-    cameraRef.current.stopRecording();
   };
 
   function toggleCameraType() {
@@ -134,37 +106,24 @@ const VideoNFT = () => {
 
   function toggleFlash() {
     setFlash((current) =>
-      current === FlashMode.off ? FlashMode.torch : FlashMode.off
+      current === FlashMode.off ? FlashMode.on : FlashMode.off
     );
   }
 
-  if (video) {
-    const shareVideo = () => {
-      shareAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
-    };
-
+  if (image) {
     const saveVideo = () => {
-      MediaLibrary.saveToLibraryAsync(video.uri).then(() => {
-        setVideo(undefined);
+      MediaLibrary.saveToLibraryAsync(image.uri).then(() => {
+        setImage(undefined);
       });
     };
 
     return (
       <SafeAreaView style={styles.container}>
-        <Video
-          style={styles.video}
-          source={{ uri: video.uri }}
-          useNativeControls
-          resizeMode="contain"
-          isLooping
-        />
-        <Button title="Share" onPress={shareVideo} />
+        <Image style={styles.video} source={{ uri: image.uri }} />
         {hasMediaLibraryPermission ? (
           <Button title="Save" onPress={saveVideo} />
         ) : undefined}
-        <Button title="Discard" onPress={() => setVideo(undefined)} />
+        <Button title="Discard" onPress={() => setImage(undefined)} />
       </SafeAreaView>
     );
   }
@@ -199,18 +158,20 @@ const VideoNFT = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.recordButtonsContainer}>
-          <TouchableOpacity onPress={isRecording ? stopRecording : recordVideo}>
-            {isRecording ? (
-              <VideoStopIcon style={styles.stopButton} />
-            ) : (
-              <VideoStartIcon style={styles.buttonContainer} />
-            )}
+          <TouchableOpacity onPress={() => takePicture()}>
+            <PhotoTakeIcon style={styles.buttonContainer} />
             <GreyRingIcon style={styles.greyRing} />
           </TouchableOpacity>
+          <View style={styles.galleryIcon}>
+            <TouchableOpacity onPress={() => takePicture()}>
+              <GalleryIcon style={styles.galleryIcon} />
+              <Text style={styles.galleryText}> Gallery</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Camera>
   );
 };
 
-export default VideoNFT;
+export default ImageNFT;

@@ -1,85 +1,92 @@
-import React, { useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  View,
-  Text,
-  Button,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
+import VideoStartIcon from '@assets/icons/video_start.svg';
+import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
+import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
+import MicrophoneIcon from '@assets/icons/microphone.svg';
+import { CountUp } from 'use-count-up';
 import { postAPINFT } from '../../services/nft';
-import VideoNFT from './video_nft';
-import ImageNFT from './image_nft';
-import AudioNFT from './audio_nft';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
-import Header from './header';
-
-const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#21212b',
-  },
-  paddingTop60: {
-    paddingTop: 60,
-  },
-  chip: {
-    width: 103,
-    height: 103,
-    flexGrow: 1,
-  },
-  selectedImage: {
-    marginTop: 26,
-    marginBottom: 8,
-    marginHorizontal: 16,
-    width: width - 32,
-    height: width - 32,
-  },
-  galleryContainer: {
-    marginVertical: 18,
-    marginHorizontal: 8,
-  },
-
-  row: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  fill: {
-    flex: 1,
-    margin: 16,
+  text: {
+    marginTop: 242,
+    fontSize: 18,
+    lineHeight: 19,
+    fontWeight: '500',
+    color: 'rgba(255, 255, 255, 0.4)',
   },
-  button: {
-    margin: 16,
+  recordButtonsContainer: {
+    alignItems: 'center',
+    marginTop: 350,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    marginHorizontal: 110,
+    marginTop: 8,
+  },
+  greyRing: {
+    marginHorizontal: 102,
+    marginBottom: 100,
+  },
+  microphone: {
+    position: 'absolute',
+    alignItems: 'center',
+    marginHorizontal: 128,
+    marginTop: 17,
+  },
+  stopButton: {
+    position: 'absolute',
+    alignItems: 'center',
+    marginHorizontal: 127,
+    marginTop: 25,
   },
 });
 
-const ImageGallery = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+const AudioNFT = () => {
   const [recording, setRecording] = useState();
+  const [isRecording, setIsRecording] = useState(false);
   const [recordings, setRecordings] = useState([]);
+  const [counter, setCounter] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
   const [nft, setNft] = useState(null);
+
+  useEffect(() => {
+    const timer =
+      counter > 0 && setTimeout(() => setCounter(counter + 1), 1000);
+    return () => clearInterval(timer);
+  }, [counter]);
+
+  const padTime = (time) => {
+    return String(time).length === 1 ? `0${time}` : `${time}`;
+  };
+
+  const format = (time) => {
+    // Convert seconds into minutes and take the whole part
+    const minutes = Math.floor(time / 60);
+
+    // Get the seconds left after converting minutes
+    const seconds = time % 60;
+
+    // Return combined values as string in format mm:ss
+    return `${minutes}:${padTime(seconds)}`;
+  };
 
   const goNext = (resourceURI) => {
     navigation.navigate('CreateNFT', {
       screen: 'CreateNFTDetails',
       params: { resource: resourceURI, origin: route.params },
     });
-  };
-
-  const onCameraPress = async () => {
-    const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,
-    });
-    if (!photo.cancelled && photo.uri) {
-      setSelectedImage(photo);
-    }
   };
 
   const startRecording = async () => {
@@ -91,11 +98,11 @@ const ImageGallery = () => {
           allowsRecordingIOS: true,
           playsInSilentModeIOS: true,
         });
-
+        setIsRecording(true);
         const { recording } = await Audio.Recording.createAsync(
           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
-
+        setCounter(1);
         setRecording(recording);
       }
     } catch (err) {
@@ -114,6 +121,7 @@ const ImageGallery = () => {
   const stopRecording = async () => {
     // setRecording(undefined);
     await recording.stopAndUnloadAsync();
+    setIsRecording(false);
 
     // This setting is needed because otherwise the IOS system
     // will only play sound via the phone call speaker, and not the bottom ones
@@ -137,7 +145,6 @@ const ImageGallery = () => {
 
     const communityPercentage = 10;
     const tempNFT = {
-      title: 'teste teste 12',
       description: 'descricao',
       communityPercentage,
       resource: recording.getURI(),
@@ -145,7 +152,6 @@ const ImageGallery = () => {
     };
 
     setNft(tempNFT);
-
     setRecordings(updatedRecordings);
   };
 
@@ -180,8 +186,8 @@ const ImageGallery = () => {
         </Text>
         <Button
           style={styles.button}
-          onPress={() => streamFromAWS()}
-          title="Stream from AWS"
+          onPress={() => recordingLine.sound.replayAsync()}
+          title="play"
         />
         <Button
           style={styles.button}
@@ -193,87 +199,35 @@ const ImageGallery = () => {
   }
 
   return (
-    <AudioNFT />
-    /* <View style={styles.container}>
-       <Header
-        showNext
-        onPress={selectedImage ? () => goNext(selectedImage.uri) : null}
-        step={1}
-      />
-      {selectedImage ? (
-        <Image
-          style={styles.selectedImage}
-          source={{ uri: selectedImage.uri }}
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        <CountUp
+          isCounting={isRecording}
+          start={0}
+          end={120}
+          duration={120}
+          easing="linear"
+          updateInterval={1}
+          formatter={(value) => format(value.toLocaleString())}
         />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Button onPress={() => startRecording()} title="PLAY">
-          {' '}
-        </Button>
-        <Button onPress={() => stopRecording()} title="STOP">
-          {' '}
-        </Button>
-        <Button onPress={() => upload()} title="Upload">
-          {' '}
-        </Button>
-        {getRecordingLines()}
+      </Text>
+      <View style={styles.recordButtonsContainer}>
+        <TouchableOpacity
+          onPress={isRecording ? stopRecording : startRecording}
+        >
+          {isRecording ? (
+            <VideoStopIcon style={styles.stopButton} />
+          ) : (
+            <>
+              <VideoStartIcon style={styles.buttonContainer} />
+              <MicrophoneIcon style={styles.microphone} />
+            </>
+          )}
+          <GreyRingIcon style={styles.greyRing} />
+        </TouchableOpacity>
       </View>
-    </View> */
-  );
-
-  /* ORIGINAL
-  <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
-      {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
-      </View>
-    <View style={editorVisible ? [styles.container] : [styles.container, styles.paddingTop60]}>
-      {!selectedImage && <Header showNext onPress={null} step={1} />}
-      {selectedImage && (
-        <ImageEditor
-          asView
-          visible={editorVisible}
-          onCloseEditor={() => {
-            setSelectedImage(undefined);
-            setEditorVisible(false);
-          }}
-          imageUri={selectedImage?.uri || undefined}
-          fixedCropAspectRatio={1.6}
-          lockAspectRatio={false}
-          minimumCropDimensions={{
-            width: 100,
-            height: 100,
-          }}
-          onEditingComplete={(result) => {
-            if (result?.uri) {
-              setSelectedImage(result.uri);
-              navigation.navigate('CreateNFT', {
-                screen: 'CreateNFTDetails',
-                params: { nftImage: result.uri, origin: route.params },
-              });
-            }
-          }}
-          throttleBlur={false}
-          mode="crop-only"
-        />
-      )}
-      {!selectedImage && (
-        <View style={styles.galleryContainer}>
-          <Gallery
-            onCameraPress={onCameraPress}
-            setSelectedImage={(image) => {
-              setSelectedImage(image);
-              setEditorVisible(true);
-            }}
-          />
-        </View>
-      )}
     </View>
-
-  */
+  );
 
   // CENAS DE RECORDING SONS
   /*
@@ -287,7 +241,18 @@ const ImageGallery = () => {
         <Button onPress={() => stopRecording()} title="STOP"> </Button>
         {getRecordingLines()}
       </View>
-    </View> */
+    </View>
+
+
+    {/* <TouchableOpacity onPress={() => setCounter(1)}>
+          <Text style={styles.text}>
+            {counter === 15 ? (
+              'Max time reached!'
+            ) : (
+              <Text>Counter {format(counter)} </Text>
+            )}
+          </Text>
+        </TouchableOpacity> */
 };
 
-export default ImageGallery;
+export default AudioNFT;
