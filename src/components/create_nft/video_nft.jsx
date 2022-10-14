@@ -48,20 +48,25 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   flipCamera: {
-    marginLeft: 320,
     marginTop: 10,
   },
   optionsContainer: {
-    marginTop: 100,
+    marginTop: 110,
+    marginLeft: 325,
+    alignContent: 'center',
   },
   flashCamera: {
-    marginLeft: 325,
     marginTop: 10,
   },
+  individualContainerOptions: {
+    alignItems: 'center',
+    margin: 2,
+  },
   flipText: {
-    marginLeft: 320,
-    marginTop: 5,
+    marginTop: 7,
     color: '#FFFFFF',
+    fontWeight: '700',
+    textAlignVertical: 'center',
   },
   recordButtonsContainer: {
     alignItems: 'center',
@@ -178,22 +183,34 @@ const VideoNFT = () => {
     >
       <View>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity onPress={() => toggleCameraType()}>
+          <TouchableOpacity
+            onPress={() => toggleCameraType()}
+            style={styles.individualContainerOptions}
+          >
             <FlipCamerIcon style={styles.flipCamera} />
             <Text style={styles.flipText}> Flip </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleCameraType()}>
+          <TouchableOpacity
+            onPress={() => toggleCameraType()}
+            style={styles.individualContainerOptions}
+          >
             <FilterIcon style={styles.flipCamera} />
             <Text style={styles.flipText}> Filter </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleFlash()}>
+          <TouchableOpacity
+            onPress={() => toggleFlash()}
+            style={styles.individualContainerOptions}
+          >
             <TimerIcon style={styles.flashCamera} />
             <Text style={styles.flipText}> Timer </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleFlash()}>
+          <TouchableOpacity
+            onPress={() => toggleFlash()}
+            style={styles.individualContainerOptions}
+          >
             <FlashIcon style={styles.flashCamera} />
             <Text style={styles.flipText}> Flash </Text>
           </TouchableOpacity>

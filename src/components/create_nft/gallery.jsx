@@ -193,7 +193,7 @@ const ImageGallery = () => {
   }
 
   return (
-    <AudioNFT />
+    <VideoNFT />
     /* <View style={styles.container}>
        <Header
         showNext
