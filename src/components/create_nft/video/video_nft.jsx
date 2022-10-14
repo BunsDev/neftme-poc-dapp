@@ -35,23 +35,27 @@ const styles = StyleSheet.create({
   },
   stopButton: {
     position: 'absolute',
-    alignItems: 'center',
-    marginHorizontal: 127,
     marginTop: 25,
   },
   greyRing: {
-    marginHorizontal: 102,
+    marginLeft: 102,
     marginBottom: 100,
   },
   gallery: {
-    marginHorizontal: 10,
-    marginBottom: 1,
+    marginLeft: 50,
+    marginBottom: 100,
+    alignItems: 'center',
+  },
+  galleryText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textAlignVertical: 'center',
   },
   flipCamera: {
     marginTop: 10,
   },
   optionsContainer: {
-    marginTop: 110,
+    marginTop: 120,
     marginLeft: 325,
     alignContent: 'center',
   },
@@ -70,11 +74,9 @@ const styles = StyleSheet.create({
   },
   recordButtonsContainer: {
     alignItems: 'center',
-    marginTop: 300,
-  },
-  video: {
-    flex: 1,
-    alignSelf: 'stretch',
+    marginTop: 260,
+    marginLeft: 50,
+    flexDirection: 'row',
   },
 });
 
@@ -83,34 +85,8 @@ const VideoNFT = () => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const microphonePermission =
-        await Camera.requestMicrophonePermissionsAsync();
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
-
-      setHasCameraPermission(cameraPermission.status === 'granted');
-      setHasMicrophonePermission(microphonePermission.status === 'granted');
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === 'granted');
-    })();
-  }, []);
-
-  if (
-    hasCameraPermission === undefined ||
-    hasMicrophonePermission === undefined
-  ) {
-    return <Text>Requestion permissions...</Text>;
-  } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted.</Text>;
-  }
 
   const recordVideo = () => {
     setIsRecording(true);
@@ -166,9 +142,7 @@ const VideoNFT = () => {
           isLooping
         />
         <Button title="Share" onPress={shareVideo} />
-        {hasMediaLibraryPermission ? (
-          <Button title="Save" onPress={saveVideo} />
-        ) : undefined}
+        <Button title="Save" onPress={saveVideo} />
         <Button title="Discard" onPress={() => setVideo(undefined)} />
       </SafeAreaView>
     );
@@ -223,6 +197,10 @@ const VideoNFT = () => {
               <VideoStartIcon style={styles.buttonContainer} />
             )}
             <GreyRingIcon style={styles.greyRing} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.gallery}>
+            <GalleryIcon />
+            <Text style={styles.galleryText}>Gallery</Text>
           </TouchableOpacity>
         </View>
       </View>

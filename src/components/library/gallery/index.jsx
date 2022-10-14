@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert, Linking, ScrollView, StyleSheet, View,
-} from 'react-native';
+import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import ImageTile from './image';
 import SelectMore from './select_more';
-import Camera from './camera';
-import Audio from './audio';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,12 +14,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Gallery = ({
-  onCameraPress, setSelectedImage, startRecording, stopRecording,
-}) => {
+const Gallery = ({ setSelectedImage }) => {
   const [cameraRollStatus, setCameraRollStatus] = useState({});
   const [images, setImages] = useState([]);
-  const [audioFiles, setAudioFiles] = useState([]);
   const [after, setAfter] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
 
@@ -36,9 +29,9 @@ const Gallery = ({
         'Permissions error',
         "NEFTME doesn't have access to your Camera Roll. Please go to the Settings page and update these settings",
         [
-          { text: 'OK', onPress: () => { } },
+          { text: 'OK', onPress: () => {} },
           { text: 'Settings', onPress: () => Linking.openURL('app-settings:') }, // TODO: WE NEED TO ADD ANDROID LINKING (https://medium.com/toprakio/react-native-how-to-open-app-settings-page-d30d918a7f55);
-        ],
+        ]
       );
     }
   };
@@ -51,44 +44,42 @@ const Gallery = ({
     };
     if (after) params.after = after;
     if (!hasNextPage) return;
-    MediaLibrary
-      .getAssetsAsync(params)
-      .then((data) => {
-        if (cameraRollStatus?.accessPrivileges !== 'limited') {
-          setImages(images.concat(data.assets));
-        } else {
-          setImages(data.assets);
-        }
-        setAfter(data.endCursor);
-        setHasNextPage(data.hasNextPage);
-      });
-  };
-
-  // TODO This is not working properly
-  // It's searching for .mp3 files and IOS does not seem to support them
-  const getAudioFiles = async () => {
-    const media = await MediaLibrary.getAssetsAsync({
-      mediaType: MediaLibrary.MediaType.audio, // Changed mediaType
+    MediaLibrary.getAssetsAsync(params).then((data) => {
+      if (cameraRollStatus?.accessPrivileges !== 'limited') {
+        setImages(images.concat(data.assets));
+      } else {
+        setImages(data.assets);
+      }
+      setAfter(data.endCursor);
+      setHasNextPage(data.hasNextPage);
     });
-
-    setAudioFiles(media.assets);
   };
 
-  useEffect(async () => {
+  async function getPermissions() {
     await getPermissionsAsync();
     MediaLibrary.addListener((event) => {
       if (event?.hasIncrementalChanges === 0) {
         getImages();
       }
     });
-    getAudioFiles();
+  }
+
+  useEffect(() => {
+    getPermissions();
+    // getAudioFiles();
     getImages();
   }, []);
 
-  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
     const paddingToBottom = 200;
-    return layoutMeasurement.height + contentOffset.y
-      >= contentSize.height - paddingToBottom;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
   };
 
   const onSelectedImage = async (image) => {
@@ -109,9 +100,6 @@ const Gallery = ({
       scrollEventThrottle={400}
     >
       <View style={styles.container}>
-        <Camera onCameraPress={onCameraPress} />
-        {/* <Audio startRecording={startRecording} stopRecording={stopRecording} record />
-        <Audio startRecording={startRecording} stopRecording={stopRecording} record={false} /> */}
         {images.map((i) => (
           <ImageTile key={`img_${i.id}`} image={i} onPress={onSelectedImage} />
         ))}
@@ -125,9 +113,6 @@ const Gallery = ({
 
 Gallery.propTypes = {
   setSelectedImage: PropTypes.func.isRequired,
-  onCameraPress: PropTypes.func.isRequired,
-  // startRecording: PropTypes.func.isRequired,
-  // stopRecording: PropTypes.func.isRequired,
 };
 
 export default Gallery;

@@ -7,9 +7,9 @@ import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import MicrophoneIcon from '@assets/icons/microphone.svg';
 import { CountUp } from 'use-count-up';
-import { postAPINFT } from '../../services/nft';
-import { format, getDurationFormatted } from '../../utils/time';
-import { getNFTByTokenId } from '../../features/neftme_api/nft';
+import { postAPINFT } from '../../../services/nft';
+import { format, getDurationFormatted } from '../../../utils/time';
+import { getNFTByTokenId } from '../../../features/neftme_api/nft';
 
 const styles = StyleSheet.create({
   container: {

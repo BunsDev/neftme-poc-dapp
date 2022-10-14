@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -17,6 +17,7 @@ import FlashIcon from '@assets/icons/flash.svg';
 import TimerIcon from '@assets/icons/timer.svg';
 import FilterIcon from '@assets/icons/filters.svg';
 import GalleryIcon from '@assets/icons/galery.svg';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,41 +31,50 @@ const styles = StyleSheet.create({
     marginHorizontal: 110,
     marginTop: 8,
   },
-  galleryIcon: {
-    marginBottom: 50,
-  },
-  galleryText: {
-    marginBottom: 100,
-    color: '#FFFFFF',
+  stopButton: {
+    position: 'absolute',
+    marginTop: 25,
   },
   greyRing: {
-    marginHorizontal: 102,
+    marginLeft: 102,
     marginBottom: 100,
   },
+  gallery: {
+    marginLeft: 50,
+    marginBottom: 100,
+    alignItems: 'center',
+  },
+  galleryText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textAlignVertical: 'center',
+  },
   flipCamera: {
-    marginLeft: 320,
     marginTop: 10,
   },
   optionsContainer: {
-    marginTop: 100,
+    marginTop: 120,
+    marginLeft: 325,
+    alignContent: 'center',
   },
   flashCamera: {
-    marginLeft: 325,
     marginTop: 10,
   },
+  individualContainerOptions: {
+    alignItems: 'center',
+    margin: 2,
+  },
   flipText: {
-    marginLeft: 320,
-    marginTop: 5,
+    marginTop: 7,
     color: '#FFFFFF',
+    fontWeight: '700',
+    textAlignVertical: 'center',
   },
   recordButtonsContainer: {
     alignItems: 'center',
-    marginTop: 300,
+    marginTop: 260,
+    marginLeft: 50,
     flexDirection: 'row',
-  },
-  video: {
-    flex: 1,
-    alignSelf: 'stretch',
   },
 });
 
@@ -73,20 +83,8 @@ const ImageNFT = () => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  const navigation = useNavigation();
   const [image, setImage] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
-
-      setHasCameraPermission(cameraPermission.status === 'granted');
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === 'granted');
-    })();
-  }, []);
 
   const takePicture = () => {
     const options = {
@@ -120,13 +118,17 @@ const ImageNFT = () => {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.video} source={{ uri: image.uri }} />
-        {hasMediaLibraryPermission ? (
-          <Button title="Save" onPress={saveVideo} />
-        ) : undefined}
+        <Button title="Save" onPress={saveVideo} />
         <Button title="Discard" onPress={() => setImage(undefined)} />
       </SafeAreaView>
     );
   }
+
+  const goToGallery = () => {
+    navigation.navigate('CreateNFT', {
+      screen: 'ImageGallery',
+    });
+  };
 
   return (
     <Camera
@@ -137,22 +139,34 @@ const ImageNFT = () => {
     >
       <View>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity onPress={() => toggleCameraType()}>
+          <TouchableOpacity
+            onPress={() => toggleCameraType()}
+            style={styles.individualContainerOptions}
+          >
             <FlipCamerIcon style={styles.flipCamera} />
             <Text style={styles.flipText}> Flip </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleCameraType()}>
+          <TouchableOpacity
+            onPress={() => toggleCameraType()}
+            style={styles.individualContainerOptions}
+          >
             <FilterIcon style={styles.flipCamera} />
             <Text style={styles.flipText}> Filter </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleFlash()}>
+          <TouchableOpacity
+            onPress={() => toggleFlash()}
+            style={styles.individualContainerOptions}
+          >
             <TimerIcon style={styles.flashCamera} />
             <Text style={styles.flipText}> Timer </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => toggleFlash()}>
+          <TouchableOpacity
+            onPress={() => toggleFlash()}
+            style={styles.individualContainerOptions}
+          >
             <FlashIcon style={styles.flashCamera} />
             <Text style={styles.flipText}> Flash </Text>
           </TouchableOpacity>
@@ -162,12 +176,13 @@ const ImageNFT = () => {
             <PhotoTakeIcon style={styles.buttonContainer} />
             <GreyRingIcon style={styles.greyRing} />
           </TouchableOpacity>
-          <View style={styles.galleryIcon}>
-            <TouchableOpacity onPress={() => takePicture()}>
-              <GalleryIcon style={styles.galleryIcon} />
-              <Text style={styles.galleryText}> Gallery</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.gallery}
+            onPress={() => goToGallery()}
+          >
+            <GalleryIcon />
+            <Text style={styles.galleryText}>Gallery</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Camera>

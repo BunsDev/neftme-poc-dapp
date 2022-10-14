@@ -11,9 +11,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
 import { postAPINFT } from '../../services/nft';
-import VideoNFT from './video_nft';
-import ImageNFT from './image_nft';
-import AudioNFT from './audio_nft';
+import VideoNFT from './video/video_nft';
+import ImageNFT from './image/image_nft';
+import AudioNFT from './audio/audio_nft';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
 import Header from './header';
 
@@ -193,7 +193,7 @@ const ImageGallery = () => {
   }
 
   return (
-    <VideoNFT />
+    <ImageNFT />
     /* <View style={styles.container}>
        <Header
         showNext
