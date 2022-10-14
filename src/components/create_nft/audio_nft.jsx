@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Audio } from 'expo-av';
@@ -19,37 +19,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    marginTop: 242,
+    marginTop: 50,
     fontSize: 18,
     lineHeight: 19,
     fontWeight: '500',
     color: 'rgba(255, 255, 255, 0.4)',
   },
+  recordingText: {
+    marginTop: 30,
+    fontSize: 25,
+    lineHeight: 25,
+    fontWeight: '500',
+    color: 'rgba(255, 255, 255, 1)',
+  },
   recordButtonsContainer: {
     alignItems: 'center',
-    marginTop: 350,
+    marginTop: 150,
   },
-  buttonContainer: {
+  videoStartButton: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 110,
-    marginTop: 8,
+    marginTop: 230,
   },
   greyRing: {
     marginHorizontal: 102,
-    marginBottom: 100,
+    marginTop: 222,
   },
   microphone: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 128,
-    marginTop: 17,
+    marginTop: 238,
   },
   stopButton: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 127,
-    marginTop: 25,
+    marginTop: 245,
   },
 });
 
@@ -77,7 +84,9 @@ const AudioNFT = () => {
           allowsRecordingIOS: true,
           playsInSilentModeIOS: true,
         });
+
         setIsRecording(true);
+
         const { recording } = await Audio.Recording.createAsync(
           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
@@ -170,17 +179,22 @@ const AudioNFT = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        <CountUp
-          isCounting={isRecording}
-          start={0}
-          end={120}
-          duration={120}
-          easing="linear"
-          updateInterval={1}
-          formatter={(value) => format(value.toLocaleString())}
-        />
-      </Text>
+      <View>
+        <Text style={styles.recordingText}>New Recording</Text>
+      </View>
+      <View>
+        <Text style={styles.text}>
+          <CountUp
+            isCounting={isRecording}
+            start={0}
+            end={120}
+            duration={120}
+            easing="linear"
+            updateInterval={1}
+            formatter={(value) => format(value.toLocaleString())}
+          />
+        </Text>
+      </View>
       <View style={styles.recordButtonsContainer}>
         <TouchableOpacity
           onPress={isRecording ? stopRecording : startRecording}
@@ -189,7 +203,7 @@ const AudioNFT = () => {
             <VideoStopIcon style={styles.stopButton} />
           ) : (
             <>
-              <VideoStartIcon style={styles.buttonContainer} />
+              <VideoStartIcon style={styles.videoStartButton} />
               <MicrophoneIcon style={styles.microphone} />
             </>
           )}
