@@ -88,6 +88,14 @@ const VideoNFT = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
 
+  const requestPermissions = async () => {
+    await Camera.requestCameraPermissionsAsync();
+    await Camera.requestMicrophonePermissionsAsync();
+  };
+  useEffect(() => {
+    requestPermissions();
+  });
+
   const recordVideo = () => {
     setIsRecording(true);
     const options = {

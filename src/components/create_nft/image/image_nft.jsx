@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -86,6 +86,13 @@ const ImageNFT = () => {
   const navigation = useNavigation();
   const [image, setImage] = useState();
 
+  const requestPermissions = async () => {
+    await Camera.requestCameraPermissionsAsync();
+  };
+
+  useEffect(() => {
+    requestPermissions();
+  });
   const takePicture = () => {
     const options = {
       quality: '1080p',

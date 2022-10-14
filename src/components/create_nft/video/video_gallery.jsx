@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const NftImageGallery = () => {
+const NftVideoGallery = () => {
   const [selectedImage, setSelectedImage] = useState(undefined);
   const [editorVisible, setEditorVisible] = useState(false);
   const navigation = useNavigation();
@@ -103,4 +103,4 @@ const NftImageGallery = () => {
   );
 };
 
-export default NftImageGallery;
+export default NftVideoGallery;
