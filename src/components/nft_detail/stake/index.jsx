@@ -53,7 +53,7 @@ const Stake = ({ tokenId, owner }) => {
             : {},
         ]}
         onPress={() => setStakeModalVisible(true)}
-        text="Stake $NEFT"
+        text="Invest"
         textStyle={styles.stakeText}
       />
       <StakeModal
@@ -62,7 +62,7 @@ const Stake = ({ tokenId, owner }) => {
           neftBalance.toFixed(2)
         )} $NEFT`}
         isLoading={isLoading}
-        modalTitle="How much $NEFT do you want to stake?"
+        modalTitle="How much $NEFT do you want to invest?"
         neftBalance={neftBalance}
         setActionModalVisible={setStakeModalVisible}
         showPercentages

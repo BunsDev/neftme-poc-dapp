@@ -30,7 +30,7 @@ const Tokenomics = ({ tokenId }) => {
       <View style={styles.stakedContainer}>
         <TokenIcon width={34} height={34} />
         <View>
-          <Text style={styles.stakedStyle}>staked</Text>
+          <Text style={styles.stakedStyle}>Invested</Text>
           <Text style={styles.neftsAmountStyle}>
             {nftDetails?.data
               ? abbreviateNumber(nftDetails.data[1] * 10 ** -18, true)
@@ -48,7 +48,7 @@ const Tokenomics = ({ tokenId }) => {
           <Text>goes to</Text>
         </Text>
         <Text style={[styles.economicDetails, styles.fontWeight700]}>
-          {`${nftDetails?.data?.[3] || 0} supporters`}
+          {`${nftDetails?.data?.[3] || 0} investors`}
         </Text>
       </View>
     </View>

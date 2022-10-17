@@ -33,7 +33,7 @@ const ActionButtons = ({
       if (transactionApproved) return;
 
       if (Number.isNaN(tokensToStake) || Number(tokensToStake) === 0) {
-        Alert.alert('Invalid amount to stake');
+        Alert.alert('Invalid amount to invest');
         return;
       }
 
@@ -50,7 +50,7 @@ const ActionButtons = ({
         .then((receipt) => {
           setIsLoading(false);
           if (receipt?.status) {
-            Alert.alert('Transaction approved, you can now stake your $NEFT');
+            Alert.alert('Transaction approved, you can now invest your $NEFT');
             setTransactionApproved(true);
           } else {
             Alert.alert('Transaction not approved, please try again');
@@ -69,7 +69,7 @@ const ActionButtons = ({
   const stakeNEFT = async () => {
     try {
       if (strIsEqual(connector.accounts[0], nftDetails.data[4])) {
-        Alert.alert('You can not stake in your own NFTs');
+        Alert.alert('You can not invest in your own NFTs');
         return;
       }
 
@@ -79,7 +79,7 @@ const ActionButtons = ({
       }
 
       if (Number.isNaN(tokensToStake) || Number(tokensToStake) === 0) {
-        Alert.alert('Invalid amount to stake');
+        Alert.alert('Invalid amount to invest');
         return;
       }
 
@@ -93,7 +93,7 @@ const ActionButtons = ({
         .send({ from: connector.accounts[0] })
         .then(() => {
           setIsLoading(false);
-          Alert.alert('Success!', 'Your $NEFT were successfully staked', [
+          Alert.alert('Success!', 'Your $NEFT were successfully invested', [
             {
               text: 'Ok',
               onPress: async () => {
@@ -145,7 +145,7 @@ const ActionButtons = ({
         primary={transactionApproved}
         buttonStyle={[styles.stakeButtonAction, styles.marginLeft10]}
         onPress={stakeNEFT}
-        text="Stake $NEFT"
+        text="Invest"
       />
     </View>
   );
