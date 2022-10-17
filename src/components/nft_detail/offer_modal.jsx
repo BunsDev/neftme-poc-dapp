@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   KeyboardAvoidingView,
   Modal,
-  Platform,
   Pressable,
   Text,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
   View,
   Alert,
 } from 'react-native';
+import * as Device from 'expo-device';
 import { Button, Loading, ProfileImage } from '@library';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSmartContract } from '@hooks';
@@ -160,7 +160,7 @@ const OfferModal = ({
           onPressOut={() => setOfferModalVisible((prevValue) => !prevValue)}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Device.osName === 'iOS' ? 'padding' : 'height'}
             style={styles.container}
           >
             <View style={styles.topBar} />
