@@ -61,34 +61,6 @@ const NftVideoGallery = () => {
       }
     >
       {!selectedImage && <Header showNext onPress={null} step={1} />}
-      {selectedImage && (
-        <ImageEditor
-          asView
-          visible={editorVisible}
-          onCloseEditor={() => {
-            setSelectedImage(undefined);
-            setEditorVisible(false);
-          }}
-          imageUri={selectedImage?.uri || undefined}
-          fixedCropAspectRatio={1.6}
-          lockAspectRatio={false}
-          minimumCropDimensions={{
-            width: 100,
-            height: 100,
-          }}
-          onEditingComplete={(result) => {
-            if (result?.uri) {
-              setSelectedImage(result.uri);
-              navigation.navigate('CreateNFT', {
-                screen: 'CreateNFTDetails',
-                params: { nftImage: result.uri, origin: route.params },
-              });
-            }
-          }}
-          throttleBlur={false}
-          mode="crop-only"
-        />
-      )}
       {!selectedImage && (
         <View style={styles.galleryContainer}>
           <Gallery

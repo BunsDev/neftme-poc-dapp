@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import { Audio } from 'expo-av';
+import { Audio, Video } from 'expo-av';
 import { postAPINFT } from '../../services/nft';
 import VideoNFT from './video/video_nft';
 import ImageNFT from './image/image_nft';
