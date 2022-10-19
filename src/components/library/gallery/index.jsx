@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import ImageTile from './image';
 import SelectMore from './select_more';
+import ResourceTile from './resource';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,12 +14,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Gallery = ({ setSelectedImage }) => {
+const Gallery = ({ setSelectedResource, isPhoto }) => {
   const [cameraRollStatus, setCameraRollStatus] = useState({});
-  const [images, setImages] = useState([]);
+  const [resources, setResources] = useState([]);
   const [after, setAfter] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
-
   const getPermissionsAsync = async () => {
     await ImagePicker.requestCameraPermissionsAsync();
     const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,19 +35,29 @@ const Gallery = ({ setSelectedImage }) => {
     }
   };
 
-  const getImages = () => {
-    const params = {
-      first: 100,
-      mediaType: [MediaLibrary.MediaType.photo],
-      sortBy: [MediaLibrary.SortBy.creationTime],
-    };
+  const getResources = () => {
+    let params;
+    if (isPhoto) {
+      params = {
+        first: 100,
+        mediaType: [MediaLibrary.MediaType.photo],
+        sortBy: [MediaLibrary.SortBy.creationTime],
+      };
+    } else {
+      params = {
+        first: 100,
+        mediaType: [MediaLibrary.MediaType.video],
+        sortBy: [MediaLibrary.SortBy.creationTime],
+      };
+    }
+
     if (after) params.after = after;
     if (!hasNextPage) return;
     MediaLibrary.getAssetsAsync(params).then((data) => {
       if (cameraRollStatus?.accessPrivileges !== 'limited') {
-        setImages(images.concat(data.assets));
+        setResources(resources.concat(data.assets));
       } else {
-        setImages(data.assets);
+        setResources(data.assets);
       }
       setAfter(data.endCursor);
       setHasNextPage(data.hasNextPage);
@@ -59,7 +68,7 @@ const Gallery = ({ setSelectedImage }) => {
     await getPermissionsAsync();
     MediaLibrary.addListener((event) => {
       if (event?.hasIncrementalChanges === 0) {
-        getImages();
+        getResources();
       }
     });
   }
@@ -67,7 +76,7 @@ const Gallery = ({ setSelectedImage }) => {
   useEffect(() => {
     getPermissions();
     // getAudioFiles();
-    getImages();
+    getResources();
   }, []);
 
   const isCloseToBottom = ({
@@ -82,26 +91,29 @@ const Gallery = ({ setSelectedImage }) => {
     );
   };
 
-  const onSelectedImage = async (image) => {
-    const info = await MediaLibrary.getAssetInfoAsync(image.id);
-    setSelectedImage({
-      uri: info.localUri,
-    });
+  const onSelectedResource = async (resource) => {
+    const info = await MediaLibrary.getAssetInfoAsync(resource.id);
+    setSelectedResource(info);
   };
 
   return (
     <ScrollView
       onScroll={({ nativeEvent }) => {
         if (isCloseToBottom(nativeEvent)) {
-          getImages();
+          getResources();
         }
       }}
       showsVerticalScrollIndicator={false}
       scrollEventThrottle={400}
     >
       <View style={styles.container}>
-        {images.map((i) => (
-          <ImageTile key={`img_${i.id}`} image={i} onPress={onSelectedImage} />
+        {resources.map((i) => (
+          <ResourceTile
+            key={`resource_${i.id}`}
+            resource={i}
+            onPress={onSelectedResource}
+            isPhoto={isPhoto}
+          />
         ))}
         {cameraRollStatus?.accessPrivileges === 'limited' ? (
           <SelectMore onPress={MediaLibrary.presentPermissionsPickerAsync} />
@@ -112,7 +124,8 @@ const Gallery = ({ setSelectedImage }) => {
 };
 
 Gallery.propTypes = {
-  setSelectedImage: PropTypes.func.isRequired,
+  setSelectedResource: PropTypes.func.isRequired,
+  isPhoto: PropTypes.bool.isRequired,
 };
 
 export default Gallery;

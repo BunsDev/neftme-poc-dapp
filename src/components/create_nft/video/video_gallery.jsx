@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Gallery } from '@library';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ImageEditor } from 'expo-image-editor';
 import Header from '../header';
 
 const { width } = Dimensions.get('window');
@@ -46,28 +45,29 @@ const styles = StyleSheet.create({
   },
 });
 
-const NftVideoGallery = () => {
-  const [selectedImage, setSelectedImage] = useState(undefined);
-  const [editorVisible, setEditorVisible] = useState(false);
+const VideoGallery = () => {
+  const [selectedVideo, setSelectedVideo] = useState(undefined);
   const navigation = useNavigation();
   const route = useRoute();
-
+  if (selectedVideo) {
+    navigation.navigate('CreateNFT', {
+      screen: 'CreateNFTDetails',
+      params: {
+        resource: selectedVideo.uri,
+        origin: route.params,
+      },
+    });
+  }
   return (
-    <View
-      style={
-        editorVisible
-          ? [styles.container]
-          : [styles.container, styles.paddingTop60]
-      }
-    >
-      {!selectedImage && <Header showNext onPress={null} step={1} />}
-      {!selectedImage && (
+    <View style={styles.container}>
+      {!selectedVideo && <Header showNext onPress={null} step={1} />}
+      {!selectedVideo && (
         <View style={styles.galleryContainer}>
           <Gallery
-            setSelectedImage={(image) => {
-              setSelectedImage(image);
-              setEditorVisible(true);
+            setSelectedResource={(video) => {
+              setSelectedVideo(video);
             }}
+            isPhoto={false}
           />
         </View>
       )}
@@ -75,4 +75,4 @@ const NftVideoGallery = () => {
   );
 };
 
-export default NftVideoGallery;
+export default VideoGallery;

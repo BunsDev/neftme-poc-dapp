@@ -61,7 +61,7 @@
       ]
     ],
     "extra": {
-      "apiUrl": "http://192.168.1.66:3000",
+      "apiUrl": "https://neftme-api.herokuapp.com",
       "instagram": {
         "apiUrl": "https://api.instagram.com",
         "clientID": "1018284459067306",

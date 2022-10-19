@@ -14,6 +14,7 @@ import VideoStartIcon from '@assets/icons/video_start.svg';
 import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import GalleryIcon from '@assets/icons/galery.svg';
+import { useNavigation } from '@react-navigation/native';
 import styles from '../image_video_shared/photo_video_styles';
 import CameraOptions from '../image_video_shared/camera_options';
 
@@ -24,6 +25,7 @@ const VideoNFT = () => {
   const [flash, setFlash] = useState(FlashMode.off);
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
+  const navigation = useNavigation();
 
   const requestPermissions = async () => {
     await Camera.requestCameraPermissionsAsync();
@@ -81,6 +83,12 @@ const VideoNFT = () => {
     );
   }
 
+  const goToGallery = () => {
+    navigation.navigate('CreateNFT', {
+      screen: 'VideoGallery',
+    });
+  };
+
   return (
     <Camera
       style={styles.container}
@@ -99,7 +107,10 @@ const VideoNFT = () => {
             )}
             <GreyRingIcon style={styles.greyRing} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.gallery}>
+          <TouchableOpacity
+            style={styles.gallery}
+            onPress={() => goToGallery()}
+          >
             <GalleryIcon />
             <Text style={styles.galleryText}>Gallery</Text>
           </TouchableOpacity>

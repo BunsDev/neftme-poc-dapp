@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ImageGallery = () => {
+const MainGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recording, setRecording] = useState();
   const [recordings, setRecordings] = useState([]);
@@ -193,7 +193,7 @@ const ImageGallery = () => {
   }
 
   return (
-    <ImageNFT />
+    <VideoNFT />
     /* <View style={styles.container}>
        <Header
         showNext
@@ -290,4 +290,4 @@ const ImageGallery = () => {
     </View> */
 };
 
-export default ImageGallery;
+export default MainGallery;

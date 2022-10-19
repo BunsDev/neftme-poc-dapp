@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const NftImageGallery = () => {
+const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(undefined);
   const [editorVisible, setEditorVisible] = useState(false);
   const navigation = useNavigation();
@@ -81,7 +81,7 @@ const NftImageGallery = () => {
               setSelectedImage(result.uri);
               navigation.navigate('CreateNFT', {
                 screen: 'CreateNFTDetails',
-                params: { nftImage: result.uri, origin: route.params },
+                params: { resource: result.uri, origin: route.params },
               });
             }
           }}
@@ -92,10 +92,11 @@ const NftImageGallery = () => {
       {!selectedImage && (
         <View style={styles.galleryContainer}>
           <Gallery
-            setSelectedImage={(image) => {
+            setSelectedResource={(image) => {
               setSelectedImage(image);
               setEditorVisible(true);
             }}
+            isPhoto
           />
         </View>
       )}
@@ -103,4 +104,4 @@ const NftImageGallery = () => {
   );
 };
 
-export default NftImageGallery;
+export default ImageGallery;
