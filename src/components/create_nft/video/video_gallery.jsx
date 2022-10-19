@@ -57,6 +57,7 @@ const VideoGallery = () => {
         origin: route.params,
       },
     });
+    setSelectedVideo(undefined);
   }
   return (
     <View style={styles.container}>
