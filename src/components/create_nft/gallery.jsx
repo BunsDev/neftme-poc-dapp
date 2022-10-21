@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Button,
+  FlatList,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,6 +17,8 @@ import ImageNFT from './image/image_nft';
 import AudioNFT from './audio/audio_nft';
 import { getNFTByTokenId } from '../../features/neftme_api/nft';
 import Header from './header';
+import nftOptions from './nft_options';
+import NFTOptionItem from './nft_option_item';
 
 const { width } = Dimensions.get('window');
 
@@ -56,6 +59,14 @@ const styles = StyleSheet.create({
   button: {
     margin: 16,
   },
+
+  menuContainer: {
+    marginHorizontal: 45,
+    marginTop: 630,
+    position: 'absolute',
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255, 255, 255, 0.0)',
+  },
 });
 
 const MainGallery = () => {
@@ -65,6 +76,8 @@ const MainGallery = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [nft, setNft] = useState(null);
+  const [selectedNFTOption, setSelectedNFTOption] = useState(nftOptions[0]);
+  const nftOptionArray = Array.from(nftOptions);
 
   const goNext = (resourceURI) => {
     navigation.navigate('CreateNFT', {
@@ -192,8 +205,38 @@ const MainGallery = () => {
     ));
   }
 
+  const returnNFTOption = () => {
+    switch (selectedNFTOption) {
+      case nftOptionArray[1]:
+        return <ImageNFT />;
+      case nftOptionArray[0]:
+        return <VideoNFT />;
+      case nftOptionArray[2]:
+        return <AudioNFT />;
+      default:
+        return <ImageNFT />;
+    }
+  };
+
   return (
-    <VideoNFT />
+    <>
+      {returnNFTOption()}
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={nftOptionArray}
+        style={styles.menuContainer}
+        renderItem={({ item, index }) => (
+          <NFTOptionItem
+            key={`icon_profile_${index}`}
+            item={item}
+            index={index}
+            selectedNFTOptionId={selectedNFTOption.id}
+            setSelectedNFTOption={setSelectedNFTOption}
+          />
+        )}
+      />
+    </>
     /* <View style={styles.container}>
        <Header
         showNext
