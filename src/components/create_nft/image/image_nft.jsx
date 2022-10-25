@@ -17,7 +17,6 @@ import styles from '../image_video_shared/photo_video_styles';
 import CameraOptions from '../image_video_shared/camera_options';
 
 const ImageNFT = () => {
-  const [nft, setNft] = useState(null);
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
@@ -43,19 +42,15 @@ const ImageNFT = () => {
   };
 
   if (image) {
-    const saveVideo = () => {
-      MediaLibrary.saveToLibraryAsync(image.uri).then(() => {
-        setImage(undefined);
-      });
-    };
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <Image style={styles.video} source={{ uri: image.uri }} />
-        <Button title="Save" onPress={saveVideo} />
-        <Button title="Discard" onPress={() => setImage(undefined)} />
-      </SafeAreaView>
-    );
+    navigation.navigate('CreateNFT', {
+      screen: 'EditImage',
+      params: {
+        image: {
+          uri: image.uri,
+        },
+        setImage,
+      },
+    });
   }
 
   const goToGallery = () => {

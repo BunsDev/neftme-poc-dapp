@@ -76,7 +76,7 @@ const MainGallery = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [nft, setNft] = useState(null);
-  const [selectedNFTOption, setSelectedNFTOption] = useState(nftOptions[0]);
+  const [selectedNFTOption, setSelectedNFTOption] = useState(nftOptions[1]);
   const nftOptionArray = Array.from(nftOptions);
 
   const goNext = (resourceURI) => {
