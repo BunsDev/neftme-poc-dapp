@@ -48,9 +48,13 @@ const ImageNFT = () => {
         image: {
           uri: image.uri,
         },
-        setImage,
       },
     });
+    /* if this set is not present, if you take a picture,
+       discard it and come back to the camera screen, when making any action (changing camera, flash)
+       it will return to the editing screen
+    */
+    setImage(undefined);
   }
 
   const goToGallery = () => {
