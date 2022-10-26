@@ -64,17 +64,25 @@ const innerStyles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 const EditImage = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const [selectedImage, setSelectedImage] = useState(route.params.image.uri);
+  const [selectedImage, setSelectedImage] = useState(route.params.resource);
   const [editorVisible, setEditorVisible] = useState(false);
 
   const goToNFTDetails = () => {
-    navigation.navigate('CreateNFT', {
-      screen: 'CreateNFTDetails',
-      params: { resource: selectedImage.uri, origin: route.params },
-    });
+    if (!selectedImage) {
+      navigation.navigate('CreateNFT', {
+        screen: 'CreateNFTDetails',
+        params: { resource: route.params.resource },
+      });
+    } else {
+      navigation.navigate('CreateNFT', {
+        screen: 'CreateNFTDetails',
+        params: { resource: selectedImage },
+      });
+    }
   };
 
   return (
@@ -85,7 +93,7 @@ const EditImage = () => {
         <View style={innerStyles.editImageContainer}>
           <ImageBackground
             source={{
-              uri: route.params.image.uri,
+              uri: route.params.resource,
             }}
             style={innerStyles.image}
           >
@@ -112,7 +120,7 @@ const EditImage = () => {
           <View style={innerStyles.createNFTButtonContainer}>
             <Button
               buttonStyle={innerStyles.createNFTButton}
-              onPress={() => goToNFTDetails}
+              onPress={() => goToNFTDetails()}
               text="Mint NFT"
               textStyle={innerStyles.makeOfferText}
             />
@@ -127,7 +135,7 @@ const EditImage = () => {
             setSelectedImage(undefined);
             setEditorVisible(false);
           }}
-          imageUri={route.params.image.uri || undefined}
+          imageUri={route.params.resource || undefined}
           fixedCropAspectRatio={1.6}
           lockAspectRatio={false}
           minimumCropDimensions={{

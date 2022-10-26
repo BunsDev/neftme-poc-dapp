@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
+import { AutoFocus, Camera, CameraType, FlashMode } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import PhotoTakeIcon from '@assets/icons/photo_nft_start.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import GalleryIcon from '@assets/icons/galery.svg';
 import { useNavigation } from '@react-navigation/native';
+import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 import styles from '../image_video_shared/photo_video_styles';
 import CameraOptions from '../image_video_shared/camera_options';
 
@@ -31,12 +32,21 @@ const ImageNFT = () => {
     requestPermissions();
   });
 
-  const takePicture = () => {
+  const takePicture = async () => {
     const options = {
       quality: '1080p',
+      isImageMirror: false,
     };
 
-    cameraRef.current.takePictureAsync(options).then((newImage) => {
+    cameraRef.current.takePictureAsync(options).then(async (newImage) => {
+      if (type === CameraType.front) {
+        const editedImage = await manipulateAsync(
+          newImage.uri,
+          [{ rotate: 180 }, { flip: FlipType.Vertical }],
+          { compress: 1, format: SaveFormat.PNG }
+        );
+        setImage(editedImage);
+      }
       setImage(newImage);
     });
   };
@@ -45,9 +55,7 @@ const ImageNFT = () => {
     navigation.navigate('CreateNFT', {
       screen: 'EditImage',
       params: {
-        image: {
-          uri: image.uri,
-        },
+        resource: image.uri,
       },
     });
     /* if this set is not present, if you take a picture,
@@ -69,6 +77,7 @@ const ImageNFT = () => {
       ref={cameraRef}
       type={type}
       flashMode={flash}
+      autoFocus={AutoFocus.on}
     >
       <View>
         <CameraOptions flash={flash} setFlash={setFlash} setType={setType} />
