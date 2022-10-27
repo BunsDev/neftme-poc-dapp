@@ -82,6 +82,18 @@ const CreateNFTDetails = () => {
     }
   };
 
+  const navigateToLocation = () => {
+    navigation.navigate('CreateNFT', {
+      screen: 'LocationNFT',
+      params: {
+        nft: {
+          resource: route.params.resource,
+          description,
+        },
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Header showNext onPress={onNextPress} step={2} />
@@ -99,7 +111,10 @@ const CreateNFTDetails = () => {
           containerStyle={styles.marginTop16}
         />
       </View>
-      <TouchableOpacity style={styles.addLocation}>
+      <TouchableOpacity
+        style={styles.addLocation}
+        onPress={() => navigateToLocation()}
+      >
         <Text style={styles.locationText}>Add location </Text>
         <LocationIcon style={styles.arrowIcon} />
       </TouchableOpacity>

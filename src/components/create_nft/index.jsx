@@ -6,6 +6,7 @@ import CreateNFTTokenomics from './create_nft_tokenomics';
 import ImageGallery from './image/image_gallery';
 import VideoGallery from './video/video_gallery';
 import EditImage from './image/edit_image';
+import LocationNFT from './location/location';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const CreateNFT = () => (
     <Stack.Screen name="EditImage" component={EditImage} />
     <Stack.Screen name="VideoGallery" component={VideoGallery} />
     <Stack.Screen name="CreateNFTDetails" component={CreateNFTDetails} />
+    <Stack.Screen name="LocationNFT" component={LocationNFT} />
     <Stack.Screen name="CreateNFTTokenomics" component={CreateNFTTokenomics} />
   </Stack.Navigator>
 );
