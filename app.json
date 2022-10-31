@@ -71,7 +71,7 @@
         ]
       },
       "chainName": "Trust EVM testnet",
-      "rpcUrl": "https://api.testnet-dev.trust.one/",
+      "rpcUrl": "https://api.testnet-dev.trust.one",
       "chainId": 15555,
       "neftmeErc721Address": "0x5717D13Af9610923eBba4599c650FBC45A602f66",
       "neftmeViewContractAddress": "0x53ccc9d98e59c9B9939F41bc0Cf57919Fc917CBf",
