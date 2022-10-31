@@ -70,12 +70,12 @@
           "user_media"
         ]
       },
-      "chainName": "Trust EVM testnet",
-      "rpcUrl": "https://api.testnet-dev.trust.one",
-      "chainId": 15555,
-      "neftmeErc721Address": "0x5717D13Af9610923eBba4599c650FBC45A602f66",
-      "neftmeViewContractAddress": "0x53ccc9d98e59c9B9939F41bc0Cf57919Fc917CBf",
-      "neftmeErc20NEFTAddress": "0xD3745a2A266138cE41a5E81B01DdCb606477Ee69",
+      "chainName": "Aurora Testnet",
+      "rpcUrl": "https://testnet.aurora.dev/",
+      "chainId": 1313161555,
+      "neftmeErc721Address": "0xF43Af6c2cCfC4Ba295c37BC3ca4a6aE4bBe8435f",
+      "neftmeViewContractAddress": "0xc7cF7d37E0CFe981559070c7991441f48dB17d49",
+      "neftmeErc20NEFTAddress": "0xA8572DcBE1e2d4FE66BC8f15CE37090Db571D418",
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
         "staked": "Staked",
