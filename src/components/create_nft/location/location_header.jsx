@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as Location from 'expo-location';
 import LocationIcon from '@assets/icons/location.svg';
-import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 
 const BACKGROUND_COLOR = '#21212b';
@@ -15,11 +14,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
     alignSelf: 'center',
-  },
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: '#21212b',
+    marginTop: 15,
   },
   centerHorVert: {
     justifyContent: 'center',
@@ -45,36 +40,37 @@ const LocationHeader = (setLocation) => {
       if (status !== 'granted') {
         // console.log('Permission to access location was denied');
         // TODO ALERT
+        console.log('sem perms');
       }
     })();
   }, []);
 
   const fetchLocation = async () => {
     if (await Location.hasServicesEnabledAsync()) {
-      const locationn = await Location.getCurrentPositionAsync({});
-      const morada = await Location.reverseGeocodeAsync(locationn.coords);
-      setLocation(morada);
+      const locationCoords = await Location.getCurrentPositionAsync({});
+      console.log(locationCoords);
+      console.log('ya');
+      const morada = await Location.reverseGeocodeAsync(locationCoords.coords);
+      await setLocation(morada);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          style={styles.centerHorVert}
-          onPress={() => fetchLocation()}
-        >
-          <LocationIcon style={styles.locationICon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.centerHorVert}>
-          <Text style={styles.button}>Location</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.centerHorVert}>
-          <Text style={styles.button} onPress={navigation.goBack}>
-            Cancel
-          </Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.headerContainer}>
+      <TouchableOpacity
+        style={styles.centerHorVert}
+        onPress={() => fetchLocation()}
+      >
+        <LocationIcon style={styles.locationICon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.centerHorVert}>
+        <Text style={styles.button}>Location</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.centerHorVert}>
+        <Text style={styles.button} onPress={navigation.goBack}>
+          Cancel
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

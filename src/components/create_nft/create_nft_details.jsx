@@ -47,6 +47,7 @@ const CreateNFTDetails = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState(undefined);
 
   const onNextPress = () => {
     if (route.params.origin?.profilePhoto) {
@@ -76,6 +77,7 @@ const CreateNFTDetails = () => {
           nft: {
             resource: route.params.resource,
             description,
+            location,
           },
         },
       });
@@ -90,6 +92,7 @@ const CreateNFTDetails = () => {
           resource: route.params.resource,
           description,
         },
+        setLocation,
       },
     });
   };
@@ -115,8 +118,14 @@ const CreateNFTDetails = () => {
         style={styles.addLocation}
         onPress={() => navigateToLocation()}
       >
-        <Text style={styles.locationText}>Add location </Text>
-        <LocationIcon style={styles.arrowIcon} />
+        {location ? (
+          <Text style={styles.locationText}>{location}</Text>
+        ) : (
+          <>
+            <Text style={styles.locationText}>Add location </Text>
+            <LocationIcon style={styles.arrowIcon} />
+          </>
+        )}
       </TouchableOpacity>
     </View>
   );
