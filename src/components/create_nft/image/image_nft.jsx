@@ -39,6 +39,8 @@ const ImageNFT = () => {
     };
 
     cameraRef.current.takePictureAsync(options).then(async (newImage) => {
+      // TODO - This is very heavy in processing but at time of writing expo
+      // has a bug that auto mirrors front facing images
       if (type === CameraType.front) {
         const editedImage = await manipulateAsync(
           newImage.uri,
@@ -46,8 +48,9 @@ const ImageNFT = () => {
           { compress: 1, format: SaveFormat.PNG }
         );
         setImage(editedImage);
+      } else {
+        setImage(newImage);
       }
-      setImage(newImage);
     });
   };
 
