@@ -48,7 +48,7 @@ export default StyleSheet.create({
     marginHorizontal: 20,
     width: 330,
     height: 200,
-    borderRadius: 16,
+    borderRadius: 16
   },
   imageContainer: {
     justifyContent: 'center',

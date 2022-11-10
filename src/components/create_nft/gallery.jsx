@@ -61,11 +61,13 @@ const styles = StyleSheet.create({
   },
 
   menuContainer: {
-    marginHorizontal: 45,
+    paddingTop: 7,
+    paddingLeft: '12%',
     marginTop: 630,
     position: 'absolute',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.0)',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
   },
 });
 
@@ -237,100 +239,7 @@ const MainGallery = () => {
         )}
       />
     </>
-    /* <View style={styles.container}>
-       <Header
-        showNext
-        onPress={selectedImage ? () => goNext(selectedImage.uri) : null}
-        step={1}
-      />
-      {selectedImage ? (
-        <Image
-          style={styles.selectedImage}
-          source={{ uri: selectedImage.uri }}
-        />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Button onPress={() => startRecording()} title="PLAY">
-          {' '}
-        </Button>
-        <Button onPress={() => stopRecording()} title="STOP">
-          {' '}
-        </Button>
-        <Button onPress={() => upload()} title="Upload">
-          {' '}
-        </Button>
-        {getRecordingLines()}
-      </View>
-    </View> */
   );
-
-  /* ORIGINAL
-  <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
-      {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Gallery onCameraPress={onCameraPress} setSelectedImage={setSelectedImage} />
-      </View>
-    <View style={editorVisible ? [styles.container] : [styles.container, styles.paddingTop60]}>
-      {!selectedImage && <Header showNext onPress={null} step={1} />}
-      {selectedImage && (
-        <ImageEditor
-          asView
-          visible={editorVisible}
-          onCloseEditor={() => {
-            setSelectedImage(undefined);
-            setEditorVisible(false);
-          }}
-          imageUri={selectedImage?.uri || undefined}
-          fixedCropAspectRatio={1.6}
-          lockAspectRatio={false}
-          minimumCropDimensions={{
-            width: 100,
-            height: 100,
-          }}
-          onEditingComplete={(result) => {
-            if (result?.uri) {
-              setSelectedImage(result.uri);
-              navigation.navigate('CreateNFT', {
-                screen: 'CreateNFTDetails',
-                params: { nftImage: result.uri, origin: route.params },
-              });
-            }
-          }}
-          throttleBlur={false}
-          mode="crop-only"
-        />
-      )}
-      {!selectedImage && (
-        <View style={styles.galleryContainer}>
-          <Gallery
-            onCameraPress={onCameraPress}
-            setSelectedImage={(image) => {
-              setSelectedImage(image);
-              setEditorVisible(true);
-            }}
-          />
-        </View>
-      )}
-    </View>
-
-  */
-
-  // CENAS DE RECORDING SONS
-  /*
-    <View style={styles.container}>
-      <Header showNext onPress={selectedImage ? () => goNext(selectedImage.uri) : null} step={1} />
-      {selectedImage ? (
-        <Image style={styles.selectedImage} source={{ uri: selectedImage.uri }} />
-      ) : null}
-      <View style={styles.galleryContainer}>
-        <Button onPress={() => startRecording()} title="PLAY"> </Button>
-        <Button onPress={() => stopRecording()} title="STOP"> </Button>
-        {getRecordingLines()}
-      </View>
-    </View> */
 };
 
 export default MainGallery;
