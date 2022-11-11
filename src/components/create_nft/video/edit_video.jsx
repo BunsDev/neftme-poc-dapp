@@ -3,8 +3,9 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ExitXIcon from '@assets/icons/exit_x.svg';
-import BrushIcon from '@assets/icons/brush_edit_photo.svg';
-import CropIcon from '@assets/icons/crop.svg';
+import ScissorsIcon from '@assets/icons/scissors.svg';
+import SpeakerIcon from '@assets/icons/speaker.svg';
+import PlayIcon from '@assets/icons/play.svg';
 import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
 import Button from '../../library/button';
 import styles from '../image_video_shared/photo_video_styles';
@@ -65,6 +66,7 @@ const EditVideo = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const video = useRef(null);
+  const [status, setStatus] = useState({});
   const [selectedVideo, setSelectedVideo] = useState(route.params.resource);
 
   const goToNFTDetails = () => {
@@ -90,8 +92,9 @@ const EditVideo = () => {
           source={{
             uri: route.params.resource,
           }}
-          resizeMode="stretch"
-          onPlaybackStatusUpdate={(status) => console.log(status)}
+          resizeMode="cover"
+          isLooping
+          onPlaybackStatusUpdate={(newStatus) => setStatus(() => newStatus)}
         />
         <TouchableOpacity
           style={[innerStyles.exit, styles.exitIcon]}
@@ -101,11 +104,21 @@ const EditVideo = () => {
         </TouchableOpacity>
         <View style={innerStyles.editingContainer}>
           <TouchableOpacity>
-            <BrushIcon style={innerStyles.editingContainer} />
+            <SpeakerIcon style={innerStyles.editingContainer} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => console.log('ya')}>
-            <CropIcon style={innerStyles.editingContainer} />
+            <ScissorsIcon style={innerStyles.editingContainer} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              status.isPlaying
+                ? video.current.pauseAsync()
+                : video.current.playAsync()
+            }
+          >
+            <PlayIcon style={innerStyles.editingContainer} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => navigation.goBack()}>
