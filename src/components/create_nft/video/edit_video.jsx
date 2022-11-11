@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Video } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Video } from 'expo-av';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ExitXIcon from '@assets/icons/exit_x.svg';
 import BrushIcon from '@assets/icons/brush_edit_photo.svg';
 import CropIcon from '@assets/icons/crop.svg';
 import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
-import { ImageEditor } from 'expo-image-editor';
 import Button from '../../library/button';
 import styles from '../image_video_shared/photo_video_styles';
 
@@ -30,7 +30,7 @@ const innerStyles = StyleSheet.create({
   exitIcon: {
     paddingLeft: 20,
   },
-  image: {
+  video: {
     height: 490,
     marginTop: 25,
   },
@@ -56,11 +56,15 @@ const innerStyles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
+  exit: {
+    position: 'absolute',
+  },
 });
 
 const EditVideo = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const video = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(route.params.resource);
 
   const goToNFTDetails = () => {
@@ -81,18 +85,20 @@ const EditVideo = () => {
     <View style={innerStyles.container}>
       <View style={innerStyles.editImageContainer}>
         <Video
+          ref={video}
+          style={innerStyles.video}
           source={{
             uri: route.params.resource,
           }}
-          style={innerStyles.image}
+          resizeMode="stretch"
+          onPlaybackStatusUpdate={(status) => console.log(status)}
+        />
+        <TouchableOpacity
+          style={[innerStyles.exit, styles.exitIcon]}
+          onPress={() => navigation.goBack()}
         >
-          <TouchableOpacity
-            style={styles.exitIcon}
-            onPress={() => navigation.goBack()}
-          >
-            <ExitXIcon style={innerStyles.exitIcon} />
-          </TouchableOpacity>
-        </Video>
+          <ExitXIcon style={innerStyles.exitIcon} />
+        </TouchableOpacity>
         <View style={innerStyles.editingContainer}>
           <TouchableOpacity>
             <BrushIcon style={innerStyles.editingContainer} />

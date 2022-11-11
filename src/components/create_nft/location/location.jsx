@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import LocationIcon from '@assets/icons/location.svg';
 import * as Location from 'expo-location';
+import { google_api_key } from '@env';
 
 const BACKGROUND_COLOR = '#21212b';
 
@@ -81,7 +82,7 @@ const LocationNFT = () => {
       </View>
       <GooglePlacesAutocomplete
         placeholder="Type a place"
-        query={{ key: Constants.manifest.extra.googleAPIKey }}
+        query={{ key: process.env.google_api_key }}
         styles={{
           container: {
             marginTop: 10,
