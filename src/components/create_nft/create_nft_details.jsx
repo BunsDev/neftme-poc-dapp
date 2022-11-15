@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { InputField } from '@library';
 import LocationIcon from '@assets/icons/add_location.svg';
+import Constants from 'expo-constants';
 import Header from './header';
 
 const styles = StyleSheet.create({
@@ -45,9 +46,12 @@ const styles = StyleSheet.create({
 
 const CreateNFTDetails = () => {
   const route = useRoute();
+  const constants = Constants.manifest.extra;
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState(undefined);
+
+  console.log(route.params.videoImage);
 
   const onNextPress = () => {
     if (route.params.origin?.profilePhoto) {
@@ -92,7 +96,6 @@ const CreateNFTDetails = () => {
           resource: route.params.resource,
           description,
         },
-        setLocation,
       },
     });
   };
@@ -104,7 +107,11 @@ const CreateNFTDetails = () => {
         <InputField
           labelName="Description"
           value={description}
-          resource={route.params.resource}
+          resource={
+            route.params.resourceType === constants.mediaType.video
+              ? route.params?.videoImage?.uri
+              : route.params?.resource
+          }
           onFieldChange={setDescription}
           inputPlaceholder="Describe your NFT, add hashtags or mention other Creators"
           multiline

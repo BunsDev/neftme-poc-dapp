@@ -87,7 +87,8 @@
       },
       "mediaType": {
         "image": "jpg",
-        "sound": "m4a"
+        "sound": "m4a",
+        "video": "mov"
       },
       "eas": {
         "projectId": "9876be34-f6d4-4320-90a2-d983fee425f4"

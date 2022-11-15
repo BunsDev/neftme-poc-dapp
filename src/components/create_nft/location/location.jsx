@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import Constants from 'expo-constants';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import LocationIcon from '@assets/icons/location.svg';
 import * as Location from 'expo-location';
-import { google_api_key } from '@env';
 
 const BACKGROUND_COLOR = '#21212b';
 

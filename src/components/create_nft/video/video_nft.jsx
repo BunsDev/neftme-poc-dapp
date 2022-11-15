@@ -1,15 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { Video } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
-import { shareAsync } from 'expo-sharing';
 import VideoStartIcon from '@assets/icons/video_start.svg';
 import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
@@ -44,6 +36,9 @@ const VideoNFT = () => {
     };
 
     cameraRef.current.recordAsync(options).then((recordedVideo) => {
+      // TODO Change mov file to mp4 | Web says it's just an extension change. Doesnt work with expo av video component
+      // const uri = `${recordedVideo?.uri.split('.')[0]}.mp4`;
+      // const newRecordedVideo = { uri };
       setVideo(recordedVideo);
       setIsRecording(false);
     });
@@ -68,9 +63,7 @@ const VideoNFT = () => {
     setVideo(undefined);
 
     const saveVideo = () => {
-      MediaLibrary.saveToLibraryAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
+      MediaLibrary.saveToLibraryAsync(video.uri);
     };
   }
 

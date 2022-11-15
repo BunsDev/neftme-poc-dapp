@@ -19,6 +19,7 @@ const Gallery = ({ setSelectedResource, isPhoto }) => {
   const [resources, setResources] = useState([]);
   const [after, setAfter] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
+
   const getPermissionsAsync = async () => {
     await ImagePicker.requestCameraPermissionsAsync();
     const status = await ImagePicker.requestMediaLibraryPermissionsAsync();

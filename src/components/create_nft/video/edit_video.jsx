@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -6,7 +6,10 @@ import ExitXIcon from '@assets/icons/exit_x.svg';
 import ScissorsIcon from '@assets/icons/scissors.svg';
 import SpeakerIcon from '@assets/icons/speaker.svg';
 import PlayIcon from '@assets/icons/play.svg';
+import Constants from 'expo-constants';
+import * as VideoThumbnails from 'expo-video-thumbnails';
 import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
+import * as MediaLibrary from 'expo-media-library';
 import Button from '../../library/button';
 import styles from '../image_video_shared/photo_video_styles';
 
@@ -37,9 +40,10 @@ const innerStyles = StyleSheet.create({
   },
   editingContainer: {
     flexDirection: 'row',
-    marginHorizontal: 50,
-    marginTop: 10,
-    marginLeft: 35,
+    alignItems: 'center',
+    marginHorizontal: 30,
+    marginTop: 5,
+    marginLeft: 25,
   },
   editingIcon: {
     padding: 10,
@@ -68,18 +72,43 @@ const EditVideo = () => {
   const video = useRef(null);
   const [status, setStatus] = useState({});
   const [selectedVideo, setSelectedVideo] = useState(route.params.resource);
+  const [videoImage, setVideoImage] = useState();
+  const [muted, setIsMuted] = useState(false);
+  const constants = Constants.manifest.extra;
 
-  const goToNFTDetails = () => {
-    if (!selectedVideo) {
-      navigation.navigate('CreateNFT', {
-        screen: 'CreateNFTDetails',
-        params: { resource: route.params.resource },
-      });
-    } else {
-      navigation.navigate('CreateNFT', {
-        screen: 'CreateNFTDetails',
-        params: { resource: selectedVideo },
-      });
+  const generateThumbnail = async () => {
+    try {
+      await VideoThumbnails.getThumbnailAsync(selectedVideo, {
+        time: 500,
+      }).then((uri) => setVideoImage(uri));
+    } catch (e) {
+      // console.warn(e);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      generateThumbnail();
+    })();
+  }, []);
+
+  const goToNFTDetails = async () => {
+    if (!videoImage) await generateThumbnail();
+    navigation.navigate('CreateNFT', {
+      screen: 'CreateNFTDetails',
+      params: {
+        resource: selectedVideo,
+        resourceType: constants.mediaType.video,
+        videoImage,
+      },
+    });
+  };
+
+  const saveVideo = async () => {
+    try {
+      await MediaLibrary.saveToLibraryAsync(selectedVideo);
+    } catch (err) {
+      // console.log(err);
     }
   };
 
@@ -90,10 +119,11 @@ const EditVideo = () => {
           ref={video}
           style={innerStyles.video}
           source={{
-            uri: route.params.resource,
+            uri: selectedVideo,
           }}
           resizeMode="cover"
           isLooping
+          isMuted={muted}
           onPlaybackStatusUpdate={(newStatus) => setStatus(() => newStatus)}
         />
         <TouchableOpacity
@@ -102,12 +132,15 @@ const EditVideo = () => {
         >
           <ExitXIcon style={innerStyles.exitIcon} />
         </TouchableOpacity>
+
         <View style={innerStyles.editingContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => (muted ? setIsMuted(false) : setIsMuted(true))}
+          >
             <SpeakerIcon style={innerStyles.editingContainer} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => console.log('ya')}>
+          <TouchableOpacity onPress={() => saveVideo()}>
             <ScissorsIcon style={innerStyles.editingContainer} />
           </TouchableOpacity>
 

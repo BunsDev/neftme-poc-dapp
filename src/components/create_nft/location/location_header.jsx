@@ -40,7 +40,7 @@ const LocationHeader = (setLocation) => {
       if (status !== 'granted') {
         // console.log('Permission to access location was denied');
         // TODO ALERT
-        console.log('sem perms');
+        // console.log('sem perms');
       }
     })();
   }, []);
@@ -48,8 +48,6 @@ const LocationHeader = (setLocation) => {
   const fetchLocation = async () => {
     if (await Location.hasServicesEnabledAsync()) {
       const locationCoords = await Location.getCurrentPositionAsync({});
-      console.log(locationCoords);
-      console.log('ya');
       const morada = await Location.reverseGeocodeAsync(locationCoords.coords);
       await setLocation(morada);
     }

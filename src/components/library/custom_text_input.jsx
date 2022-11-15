@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TextInput, Image, View } from 'react-native';
+import { StyleSheet, TextInput, ImageBackground, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,7 +37,9 @@ const CustomTextInput = ({
   ...rest
 }) => (
   <View style={styles.container}>
-    {resource && <Image source={{ uri: resource }} style={styles.image} />}
+    {resource && (
+      <ImageBackground source={{ uri: resource }} style={styles.image} />
+    )}
     <TextInput
       style={[styles.textInput, inputStyle]}
       value={value}
