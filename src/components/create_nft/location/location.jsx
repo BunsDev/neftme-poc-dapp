@@ -120,6 +120,4 @@ const LocationNFT = () => {
   );
 };
 
-LocationNFT.propTypes = {};
-
 export default LocationNFT;

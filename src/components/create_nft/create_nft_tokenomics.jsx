@@ -17,23 +17,20 @@ const CreateNFTTokenomics = () => {
   const { getContractMethods } = useSmartContract();
   const [isLoading, setIsLoading] = useState(false);
   const [communityPercentage, setCommunityPercentage] = useState(0);
+  const constants = Constants.manifest.extra;
+  const nftModelObject = route.params?.nft;
 
   const onMintNFTPress = async () => {
     try {
       setIsLoading(true);
-      const nft = {
-        description: route.params.nft.description,
-        communityPercentage,
-        resource: route.params.nft.resource,
-        resource_type: route.params.nft.resource_type,
-      };
+      nftModelObject?.setCommunityPercentage(communityPercentage);
 
       const contractMethods = await getContractMethods(
         Constants.manifest.extra.neftmeErc721Address
       );
       const mintedNFT = await mintNFT(
         contractMethods,
-        nft,
+        nftModelObject,
         connector.accounts[0]
       );
       setIsLoading(false);
@@ -55,7 +52,12 @@ const CreateNFTTokenomics = () => {
       <Header showNext={false} onPress={null} step={3} />
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: route.params.nft.resource }}
+          source={{
+            uri:
+              route.params.nft?.resourceType === constants.mediaType.video
+                ? route.params.nft?.thumbnail
+                : route.params.nft?.resource,
+          }}
           style={styles.image}
         />
       </View>

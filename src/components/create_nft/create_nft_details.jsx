@@ -2,7 +2,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   Platform,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -12,6 +11,7 @@ import { InputField } from '@library';
 import LocationIcon from '@assets/icons/add_location.svg';
 import Constants from 'expo-constants';
 import Header from './header';
+import { NFTModelClass } from '../../model/nft_model';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,8 +51,6 @@ const CreateNFTDetails = () => {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState(undefined);
 
-  console.log(route.params.videoImage);
-
   const onNextPress = () => {
     if (route.params.origin?.profilePhoto) {
       if (route.params.origin?.returnTo === 'startProfilePhoto') {
@@ -75,14 +73,17 @@ const CreateNFTDetails = () => {
         });
       }
     } else {
+      const nft = new NFTModelClass(
+        route.params.resource,
+        route.params?.resourceType,
+        location,
+        description,
+        route.params.videoImage.uri
+      );
       navigation.navigate('CreateNFT', {
         screen: 'CreateNFTTokenomics',
         params: {
-          nft: {
-            resource: route.params.resource,
-            description,
-            location,
-          },
+          nft,
         },
       });
     }
@@ -91,12 +92,6 @@ const CreateNFTDetails = () => {
   const navigateToLocation = () => {
     navigation.navigate('CreateNFT', {
       screen: 'LocationNFT',
-      params: {
-        nft: {
-          resource: route.params.resource,
-          description,
-        },
-      },
     });
   };
 

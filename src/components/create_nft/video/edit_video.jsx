@@ -71,6 +71,7 @@ const EditVideo = () => {
   const route = useRoute();
   const video = useRef(null);
   const [status, setStatus] = useState({});
+  // TODO, right now doesnt make sense to have selectedVideo useState, but will make sense when we allow video editing
   const [selectedVideo, setSelectedVideo] = useState(route.params.resource);
   const [videoImage, setVideoImage] = useState();
   const [muted, setIsMuted] = useState(false);
