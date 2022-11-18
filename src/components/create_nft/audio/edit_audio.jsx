@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
+import Constants from 'expo-constants';
 import Accordion from 'react-native-collapsible/Accordion';
+import * as FileSystem from 'expo-file-system';
+import { useRoute } from '@react-navigation/native';
+import { Audio } from 'expo-av';
 
 const CONTENT = [
   {
@@ -78,9 +82,30 @@ const styles = StyleSheet.create({
 const App = () => {
   // Ddefault active selector
   const [activeSections, setActiveSections] = useState([]);
+  const audioDir =
+    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
+  const route = useRoute();
+
   const setSections = (sections) => {
     // setting up a active section state
     setActiveSections(sections.includes(undefined) ? [] : sections);
+  };
+
+  const loadContent = async () => {
+    try {
+      const source = { uri: route.params.nft.resource };
+      const initialStatus = {
+        shouldPlay: false,
+        rate: 1.0,
+        volume: 1.0,
+      };
+
+      const { sound } = await Audio.Sound.createAsync(source, initialStatus);
+
+      sound.replayAsync();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const renderHeader = (section, _, isActive) => {
@@ -91,7 +116,9 @@ const App = () => {
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        <Text style={styles.headerText}>{section.title}</Text>
+        <Text style={styles.headerText} onPress={() => loadContent()}>
+          {section.title}
+        </Text>
       </Animatable.View>
     );
   };

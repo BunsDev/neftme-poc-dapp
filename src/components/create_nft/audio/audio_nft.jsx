@@ -65,8 +65,9 @@ const AudioNFT = () => {
   const [recordingAudio, setRecording] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const navigation = useNavigation();
-  const route = useRoute();
   const constants = Constants.manifest.extra;
+  const audioDir =
+    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
 
   const startRecording = async () => {
     try {
@@ -90,31 +91,56 @@ const AudioNFT = () => {
     }
   };
 
-  const downloadAudio = async (filename, uri) => {
-    const fileUri = `${FileSystem.documentDirectory}${filename}`;
-    const downloadedFile = await FileSystem.downloadAsync(uri, fileUri);
+  const downloadAudioToLocalStorage = async (fileURI) => {
+    // Checks if Audio Dir exists
+    const read = await FileSystem.getInfoAsync(audioDir);
 
-    if (downloadedFile.status != 200) {
+    if (!read.exists || !read.isDirectory) {
+      // If dir !exists or is not marked as Dir, create it
+      try {
+        await FileSystem.makeDirectoryAsync(audioDir);
+      } catch (err) {
+        // console.log(err);
+      }
+    }
+    try {
+      const { exists } = await FileSystem.getInfoAsync(fileURI);
+      const { isDirectory } = await FileSystem.getInfoAsync(audioDir);
+      // TODO Ver com Gonçalo se isto é boa pratica ou mudar
+      const filename = fileURI.split('/');
+
+      if (exists && isDirectory) {
+        await FileSystem.moveAsync({
+          from: fileURI,
+          to: audioDir + filename[14],
+        });
+        return audioDir + filename[14];
+      }
+    } catch (err) {
+      // console.log(err);
     }
   };
+
   const stopRecording = async () => {
     // setRecording(undefined);
     try {
       await recordingAudio.stopAndUnloadAsync();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
+    setIsRecording(false);
 
     // This setting is needed because otherwise the IOS system
     // will only play sound via the phone call speaker, and not the bottom ones
     // Big thanks to that guy on Github with the same issue
-    Audio.setAudioModeAsync({ allowsRecordingIOS: false });
+    await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
 
     const { status } = await recordingAudio.createNewLoadedSoundAsync();
-    setIsRecording(false);
+    const localURI = await downloadAudioToLocalStorage(recordingAudio.getURI());
+    console.log(localURI);
     try {
       const nft = new NFTModelClass(
-        recordingAudio.getURI(),
+        localURI,
         constants.mediaType.audio,
         undefined,
         undefined,
@@ -122,12 +148,10 @@ const AudioNFT = () => {
         undefined
       );
 
-      downloadAudio()
-
       navigation.navigate('CreateNFT', {
         screen: 'EditAudio',
         params: {
-          resource: nft,
+          nft,
         },
       });
     } catch (err) {
