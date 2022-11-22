@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import VideoStartIcon from '@assets/icons/video_start.svg';
 import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
@@ -137,7 +137,7 @@ const AudioNFT = () => {
 
     const { status } = await recordingAudio.createNewLoadedSoundAsync();
     const localURI = await downloadAudioToLocalStorage(recordingAudio.getURI());
-    console.log(localURI);
+
     try {
       const nft = new NFTModelClass(
         localURI,

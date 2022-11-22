@@ -15,6 +15,8 @@ import Accordion from 'react-native-collapsible/Accordion';
 import * as FileSystem from 'expo-file-system';
 import { useRoute } from '@react-navigation/native';
 import { Audio } from 'expo-av';
+import Slider from '@react-native-community/slider';
+import AudioSlider from './audio_slider';
 
 const CONTENT = [
   {
@@ -77,35 +79,26 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
   },
+  sliderStyle: {
+    width: 40,
+    height: 40,
+  },
 });
 
-const App = () => {
+const EditAudio = () => {
   // Ddefault active selector
   const [activeSections, setActiveSections] = useState([]);
+  const route = useRoute();
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const { playbackPosition, playbackDuration } = useState();
+  const [soundObject, setSoundObject] = useState();
+  const [statusObject, setStatusObject] = useState();
   const audioDir =
     FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
-  const route = useRoute();
 
   const setSections = (sections) => {
     // setting up a active section state
     setActiveSections(sections.includes(undefined) ? [] : sections);
-  };
-
-  const loadContent = async () => {
-    try {
-      const source = { uri: route.params.nft.resource };
-      const initialStatus = {
-        shouldPlay: false,
-        rate: 1.0,
-        volume: 1.0,
-      };
-
-      const { sound } = await Audio.Sound.createAsync(source, initialStatus);
-
-      sound.replayAsync();
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const renderHeader = (section, _, isActive) => {
@@ -116,24 +109,19 @@ const App = () => {
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        <Text style={styles.headerText} onPress={() => loadContent()}>
-          {section.title}
-        </Text>
+        <Text style={styles.headerText}>{section.title}</Text>
       </Animatable.View>
     );
   };
 
   const renderContent = (section, _, isActive) => {
-    // Accordion Content view
     return (
       <Animatable.View
         duration={400}
-        style={[styles.content, isActive ? styles.active : styles.inactive]}
+        style={[styles.content, styles.active]}
         transition="backgroundColor"
       >
-        <Animatable.Text style={{ textAlign: 'left', color: '#fff' }}>
-          {section.content}
-        </Animatable.Text>
+        <AudioSlider resource={route.params.nft.resource} />
       </Animatable.View>
     );
   };
@@ -171,4 +159,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default EditAudio;
