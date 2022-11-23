@@ -16,7 +16,10 @@ import * as FileSystem from 'expo-file-system';
 import { useRoute } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
+import { Button } from '@library';
 import AudioSlider from './audio_slider';
+import OpenAudioIcon from '../../../../assets/icons/open_audio_arrow.svg';
+import CloseAudioIcon from '../../../../assets/icons/close_audio_arrow.svg';
 
 const CONTENT = [
   {
@@ -50,10 +53,11 @@ const styles = StyleSheet.create({
     textAlign: 'left*',
     fontSize: 16,
     fontWeight: '500',
+    color: '#FFF',
   },
   content: {
     padding: 20,
-    backgroundColor: '#21212b',
+    backgroundColor: '#FFF',
   },
   active: {
     backgroundColor: '#21212b',
@@ -83,6 +87,20 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  allRecordings: {
+    fontWeight: '500',
+    fontSize: 25,
+    color: '#FFFFFF',
+  },
+  allRecordingsContainer: {
+    marginLeft: 30,
+    marginTop: 10,
+  },
+  divider: {
+    borderBottomColor: 'rgba(255, 255, 255, 0.4)',
+    borderBottomWidth: 1,
+    marginTop: 50,
+  },
 });
 
 const EditAudio = () => {
@@ -103,13 +121,16 @@ const EditAudio = () => {
 
   const renderHeader = (section, _, isActive) => {
     // Accordion Header view
+    console.log(isActive);
+    console.log(section);
     return (
       <Animatable.View
         duration={400}
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        <Text style={styles.headerText}>{section.title}</Text>
+        {isActive ? <OpenAudioIcon /> : <CloseAudioIcon />}
+        <Text style={styles.headerText}>New Recording</Text>
       </Animatable.View>
     );
   };
@@ -122,6 +143,7 @@ const EditAudio = () => {
         transition="backgroundColor"
       >
         <AudioSlider resource={route.params.nft.resource} />
+        <Button text="Create NFT" onPress={() => {}} textStyle={{}} />
       </Animatable.View>
     );
   };
@@ -129,6 +151,10 @@ const EditAudio = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+        <View style={styles.allRecordingsContainer}>
+          <Text style={styles.allRecordings}>All Recordings</Text>
+        </View>
+        <View style={styles.divider} />
         <ScrollView>
           {/* Code for Accordion/Expandable List starts here */}
           <Accordion

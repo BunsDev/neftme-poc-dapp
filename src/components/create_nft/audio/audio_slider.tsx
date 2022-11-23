@@ -7,10 +7,6 @@ import * as FileSystem from 'expo-file-system';
 import { Audio, AVPlaybackSource, AVPlaybackStatus } from 'expo-av';
 import Slider from '@react-native-community/slider';
 
-interface ResourceInterface {
-  resource: String;
-}
-
 function AudioSlider({ resource }): JSX.Element {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [soundObject, setSoundObject] = useState<Audio.Sound>();
@@ -33,7 +29,6 @@ function AudioSlider({ resource }): JSX.Element {
       );
       setSoundObject(sound);
       setStatusObject(status);
-      console.log(soundObject);
       try {
         soundObject?.replayAsync();
       } catch (err) {
