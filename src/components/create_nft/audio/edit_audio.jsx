@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
 import {
   SafeAreaView,
-  Switch,
   ScrollView,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Collapsible from 'react-native-collapsible';
-import Constants from 'expo-constants';
 import Accordion from 'react-native-collapsible/Accordion';
-import * as FileSystem from 'expo-file-system';
 import { useRoute } from '@react-navigation/native';
-import { Audio } from 'expo-av';
-import Slider from '@react-native-community/slider';
 import { Button } from '@library';
 import AudioSlider from './audio_slider';
-import OpenAudioIcon from '../../../../assets/icons/open_audio_arrow.svg';
-import CloseAudioIcon from '../../../../assets/icons/close_audio_arrow.svg';
+import EditAudioHeader from './edit_audio_header';
 
 const CONTENT = [
   {
@@ -53,6 +47,7 @@ const styles = StyleSheet.create({
     textAlign: 'left*',
     fontSize: 16,
     fontWeight: '500',
+    marginLeft: 10,
     color: '#FFF',
   },
   content: {
@@ -101,18 +96,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 50,
   },
+  nameAndArrow: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  editButton: {
+    color: 'rgba(255, 255, 255, 0.4)',
+    marginLeft: 5,
+  },
 });
 
 const EditAudio = () => {
   // Ddefault active selector
   const [activeSections, setActiveSections] = useState([]);
   const route = useRoute();
-  const [currentPosition, setCurrentPosition] = useState(0);
-  const { playbackPosition, playbackDuration } = useState();
-  const [soundObject, setSoundObject] = useState();
-  const [statusObject, setStatusObject] = useState();
-  const audioDir =
-    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
 
   const setSections = (sections) => {
     // setting up a active section state
@@ -121,16 +119,13 @@ const EditAudio = () => {
 
   const renderHeader = (section, _, isActive) => {
     // Accordion Header view
-    console.log(isActive);
-    console.log(section);
     return (
       <Animatable.View
         duration={400}
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        {isActive ? <OpenAudioIcon /> : <CloseAudioIcon />}
-        <Text style={styles.headerText}>New Recording</Text>
+        <EditAudioHeader />
       </Animatable.View>
     );
   };
@@ -154,7 +149,6 @@ const EditAudio = () => {
         <View style={styles.allRecordingsContainer}>
           <Text style={styles.allRecordings}>All Recordings</Text>
         </View>
-        <View style={styles.divider} />
         <ScrollView>
           {/* Code for Accordion/Expandable List starts here */}
           <Accordion

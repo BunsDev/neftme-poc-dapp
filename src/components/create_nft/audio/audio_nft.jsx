@@ -103,18 +103,20 @@ const AudioNFT = () => {
         // console.log(err);
       }
     }
+
     try {
       const { exists } = await FileSystem.getInfoAsync(fileURI);
       const { isDirectory } = await FileSystem.getInfoAsync(audioDir);
-      // TODO Ver com Gonçalo se isto é boa pratica ou mudar
-      const filename = fileURI.split('/');
 
       if (exists && isDirectory) {
+        const dirContent = await FileSystem.readDirectoryAsync(audioDir);
+        const filePath = ` ${audioDir}New Recording ${dirContent.length + 1}`;
+
         await FileSystem.moveAsync({
           from: fileURI,
-          to: audioDir + filename[14],
+          to: filePath,
         });
-        return audioDir + filename[14];
+        return filePath;
       }
     } catch (err) {
       // console.log(err);

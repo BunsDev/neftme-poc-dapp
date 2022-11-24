@@ -7,6 +7,7 @@ import * as FileSystem from 'expo-file-system';
 import { Audio, AVPlaybackSource, AVPlaybackStatus } from 'expo-av';
 import Slider from '@react-native-community/slider';
 
+// TODO fazer interface para o resource
 function AudioSlider({ resource }): JSX.Element {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [soundObject, setSoundObject] = useState<Audio.Sound>();
