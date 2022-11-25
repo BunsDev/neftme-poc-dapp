@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import VideoStartIcon from '@assets/icons/video_start.svg';
 import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import MicrophoneIcon from '@assets/icons/microphone.svg';
+import SmallMicrophoneIcon from '@assets/icons/small_microphone.svg';
 import { CountUp } from 'use-count-up';
 import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
@@ -34,30 +35,43 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 1)',
   },
   recordButtonsContainer: {
-    alignItems: 'center',
-    marginTop: 135,
+    marginTop: 235,
+    height: 200,
   },
   videoStartButton: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 108,
-    marginTop: 233,
+    marginTop: 128,
   },
   greyRing: {
     marginHorizontal: 100,
-    marginTop: 225,
+    marginTop: 120,
   },
   microphone: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 126,
-    marginTop: 242,
+    marginTop: 135,
   },
   stopButton: {
     position: 'absolute',
     alignItems: 'center',
     marginHorizontal: 125,
-    marginTop: 250,
+    marginTop: 145,
+  },
+  galleryAudios: {
+    position: 'absolute',
+    marginLeft: 220,
+    marginTop: 140,
+  },
+  galleryText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textAlignVertical: 'center',
+  },
+  smallMicrophone: {
+    alignSelf: 'center',
   },
 });
 
@@ -69,25 +83,50 @@ const AudioNFT = () => {
   const audioDir =
     FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
 
+  // TODO Colocar funções na pasta utils e importar
+
+  const navigateToEditAudio = (nft) => {
+    if (nft) {
+      navigation.navigate('CreateNFT', {
+        screen: 'EditAudio',
+        params: {
+          nft,
+        },
+      });
+    } else {
+      navigation.navigate('CreateNFT', {
+        screen: 'EditAudio',
+        params: {},
+      });
+    }
+  };
+
   const startRecording = async () => {
     try {
-      const permission = await Audio.requestPermissionsAsync();
-
-      if (permission.status === 'granted') {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
-
-        setIsRecording(true);
-
-        const { recording } = await Audio.Recording.createAsync(
-          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+      const dirContent = await FileSystem.readDirectoryAsync(audioDir);
+      if (dirContent.length >= 10) {
+        Alert.alert(
+          'Sorry, you have reached the maximum number of audios! Please delete at least 1 to record again'
         );
-        setRecording(recording);
+      } else {
+        const permission = await Audio.requestPermissionsAsync();
+
+        if (permission.status === 'granted') {
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: true,
+            playsInSilentModeIOS: true,
+          });
+
+          setIsRecording(true);
+
+          const { recording } = await Audio.Recording.createAsync(
+            Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+          );
+          setRecording(recording);
+        }
       }
     } catch (err) {
-      // ye
+      // console.log(err);
     }
   };
 
@@ -110,7 +149,7 @@ const AudioNFT = () => {
 
       if (exists && isDirectory) {
         const dirContent = await FileSystem.readDirectoryAsync(audioDir);
-        const filePath = ` ${audioDir}New Recording ${dirContent.length + 1}`;
+        const filePath = `${audioDir}NewRecording${dirContent.length + 1}`;
 
         await FileSystem.moveAsync({
           from: fileURI,
@@ -128,7 +167,7 @@ const AudioNFT = () => {
     try {
       await recordingAudio.stopAndUnloadAsync();
     } catch (err) {
-      // console.log(err);
+      console.log(err);
     }
     setIsRecording(false);
 
@@ -150,54 +189,11 @@ const AudioNFT = () => {
         undefined
       );
 
-      navigation.navigate('CreateNFT', {
-        screen: 'EditAudio',
-        params: {
-          nft,
-        },
-      });
+      navigateToEditAudio(nft);
     } catch (err) {
       // console.log(err);
     }
   };
-
-  /*
-  const streamFromAWS = async () => {
-    const b = await getNFTByTokenId(66);
-
-    const source = { uri: b?.resource };
-    const initialStatus = {
-      shouldPlay: false,
-      rate: 1.0,
-      volume: 1.0,
-    };
-
-    const { sound } = await Audio.Sound.createAsync(source, initialStatus);
-
-    sound.replayAsync();
-  };
-
-  function getRecordingLines() {
-    return recordings.map((recordingLine, index) => (
-      // eslint-disable-next-line react/no-array-index-key
-      <View key={index} style={styles.row}>
-        <Text style={styles.fill}>
-          Recording
-          {index + 1} -{recordingLine.duration}
-        </Text>
-        <Button
-          style={styles.button}
-          onPress={() => recordingLine.sound.replayAsync()}
-          title="play"
-        />
-        <Button
-          style={styles.button}
-          onPress={() => recordingLine.sound.stopAsync()}
-          title="Stop"
-        />
-      </View>
-    ));
-  } */
 
   return (
     <View style={styles.container}>
@@ -231,6 +227,12 @@ const AudioNFT = () => {
           )}
           <GreyRingIcon style={styles.greyRing} />
         </TouchableOpacity>
+        <View style={styles.galleryAudios}>
+          <TouchableOpacity onPress={() => navigateToEditAudio()}>
+            <SmallMicrophoneIcon style={styles.smallMicrophone} />
+            <Text style={styles.galleryText}>Gallery</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
