@@ -144,4 +144,9 @@ export default StyleSheet.create({
   marginLeft16: {
     marginLeft: 16,
   },
+  speakerVideoAudio: {
+    position: 'absolute',
+    marginTop: 45,
+    paddingLeft: 20,
+  }
 });
