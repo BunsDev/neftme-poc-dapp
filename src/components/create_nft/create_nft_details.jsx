@@ -74,11 +74,11 @@ const CreateNFTDetails = () => {
       }
     } else {
       const nft = new NFTModelClass(
-        route.params.resource,
+        route.params?.resource,
         route.params?.resourceType,
         location,
         description,
-        route.params.videoImage.uri
+        route.params?.videoImage?.uri
       );
       navigation.navigate('CreateNFT', {
         screen: 'CreateNFTTokenomics',

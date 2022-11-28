@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NFTPropTypes } from '@utils/proptypes';
 import { Image, Pressable, Text, View } from 'react-native';
 // import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
@@ -9,6 +9,7 @@ import { pluralizeFollowers } from '@utils/words';
 import { Video, Audio } from 'expo-av';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SpeakerIcon from '@assets/icons/speaker.svg';
+import MutedSpeakerIcon from '@assets/icons/muted_speaker.svg';
 import AudioDefaultImage from '@assets/audio_default_image.png';
 import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
@@ -22,62 +23,88 @@ const Nft = ({ nft }) => {
   const [muted, setIsMuted] = useState(false);
   const video = useRef(null);
   const [videoStatus, setVideoStatus] = useState({});
+  const [audioInfo, setAudio] = useState({ audioObj: {}, statusObj: {} });
+
+  useEffect(() => {
+    if (nft.resource_type === constants.mediaType.audio) {
+      async function getAudio() {
+        const source = { uri: nft.resource };
+        const initialStatus = {
+          shouldPlay: false,
+          rate: 1.0,
+          volume: 1.0,
+        };
+
+        const { sound, status } = await Audio.Sound.createAsync(
+          source,
+          initialStatus
+        );
+
+        setAudio({ soundObj: sound, statusObj: status });
+      }
+
+      if (!audioInfo) {
+        getAudio();
+      }
+    }
+  });
 
   const audioNFTBuild = async () => {
-    const source = { uri: nft.resource };
-    const initialStatus = {
-      shouldPlay: false,
-      rate: 1.0,
-      volume: 1.0,
-    };
-
-    const { sound, status } = await Audio.Sound.createAsync(
-      source,
-      initialStatus
-    );
-
     return (
       <TouchableOpacity
-        onPress={status.isPlaying ? sound.playAsync() : sound.stopAsync()}
+        onPress={
+          audioInfo.statusObj.isPlaying
+            ? audioInfo.audioObj.playAsync()
+            : audioInfo.audioObj.stopAsync()
+        }
       >
         <Image source={AudioDefaultImage} style={styles.nftNFTPhoto} />
       </TouchableOpacity>
     );
   };
 
-  const nftByType = () => {
-    switch (nft.resourceType) {
-      case constants.mediaType.image:
-        return (
-          <Image source={{ uri: nft.resource }} style={styles.nftNFTPhoto} />
-        );
-      case constants.mediaType.video:
-        return (
-          <TouchableOpacity
-            onPress={() =>
-              videoStatus.isPlaying
-                ? video.current.pauseAsync()
-                : video.current.playAsync()
+  const videoNFTBuild = () => {
+    return (
+      <>
+        <TouchableOpacity
+          onPress={() =>
+            videoStatus.isPlaying
+              ? video.current.pauseAsync()
+              : video.current.playAsync()
+          }
+        >
+          <Video
+            ref={video}
+            source={{ uri: nft.resource }}
+            isLooping
+            isMuted={muted}
+            style={styles.nftNFTPhoto}
+            onPlaybackStatusUpdate={(newStatus) =>
+              setVideoStatus(() => newStatus)
             }
-          >
-            <Video
-              ref={video}
-              source={{ uri: nft.resource }}
-              isLooping
-              isMuted={muted}
-              style={styles.nftNFTPhoto}
-              onPlaybackStatusUpdate={(newStatus) =>
-                setVideoStatus(() => newStatus)
-              }
-            />
-            <TouchableOpacity
-              style={styles.speakerVideoAudio}
-              onPress={() => setIsMuted((prev) => !prev)}
-            >
-              <SpeakerIcon style={styles.speakerVideoAudio} />
-            </TouchableOpacity>
-          </TouchableOpacity>
-        );
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.speakerVideoAudio}
+          onPress={() => setIsMuted((prev) => !prev)}
+          disallowInterruption={true}
+        >
+          {muted ? <SpeakerIcon /> : <MutedSpeakerIcon />}
+        </TouchableOpacity>
+      </>
+    );
+  };
+
+  const imageNFTBuild = () => {
+    return <Image source={{ uri: nft.resource }} style={styles.nftNFTPhoto} />;
+  };
+
+  const nftByType = () => {
+    switch (nft.resource_type) {
+      case constants.mediaType.image:
+        return imageNFTBuild();
+      case constants.mediaType.video:
+        return videoNFTBuild();
       case constants.mediaType.audio:
         return audioNFTBuild();
     }
@@ -105,17 +132,15 @@ const Nft = ({ nft }) => {
           } ${pluralizeFollowers(nft.followers)}`}</Text>
         </View>
       </View>
-      <View>
-        {/* TODO: ADD Save Favorite feature;
+      {/* TODO: ADD Save Favorite feature;
         <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
-        <Pressable
+      {/* <Pressable
           onPress={() =>
             navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })
           }
-        >
-          <Image source={{ uri: nft.resource }} style={styles.nftNFTPhoto} />
-        </Pressable>
-      </View>
+        > */}
+      {nftByType()}
+      {/* </Pressable> */}
       <SocialInfo nft={nft} />
       <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />

@@ -116,7 +116,6 @@ const AudioNFT = () => {
             allowsRecordingIOS: true,
             playsInSilentModeIOS: true,
           });
-
           setIsRecording(true);
 
           const { recording } = await Audio.Recording.createAsync(
@@ -149,7 +148,7 @@ const AudioNFT = () => {
 
       if (exists && isDirectory) {
         const dirContent = await FileSystem.readDirectoryAsync(audioDir);
-        const filePath = `${audioDir}NewRecording${dirContent.length + 1}`;
+        const filePath = `${audioDir}NewRecording${dirContent.length + 1}.caf`;
 
         await FileSystem.moveAsync({
           from: fileURI,

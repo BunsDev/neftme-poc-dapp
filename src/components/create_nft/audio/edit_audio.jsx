@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,26 +12,17 @@ import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import { useRoute } from '@react-navigation/native';
 import { Button } from '@library';
-import AudioSlider from './audio_slider';
-import EditAudioHeader from './edit_audio_header';
-
-const CONTENT = [
-  {
-    title: 'Terms and Conditions',
-    content:
-      'The following terms and conditions, together with any referenced documents (collectively, "Terms of Use") form a legal agreement between you and your employer, employees, agents, contractors and any other entity on whose behalf you accept these terms (collectively, “you” and “your”), and ServiceNow, Inc. (“ServiceNow,” “we,” “us” and “our”).',
-  },
-  {
-    title: 'Privacy Policy',
-    content:
-      'A Privacy Policy agreement is the agreement where you specify if you collect personal data from your users, what kind of personal data you collect and what you do with that data.',
-  },
-  {
-    title: 'Return Policy',
-    content:
-      'Our Return & Refund Policy template lets you get started with a Return and Refund Policy agreement. This template is free to download and use.According to TrueShip study, over 60% of customers review a Return/Refund Policy before they make a purchasing decision.',
-  },
-];
+import * as FileSystem from 'expo-file-system';
+import Constants from 'expo-constants';
+import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
+import PlayIcon from '@assets/icons/play.svg';
+import OpenAudioIcon from '@assets/icons/open_audio_arrow.svg';
+import CloseAudioIcon from '@assets/icons/close_audio_arrow.svg';
+import ForwardTenSecondsIcon from '@assets/icons/forward_ten_seconds.svg';
+import OneTimeSpeedIcon from '@assets/icons/one_time_speed.svg';
+import BackTenSecondsIcon from '@assets/icons/back_ten_seconds.svg';
+import { Audio } from 'expo-av';
+import { getDurationFormatted } from '../../../utils/time';
 
 const styles = StyleSheet.create({
   container: {
@@ -105,12 +96,87 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.4)',
     marginLeft: 5,
   },
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  durationText: {
+    fontWeight: '500',
+    fontSize: 14,
+  },
 });
 
 const EditAudio = () => {
   // Ddefault active selector
   const [activeSections, setActiveSections] = useState([]);
+  const [content, setContent] = useState([
+    { audioName: '', soundObject: {}, duration: '' },
+  ]);
+  const [shouldFetchDir, setShouldFetchDir] = useState(true);
   const route = useRoute();
+  const audioDir =
+    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
+
+  useEffect(() => {
+    async function loadContent() {
+      try {
+        const dirContent = await FileSystem.readDirectoryAsync(audioDir);
+
+        const tempContent = dirContent.map(async (fileName) => {
+          const fileURI = audioDir + fileName;
+          const source = { uri: fileURI };
+          const initialStatus = {
+            shouldPlay: false,
+            rate: 1.0,
+            volume: 1.0,
+          };
+          // IF nft was recorded now, we already have duration
+          if (route.params?.nft) {
+            try {
+              const { sound } = await Audio.Sound.createAsync(
+                source,
+                initialStatus
+              );
+              console.log('1');
+              return {
+                audioName: fileName,
+                soundObject: sound,
+                duration: route.params?.nft?.extraResource,
+              };
+            } catch (err) {
+              // console.log(err);
+            }
+          } else {
+            try {
+              const { sound, status } = await Audio.Sound.createAsync(
+                source,
+                initialStatus
+              );
+              console.log('2');
+              return {
+                audioName: fileName,
+                soundObject: sound,
+                duration: getDurationFormatted(status.durationMillis),
+              };
+            } catch (err) {
+              // console.log(err);
+            }
+          }
+        });
+
+        setContent(tempContent);
+        console.log(tempContent);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (shouldFetchDir) {
+      loadContent();
+      setShouldFetchDir(false);
+    }
+  }, [audioDir, route.params?.nft, shouldFetchDir]);
 
   const setSections = (sections) => {
     // setting up a active section state
@@ -118,14 +184,21 @@ const EditAudio = () => {
   };
 
   const renderHeader = (section, _, isActive) => {
-    // Accordion Header view
     return (
       <Animatable.View
-        duration={400}
+        duration={200}
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        <EditAudioHeader />
+        <View style={styles.divider} />
+        <View style={styles.nameAndArrow}>
+          {isActive ? <OpenAudioIcon /> : <CloseAudioIcon />}
+          <TextInput style={styles.headerText} value={section.audioName} />
+          <TouchableOpacity>
+            <Text style={styles.editButton}>(edit)</Text>
+          </TouchableOpacity>
+          <Text>{section.duration}</Text>
+        </View>
       </Animatable.View>
     );
   };
@@ -133,49 +206,54 @@ const EditAudio = () => {
   const renderContent = (section, _, isActive) => {
     return (
       <Animatable.View
-        duration={400}
+        duration={200}
         style={[styles.content, styles.active]}
         transition="backgroundColor"
       >
-        <AudioSlider resource={route.params.nft.resource} />
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity>
+            <OneTimeSpeedIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <BackTenSecondsIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <PlayIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <ForwardTenSecondsIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <DiscardTrashIcon />
+          </TouchableOpacity>
+        </View>
         <Button text="Create NFT" onPress={() => {}} textStyle={{}} />
       </Animatable.View>
     );
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.allRecordingsContainer}>
-          <Text style={styles.allRecordings}>All Recordings</Text>
-        </View>
-        <ScrollView>
-          {/* Code for Accordion/Expandable List starts here */}
-          <Accordion
-            activeSections={activeSections}
-            // for any default active section
-            sections={CONTENT}
-            // title and content of accordion
-            touchableComponent={TouchableOpacity}
-            // which type of touchable component you want
-            // It can be the following Touchables
-            // TouchableHighlight, TouchableNativeFeedback
-            // TouchableOpacity , TouchableWithoutFeedback
-            expandMultiple={true}
-            // Do you want to expand mutiple at a time or single at a time
-            renderHeader={renderHeader}
-            // Header Component(View) to render
-            renderContent={renderContent}
-            // Content Component(View) to render
-            duration={200}
-            // Duration for Collapse and expand
-            onChange={setSections}
-            // setting the state of active sections
-          />
-          {/* Code for Accordion/Expandable List ends here */}
-        </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.allRecordingsContainer}>
+        <Text style={styles.allRecordings}>All Recordings</Text>
       </View>
-    </SafeAreaView>
+      <ScrollView>
+        <Accordion
+          activeSections={activeSections}
+          sections={content}
+          touchableComponent={TouchableOpacity}
+          expandMultiple={false}
+          renderHeader={renderHeader}
+          renderContent={renderContent}
+          duration={200}
+          onChange={setSections}
+        />
+      </ScrollView>
+    </View>
   );
 };
 

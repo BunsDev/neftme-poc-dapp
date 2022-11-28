@@ -2,7 +2,7 @@
 export class NFTModelClass {
   private resource: string;
 
-  private resourceType: string;
+  private resource_type: string;
 
   private location: string;
 
@@ -17,14 +17,14 @@ export class NFTModelClass {
 
   constructor(
     resource: string,
-    resourceType: string,
+    resource_type: string,
     location: string,
     description: string,
     extraResource: string,
     communityPercentage: number
   ) {
     this.resource = resource;
-    this.resourceType = resourceType;
+    this.resource_type = resource_type;
     this.location = location;
     this.description = description;
     this.extraResource = extraResource;
@@ -40,7 +40,7 @@ export class NFTModelClass {
   }
 
   setResourceType(resourceType: string) {
-    this.resourceType = resourceType;
+    this.resource_type = resourceType;
   }
 
   setLocation(location: string) {
@@ -60,7 +60,7 @@ export class NFTModelClass {
   }
 
   getResourceType(): string {
-    return this.resourceType;
+    return this.resource_type;
   }
 
   getLocation(): string {

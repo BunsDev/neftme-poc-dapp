@@ -13,6 +13,7 @@ import BrushIcon from '@assets/icons/brush_edit_photo.svg';
 import CropIcon from '@assets/icons/crop.svg';
 import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
 import { ImageEditor } from 'expo-image-editor';
+import Constants from 'expo-constants';
 import Button from '../../library/button';
 import styles from '../image_video_shared/photo_video_styles';
 
@@ -75,12 +76,18 @@ const EditImage = () => {
     if (!selectedImage) {
       navigation.navigate('CreateNFT', {
         screen: 'CreateNFTDetails',
-        params: { resource: route.params.resource },
+        params: {
+          resource: route.params.resource,
+          resourceType: Constants.manifest.extra.mediaType.image,
+        },
       });
     } else {
       navigation.navigate('CreateNFT', {
         screen: 'CreateNFTDetails',
-        params: { resource: selectedImage },
+        params: {
+          resource: selectedImage,
+          resourceType: Constants.manifest.extra.mediaType.image,
+        },
       });
     }
   };
