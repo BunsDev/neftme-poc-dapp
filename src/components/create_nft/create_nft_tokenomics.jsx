@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React, { useState } from 'react';
 import { Alert, ScrollView, Text, View, Image } from 'react-native';
@@ -26,7 +26,7 @@ const CreateNFTTokenomics = () => {
       nftModelObject?.setCommunityPercentage(communityPercentage);
 
       const contractMethods = await getContractMethods(
-        Constants.manifest.extra.neftmeErc721Address
+        Constants.expoConfig.extra.neftmeErc721Address
       );
       const mintedNFT = await mintNFT(
         contractMethods,
@@ -36,7 +36,16 @@ const CreateNFTTokenomics = () => {
       setIsLoading(false);
       if (mintedNFT?.success === true) {
         Alert.alert('NFT Minted', 'Your NFT was successfully minted', [
-          { text: 'OK', onPress: () => navigation.navigate('Home') },
+          {
+            text: 'OK', onPress: () => {
+              navigation.dispatch(CommonActions.reset({
+                index: 0,
+                routes: [{
+                  name: 'Home',
+                }],
+              }));
+            },
+          },
         ]);
       } else {
         Alert.alert('Error', 'Something went wrong. Please try again');

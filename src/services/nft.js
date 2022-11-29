@@ -14,7 +14,7 @@ export const postAPINFT = async (nft) => {
     formData.append('resource', { uri: nft.resource, name: filename });
     formData.append('resource_type', nft.resource_type);
 
-    const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft`, {
+    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/nft`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -33,7 +33,7 @@ export const postAPINFT = async (nft) => {
 };
 
 const bindTokenId = async (id, tokenId) => {
-  const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${id}`, {
+  const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/nft/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ tokenId }),
     headers: {
@@ -50,7 +50,7 @@ const bindTokenId = async (id, tokenId) => {
 };
 
 const deleteAPINFT = async (id) => {
-  const response = await fetch(`${Constants.manifest.extra.apiUrl}/nft/${id}`, {
+  const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/nft/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -87,7 +87,7 @@ export const mintNFT = async (contractMethods, nft, walletAddress) => {
       if (tokenId === undefined) {
         throw new Error('Returned tokenId is undefined');
       } else {
-      // Update apiNFT tokenId
+        // Update apiNFT tokenId
         try {
           await bindTokenId(apiNFT.id, tokenId);
           return ({
