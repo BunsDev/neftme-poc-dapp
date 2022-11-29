@@ -6,10 +6,13 @@ import {
 } from 'react-native';
 import { Loading } from '@library';
 import CommentIcon from '@assets/icons/comment.svg';
+import ReportAbuse from '@assets/icons/exclamation_mark.svg';
+import ReportAbuseFilled from '@assets/icons/exclamation_mark_filled.svg';
 import ShareIcon from '@assets/icons/share.svg';
 import HeartIcon from '@assets/icons/heart.svg';
 import HeartFilledIcon from '@assets/icons/heart_filled.svg';
 import { addLike, removeLike } from '@services/nft_like';
+import { reportAbuseContent } from '@services/nft_abuse_content';
 import { fetchNFTByTokenID } from '@features/nft';
 import CommentsModal from '@components/comments';
 import styles from './styles';
@@ -26,6 +29,18 @@ const SocialInfo = ({ nft }) => {
         Alert.alert('Something went wrong, please try again');
       }
     } else if (!await addLike(nft.tokenId)) {
+      Alert.alert('Something went wrong, please try again');
+    }
+    dispatch(fetchNFTByTokenID({ tokenId: nft.tokenId, forceRefresh: true }));
+    setIsLoading(false);
+  };
+
+  const onReportAbusePress = async () => {
+    if (nft.currentUserReportedAbuse) {
+      return;
+    }
+    setIsLoading(true);
+    if (!await reportAbuseContent(nft.tokenId)) {
       Alert.alert('Something went wrong, please try again');
     }
     dispatch(fetchNFTByTokenID({ tokenId: nft.tokenId, forceRefresh: true }));
@@ -60,12 +75,16 @@ const SocialInfo = ({ nft }) => {
         <Text style={styles.shareText}>Share</Text>
         <ShareIcon width={12.8} heigth={16} />
       </Pressable>
+      <TouchableOpacity onPress={onReportAbusePress} style={{ marginRight: 16 }}>
+        {nft.currentUserReportedAbuse
+          ? <ReportAbuse width={22} heigth={22} />
+          : <ReportAbuseFilled width={22} height={22} />}
+      </TouchableOpacity>
     </View>
   );
 };
 
 SocialInfo.propTypes = {
-  // eslint-disable-next-line react/require-default-props
   nft: NFTPropTypes,
 };
 
