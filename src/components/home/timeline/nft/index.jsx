@@ -10,10 +10,11 @@ import { Video, Audio } from 'expo-av';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SpeakerIcon from '@assets/icons/speaker.svg';
 import MutedSpeakerIcon from '@assets/icons/muted_speaker.svg';
-import AudioDefaultImage from '@assets/audio_default_image.png';
 import SocialInfo from './social_info';
 import Tokenomics from './tokenomics';
 import styles from './styles';
+
+const audioDefaultImage = require('@assets/audio_default_image.png');
 
 const Nft = ({ nft }) => {
   const navigation = useNavigation();
@@ -23,44 +24,42 @@ const Nft = ({ nft }) => {
   const [muted, setIsMuted] = useState(false);
   const video = useRef(null);
   const [videoStatus, setVideoStatus] = useState({});
-  const [audioInfo, setAudio] = useState({ audioObj: {}, statusObj: {} });
+  const [audioInfo, setAudio] = useState({ soundObj: {}, statusObj: {} });
 
-  useEffect(() => {
-    if (nft.resource_type === constants.mediaType.audio) {
-      async function getAudio() {
-        const source = { uri: nft.resource };
-        const initialStatus = {
-          shouldPlay: false,
-          rate: 1.0,
-          volume: 1.0,
-        };
+  const getAudio = async () => {
+    // This setting is needed because otherwise the IOS system
+    // will only play sound via the phone call speaker, and not the bottom ones
+    // Big thanks to that guy on Github with the same issue
+    await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
 
-        const { sound, status } = await Audio.Sound.createAsync(
-          source,
-          initialStatus
-        );
+    const source = { uri: nft.resource };
+    const initialStatus = {
+      shouldPlay: false,
+      rate: 1.0,
+      volume: 1.0,
+    };
 
-        setAudio({ soundObj: sound, statusObj: status });
-      }
-
-      if (!audioInfo) {
-        getAudio();
-      }
-    }
-  });
-
-  const audioNFTBuild = async () => {
-    return (
-      <TouchableOpacity
-        onPress={
-          audioInfo.statusObj.isPlaying
-            ? audioInfo.audioObj.playAsync()
-            : audioInfo.audioObj.stopAsync()
-        }
-      >
-        <Image source={AudioDefaultImage} style={styles.nftNFTPhoto} />
-      </TouchableOpacity>
+    const { sound, status } = await Audio.Sound.createAsync(
+      source,
+      initialStatus
     );
+    const object = { soundObj: sound, statusObj: status };
+    setAudio(object);
+  };
+  useEffect(() => {
+    if (nft.resource_type === constants.mediaType.sound) {
+      getAudio();
+    }
+  }, []);
+
+  const audioNFTBuild = () => {
+    if (audioInfo.soundObj) {
+      return (
+        <TouchableOpacity onPress={() => audioInfo.soundObj.replayAsync()}>
+          <Image source={audioDefaultImage} style={styles.nftNFTPhoto} />
+        </TouchableOpacity>
+      );
+    }
   };
 
   const videoNFTBuild = () => {
@@ -105,7 +104,7 @@ const Nft = ({ nft }) => {
         return imageNFTBuild();
       case constants.mediaType.video:
         return videoNFTBuild();
-      case constants.mediaType.audio:
+      case constants.mediaType.sound:
         return audioNFTBuild();
     }
   };

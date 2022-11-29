@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,12 +10,13 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { Button } from '@library';
 import * as FileSystem from 'expo-file-system';
 import Constants from 'expo-constants';
 import DiscardTrashIcon from '@assets/icons/discard_photo.svg';
 import PlayIcon from '@assets/icons/play.svg';
+import PauseIcon from '@assets/icons/pause.svg';
 import OpenAudioIcon from '@assets/icons/open_audio_arrow.svg';
 import CloseAudioIcon from '@assets/icons/close_audio_arrow.svg';
 import ForwardTenSecondsIcon from '@assets/icons/forward_ten_seconds.svg';
@@ -104,79 +105,90 @@ const styles = StyleSheet.create({
   durationText: {
     fontWeight: '500',
     fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.5)',
+  },
+  headerDurationText: {
+    marginLeft: 115,
   },
 });
 
+// TODO MUDAR SOUND PARA USE REF
+
 const EditAudio = () => {
-  // Ddefault active selector
   const [activeSections, setActiveSections] = useState([]);
+  // const soundRef = React.useRef(new Audio.Sound());
   const [content, setContent] = useState([
-    { audioName: '', soundObject: {}, duration: '' },
+    { audioName: '', audioURI: '', soundObject: {}, duration: '' },
   ]);
-  const [shouldFetchDir, setShouldFetchDir] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const route = useRoute();
+  const navigation = useNavigation();
   const audioDir =
     FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
 
-  useEffect(() => {
-    async function loadContent() {
-      try {
-        const dirContent = await FileSystem.readDirectoryAsync(audioDir);
+  const loadContent = async () => {
+    try {
+      const dirContent = await FileSystem.readDirectoryAsync(audioDir);
 
-        const tempContent = dirContent.map(async (fileName) => {
-          const fileURI = audioDir + fileName;
-          const source = { uri: fileURI };
-          const initialStatus = {
-            shouldPlay: false,
-            rate: 1.0,
-            volume: 1.0,
-          };
-          // IF nft was recorded now, we already have duration
-          if (route.params?.nft) {
-            try {
-              const { sound } = await Audio.Sound.createAsync(
-                source,
-                initialStatus
-              );
-              console.log('1');
-              return {
-                audioName: fileName,
-                soundObject: sound,
-                duration: route.params?.nft?.extraResource,
-              };
-            } catch (err) {
-              // console.log(err);
-            }
-          } else {
-            try {
-              const { sound, status } = await Audio.Sound.createAsync(
-                source,
-                initialStatus
-              );
-              console.log('2');
-              return {
-                audioName: fileName,
-                soundObject: sound,
-                duration: getDurationFormatted(status.durationMillis),
-              };
-            } catch (err) {
-              // console.log(err);
-            }
+      const tempContent = dirContent.map(async (fileName) => {
+        const fileURI = audioDir + fileName;
+        const source = { uri: fileURI };
+        const initialStatus = {
+          shouldPlay: false,
+          rate: 1.0,
+          volume: 1.0,
+        };
+        // IF nft was recorded now, we already have duration
+        if (route.params?.nft) {
+          try {
+            const { sound } = await Audio.Sound.createAsync(
+              source,
+              initialStatus
+            );
+            return {
+              audioName: fileName,
+              audioURI: fileURI,
+              soundObject: sound,
+              duration: route.params?.nft?.extraResource,
+            };
+          } catch (err) {
+            // console.log(err);
           }
-        });
+        } else {
+          try {
+            const { sound, status } = await Audio.Sound.createAsync(
+              source,
+              initialStatus
+            );
 
-        setContent(tempContent);
-        console.log(tempContent);
-      } catch (err) {
-        console.log(err);
-      }
+            return {
+              audioName: fileName,
+              audioURI: fileURI,
+              soundObject: sound,
+              duration: getDurationFormatted(status.durationMillis),
+            };
+          } catch (err) {
+            // console.log(err);
+          }
+        }
+      });
+      Promise.all(tempContent).then((res) => {
+        setContent(res);
+      });
+    } catch (err) {
+      // console.log(err);
     }
+  };
 
-    if (shouldFetchDir) {
-      loadContent();
-      setShouldFetchDir(false);
-    }
-  }, [audioDir, route.params?.nft, shouldFetchDir]);
+  const deleteFile = (uri) => {
+    FileSystem.deleteAsync(uri);
+    setContent(content.filter((sound) => sound.audioURI !== uri));
+  };
+
+  useEffect(() => {
+    loadContent();
+  }, []);
 
   const setSections = (sections) => {
     // setting up a active section state
@@ -184,6 +196,7 @@ const EditAudio = () => {
   };
 
   const renderHeader = (section, _, isActive) => {
+    const name = section.audioName.split('.')[0];
     return (
       <Animatable.View
         duration={200}
@@ -193,17 +206,25 @@ const EditAudio = () => {
         <View style={styles.divider} />
         <View style={styles.nameAndArrow}>
           {isActive ? <OpenAudioIcon /> : <CloseAudioIcon />}
-          <TextInput style={styles.headerText} value={section.audioName} />
+          <TextInput style={styles.headerText} value={name} />
           <TouchableOpacity>
             <Text style={styles.editButton}>(edit)</Text>
           </TouchableOpacity>
-          <Text>{section.duration}</Text>
+          <Text style={[styles.durationText, styles.headerDurationText]}>
+            {section.duration}
+          </Text>
         </View>
       </Animatable.View>
     );
   };
 
   const renderContent = (section, _, isActive) => {
+    /* const initialStatus = {
+      shouldPlay: false,
+      rate: 1.0,
+      volume: 1.0,
+    };
+    soundRef.current.loadAsync(section.audioURI, initialStatus, false); */
     return (
       <Animatable.View
         duration={200}
@@ -219,19 +240,39 @@ const EditAudio = () => {
             <BackTenSecondsIcon />
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <PlayIcon />
+          <TouchableOpacity
+            /* onPress={
+              isPlaying
+                ? soundRef.current.replayAsync()
+                : soundRef.current.pauseAsync()
+            } */
+            onPress={() => section.soundObject.replayAsync()}
+          >
+            {!isPlaying ? <PlayIcon /> : <PauseIcon />}
           </TouchableOpacity>
 
           <TouchableOpacity>
             <ForwardTenSecondsIcon />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteFile(section.audioURI)}>
             <DiscardTrashIcon />
           </TouchableOpacity>
         </View>
-        <Button text="Create NFT" onPress={() => {}} textStyle={{}} />
+        <Button
+          text="Create NFT"
+          onPress={() =>
+            navigation.navigate('CreateNFT', {
+              screen: 'CreateNFTDetails',
+              params: {
+                resource: section.audioURI,
+                resourceType: Constants.manifest.extra.mediaType.sound,
+                duration: section.duration,
+              },
+            })
+          }
+          textStyle={{}}
+        />
       </Animatable.View>
     );
   };

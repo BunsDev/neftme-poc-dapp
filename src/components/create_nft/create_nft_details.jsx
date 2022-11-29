@@ -13,6 +13,8 @@ import Constants from 'expo-constants';
 import Header from './header';
 import { NFTModelClass } from '../../model/nft_model';
 
+const audioImage = require('@assets/audio_default_image.png');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -77,9 +79,19 @@ const CreateNFTDetails = () => {
         route.params?.resource,
         route.params?.resourceType,
         location,
-        description,
-        route.params?.videoImage?.uri
+        description
       );
+      switch (route.params.resourceType) {
+        case constants.mediaType.video:
+          nft.setExtraResource(route.params?.videoImage?.uri);
+          break;
+        case constants.mediaType.image:
+          nft.setExtraResource(null);
+          break;
+        case constants.mediaType.audio:
+          nft.setExtraResource(route.params.duration);
+      }
+
       navigation.navigate('CreateNFT', {
         screen: 'CreateNFTTokenomics',
         params: {
@@ -95,6 +107,17 @@ const CreateNFTDetails = () => {
     });
   };
 
+  const returnImageOnType = () => {
+    switch (route.params.resourceType) {
+      case constants.mediaType.video:
+        return route.params.videoImage.uri;
+      case constants.mediaType.image:
+        return route.params.resource;
+      case constants.mediaType.audio:
+        return audioImage;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header showNext onPress={onNextPress} step={2} />
@@ -102,11 +125,7 @@ const CreateNFTDetails = () => {
         <InputField
           labelName="Description"
           value={description}
-          resource={
-            route.params.resourceType === constants.mediaType.video
-              ? route.params?.videoImage?.uri
-              : route.params?.resource
-          }
+          resource={returnImageOnType()}
           onFieldChange={setDescription}
           inputPlaceholder="Describe your NFT, add hashtags or mention other Creators"
           multiline

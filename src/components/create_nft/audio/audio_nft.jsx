@@ -166,7 +166,7 @@ const AudioNFT = () => {
     try {
       await recordingAudio.stopAndUnloadAsync();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
     setIsRecording(false);
 
