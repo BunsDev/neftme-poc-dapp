@@ -1,8 +1,8 @@
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React, { useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
-import { Button, CustomTextInput, Loading } from '@library';
+import { Alert, ScrollView, Text, View, Image } from 'react-native';
+import { Button, Loading, CustomTextInput } from '@library';
 import Slider from '@react-native-community/slider';
 import { useSmartContract } from '@hooks';
 import { mintNFT } from '@services/nft';
@@ -17,22 +17,20 @@ const CreateNFTTokenomics = () => {
   const { getContractMethods } = useSmartContract();
   const [isLoading, setIsLoading] = useState(false);
   const [communityPercentage, setCommunityPercentage] = useState(0);
+  const constants = Constants.manifest.extra;
+  const nftModelObject = route.params?.nft;
 
   const onMintNFTPress = async () => {
     try {
       setIsLoading(true);
-      const nft = {
-        description: route.params.nft.description,
-        communityPercentage,
-        resource: route.params.nft.resource,
-      };
+      nftModelObject?.setCommunityPercentage(communityPercentage);
 
       const contractMethods = await getContractMethods(
         Constants.expoConfig.extra.neftmeErc721Address
       );
       const mintedNFT = await mintNFT(
         contractMethods,
-        nft,
+        nftModelObject,
         connector.accounts[0]
       );
       setIsLoading(false);
@@ -61,6 +59,17 @@ const CreateNFTTokenomics = () => {
   return (
     <View style={styles.container}>
       <Header showNext={false} onPress={null} step={3} />
+      <View style={styles.imageContainer}>
+        <Image
+          source={{
+            uri:
+              route.params.nft?.resourceType === constants.mediaType.video
+                ? route.params.nft?.thumbnail
+                : route.params.nft?.resource,
+          }}
+          style={styles.image}
+        />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.formContainer}>
           <View style={styles.sliderContainer}>
@@ -87,7 +96,7 @@ const CreateNFTTokenomics = () => {
               />
             </View>
           </View>
-          <Button text="Mint NFT" onPress={onMintNFTPress} textStyle={{}} />
+          <Button text="Create NFT" onPress={onMintNFTPress} textStyle={{}} />
         </View>
       </ScrollView>
       <Loading visible={isLoading} />

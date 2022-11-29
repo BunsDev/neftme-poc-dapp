@@ -50,6 +50,7 @@ export default StyleSheet.create({
   nftNFTPhoto: {
     width: '100%',
     height: 342,
+    backgroundColor: '#000'
   },
   detailsContainer: {
     marginTop: 18,
@@ -143,5 +144,13 @@ export default StyleSheet.create({
   },
   marginLeft16: {
     marginLeft: 16,
+  },
+  speakerVideoAudio: {
+    position: 'absolute',
+    zIndex: 90,
+    marginTop: -50,
+    marginLeft: 300,
+    width: 45,
+    height: 45,
   },
 });

@@ -184,7 +184,7 @@ const NFTDetail = () => {
             />
             <View style={styles.tokenomicsContainer}>
               <Tokenomics tokenId={nftData.tokenId} />
-              {nftDetails.data[4] === connector.accounts[0] && (
+              {nftDetails.data[4] !== connector.accounts[0] && (
                 <View style={styles.tokenomicsCard}>
                   <Stake tokenId={nftData.tokenId} owner={nftDetails.data[4]} />
                   <Unstake tokenId={nftData.tokenId} />

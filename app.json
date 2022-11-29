@@ -22,8 +22,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
+        "NSPhotoLibraryUsageDescription": "The app accesses your photos to let you share them with your friends.",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos.",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
       "bundleIdentifier": "com.neftme.dapp"
     },
@@ -36,6 +38,7 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.neftme.dapp"
@@ -86,7 +89,10 @@
       },
       "mediaType": {
         "image": "jpg",
-        "sound": "m4a"
+        "sound": "caf",
+        "video": "mov"
+      },
+      "localAudioDirectory": "neftmeAudios/"
       },
       "eas": {
         "projectId": "9876be34-f6d4-4320-90a2-d983fee425f4"

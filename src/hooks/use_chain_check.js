@@ -18,7 +18,7 @@ const useChainCheck = () => {
     qrcode: false,
   });
 
-  async function changeToAlfajores() {
+  async function changeToCorrectChain() {
     await provider.enable();
 
     const web3 = new Web3(provider);
@@ -80,7 +80,7 @@ const useChainCheck = () => {
     }
   }
 
-  return { changeToAlfajores, currentChainId, addNEFTtoWallet };
+  return { changeToCorrectChain, currentChainId, addNEFTtoWallet };
 };
 
 export default useChainCheck;

@@ -1,98 +1,62 @@
 import React, { useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { Gallery } from '@library';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import { ImageEditor } from 'expo-image-editor';
-import Header from './header';
+import { Dimensions, StyleSheet, FlatList } from 'react-native';
+import VideoNFT from './video/video_nft';
+import ImageNFT from './image/image_nft';
+import AudioNFT from './audio/audio_nft';
+import nftOptions from './nft_options';
+import NFTOptionItem from './nft_option_item';
 
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#21212b',
-  },
-  paddingTop60: {
-    paddingTop: 60,
-  },
-  chip: {
-    width: 103,
-    height: 103,
-    flexGrow: 1,
-  },
-  selectedImage: {
-    marginTop: 26,
-    marginBottom: 8,
-    marginHorizontal: 16,
-    width: width - 32,
-    height: width - 32,
-  },
-  galleryContainer: {
-    marginVertical: 18,
-    marginHorizontal: 8,
+  menuContainer: {
+    paddingTop: 7,
+    paddingLeft: '12%',
+    marginTop: 630,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
   },
 });
 
-const ImageGallery = () => {
-  const [selectedImage, setSelectedImage] = useState(undefined);
-  const [editorVisible, setEditorVisible] = useState(false);
-  const navigation = useNavigation();
-  const route = useRoute();
+const MainGallery = () => {
+  const [selectedNFTOption, setSelectedNFTOption] = useState(nftOptions[1]);
+  const nftOptionArray = Array.from(nftOptions);
 
-  const onCameraPress = async () => {
-    const photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,
-    });
-    if (!photo.cancelled && photo.uri) {
-      setSelectedImage(photo);
+  const returnNFTOption = () => {
+    switch (selectedNFTOption) {
+      case nftOptionArray[1]:
+        return <ImageNFT />;
+      case nftOptionArray[0]:
+        return <VideoNFT />;
+      case nftOptionArray[2]:
+        return <AudioNFT />;
+      default:
+        return <ImageNFT />;
     }
   };
 
   return (
-    <View style={editorVisible ? [styles.container] : [styles.container, styles.paddingTop60]}>
-      {!selectedImage && <Header showNext onPress={null} step={1} />}
-      {selectedImage && (
-        <ImageEditor
-          asView
-          visible={editorVisible}
-          onCloseEditor={() => {
-            setSelectedImage(undefined);
-            setEditorVisible(false);
-          }}
-          imageUri={selectedImage?.uri || undefined}
-          fixedCropAspectRatio={1.6}
-          lockAspectRatio={false}
-          minimumCropDimensions={{
-            width: 100,
-            height: 100,
-          }}
-          onEditingComplete={(result) => {
-            if (result?.uri) {
-              setSelectedImage(result.uri);
-              navigation.navigate('CreateNFT', {
-                screen: 'CreateNFTDetails',
-                params: { nftImage: result.uri, origin: route.params },
-              });
-            }
-          }}
-          throttleBlur={false}
-          mode="crop-only"
-        />
-      )}
-      {!selectedImage && (
-        <View style={styles.galleryContainer}>
-          <Gallery
-            onCameraPress={onCameraPress}
-            setSelectedImage={(image) => {
-              setSelectedImage(image);
-              setEditorVisible(true);
-            }}
+    <>
+      {returnNFTOption()}
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={nftOptionArray}
+        style={styles.menuContainer}
+        renderItem={({ item, index }) => (
+          <NFTOptionItem
+            key={`icon_profile_${index}`}
+            item={item}
+            index={index}
+            selectedNFTOptionId={selectedNFTOption.id}
+            setSelectedNFTOption={setSelectedNFTOption}
           />
-        </View>
-      )}
-    </View>
+        )}
+      />
+    </>
   );
 };
 
-export default ImageGallery;
+export default MainGallery;
