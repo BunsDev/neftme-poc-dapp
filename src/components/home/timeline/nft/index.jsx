@@ -27,11 +27,6 @@ const Nft = ({ nft }) => {
   const [audioInfo, setAudio] = useState({ soundObj: {}, statusObj: {} });
 
   const getAudio = async () => {
-    // This setting is needed because otherwise the IOS system
-    // will only play sound via the phone call speaker, and not the bottom ones
-    // Big thanks to that guy on Github with the same issue
-    await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
-
     const source = { uri: nft.resource };
     const initialStatus = {
       shouldPlay: false,
@@ -43,11 +38,13 @@ const Nft = ({ nft }) => {
       source,
       initialStatus
     );
+
     const object = { soundObj: sound, statusObj: status };
     setAudio(object);
   };
   useEffect(() => {
     if (nft.resource_type === constants.mediaType.sound) {
+      Audio.setAudioModeAsync({ allowsRecordingIOS: false });
       getAudio();
     }
   }, []);
