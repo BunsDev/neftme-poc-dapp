@@ -92,8 +92,7 @@
         "sound": "caf",
         "video": "mov"
       },
-      "localAudioDirectory": "neftmeAudios/"
-      },
+      "localAudioDirectory": "neftmeAudios/",
       "eas": {
         "projectId": "9876be34-f6d4-4320-90a2-d983fee425f4"
       }
@@ -101,5 +100,8 @@
     "runtimeVersion": {
       "policy": "sdkVersion"
     }
+  },
+  "runtimeVersion": {
+    "policy": "sdkVersion"
   }
 }
