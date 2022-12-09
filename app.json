@@ -63,11 +63,11 @@
       ]
     ],
     "extra": {
-      "apiUrl": "https://neftme-api.herokuapp.com",
+      "apiUrl": "http://seahorse-app-op3jy.ondigitalocean.app/neftme-poc-api2",
       "instagram": {
         "apiUrl": "https://api.instagram.com",
         "clientID": "1018284459067306",
-        "redirectUrl": "https://neftme-api.herokuapp.com/instagram_oauth",
+        "redirectUrl": "http://seahorse-app-op3jy.ondigitalocean.app/neftme-poc-api2/instagram_oauth",
         "oauthScopes": [
           "user_profile",
           "user_media"
