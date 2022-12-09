@@ -63,7 +63,7 @@
       ]
     ],
     "extra": {
-      "apiUrl": "http://seahorse-app-op3jy.ondigitalocean.app/neftme-poc-api2",
+      "apiUrl": "https://seahorse-app-op3jy.ondigitalocean.app/neftme-poc-api2",
       "instagram": {
         "apiUrl": "https://api.instagram.com",
         "clientID": "1018284459067306",
