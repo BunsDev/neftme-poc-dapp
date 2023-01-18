@@ -2,12 +2,10 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const crypto = require.resolve('crypto-browserify');
 const url = require.resolve('url/');
-
 module.exports = (() => {
   const config = getDefaultConfig(__dirname);
 
   const { transformer, resolver } = config;
-
   config.transformer = {
     ...transformer,
     babelTransformerPath: require.resolve('react-native-svg-transformer'),

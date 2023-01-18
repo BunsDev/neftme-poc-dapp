@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-import './global.ts';
+import './src/components/global.ts';
 import * as Device from 'expo-device';
 
 const { registerRootComponent, scheme } = require('expo');
@@ -7,7 +6,7 @@ const { registerRootComponent, scheme } = require('expo');
 const { default: AsyncStorage } = require('@react-native-async-storage/async-storage');
 const { withWalletConnect } = require('@walletconnect/react-native-dapp');
 const { LogBox } = require('react-native');
-const { default: App } = require('./app');
+const { default: App } = require('./src/components/app.jsx');
 
 LogBox.ignoreLogs([
   "The provided value 'moz-chunked-arraybuffer' is not a valid 'responseType'.",
