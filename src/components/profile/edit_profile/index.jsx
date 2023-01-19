@@ -229,8 +229,8 @@ const EditProfile = () => {
             onFieldChange={(value) => setFieldValue('bio', value)}
             inputPlaceholder="Enter your bio"
             multiline
-            numberOfLines={Device.osName === 'iOS' ? null : 6}
-            minHeight={Device.osName === 'iOS' ? 120 : null}
+            numberOfLines={Device.modelName === 'iOS' ? null : 6}
+            minHeight={Device.modelName === 'iOS' ? 120 : null}
             inputStyle={{ paddingTop: 16 }}
             containerStyle={styles.marginTop16}
           />

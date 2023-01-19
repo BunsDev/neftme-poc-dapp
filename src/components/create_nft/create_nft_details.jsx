@@ -131,8 +131,8 @@ const CreateNFTDetails = () => {
           onFieldChange={setDescription}
           inputPlaceholder="Describe your NFT, add hashtags or mention other Creators"
           multiline
-          numberOfLines={Device.osName === 'ios' ? null : 10}
-          minHeight={Device.osName === 'ios' ? 200 : null}
+          numberOfLines={Device.modelName === 'ios' ? null : 10}
+          minHeight={Device.modelName === 'ios' ? 200 : null}
           inputStyle={styles.paddingTop16}
           containerStyle={styles.marginTop16}
         />

@@ -3,11 +3,11 @@ import './global.ts';
 import * as Device from 'expo-device';
 
 const { registerRootComponent, scheme } = require('expo');
-
 const { default: AsyncStorage } = require('@react-native-async-storage/async-storage');
 const { withWalletConnect } = require('@walletconnect/react-native-dapp');
 const { LogBox } = require('react-native');
 const { default: App } = require('./app');
+
 
 LogBox.ignoreLogs([
   "The provided value 'moz-chunked-arraybuffer' is not a valid 'responseType'.",
@@ -18,7 +18,7 @@ LogBox.ignoreLogs([
 // It also ensures that whether you load the app in the Expo client or in a native build,
 // the environment is set up appropriately
 registerRootComponent(withWalletConnect(App, {
-  redirectUrl: Device.osName === 'web' ? window.location.origin : `${scheme}://`,
+  redirectUrl: Device.modelName === 'web' ? window.location.origin : `${scheme}://`,
   storageOptions: {
     asyncStorage: AsyncStorage,
   },

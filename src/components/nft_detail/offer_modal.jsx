@@ -160,7 +160,7 @@ const OfferModal = ({
           onPressOut={() => setOfferModalVisible((prevValue) => !prevValue)}
         >
           <KeyboardAvoidingView
-            behavior={Device.osName === 'iOS' ? 'padding' : 'height'}
+            behavior={Device.modelName === 'iOS' ? 'padding' : 'height'}
             style={styles.container}
           >
             <View style={styles.topBar} />

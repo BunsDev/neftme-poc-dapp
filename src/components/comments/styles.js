@@ -5,7 +5,7 @@ export default StyleSheet.create({
   commentModal: {
     justifyContent: 'flex-end',
     margin: 0,
-    paddingTop: Device.osName === 'iOS' ? 70 : 0,
+    paddingTop: Device.modelName === 'iOS' ? 70 : 0,
   },
   actionModalView: {
     backgroundColor: '#2B2F3A',
