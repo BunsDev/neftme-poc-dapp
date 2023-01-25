@@ -117,7 +117,7 @@ export default () => {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Stack.Navigator
           initialRouteName="Splash"
           screenOptions={{ headerShown: false }}
