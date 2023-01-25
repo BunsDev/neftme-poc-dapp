@@ -3,7 +3,8 @@
     "name": "Neftme dApp",
     "slug": "neftmedapp",
     "owner": "neftme",
-    "description": "Neftme dApp",
+    "scheme": "neftme",
+    "description": "NEFTME",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -100,6 +101,7 @@
         "video": "mov"
       },
       "localAudioDirectory": "neftmeAudios/",
+      "task_name": "BACKGROUND-NOTIFICATION-TASK",
       "eas": {
         "projectId": "9876be34-f6d4-4320-90a2-d983fee425f4"
       }

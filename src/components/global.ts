@@ -3,7 +3,9 @@ import { LogBox } from 'react-native';
 import * as Device from 'expo-device';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-// import TaskManager from 'expo-task-manager';
+import TaskManager from 'expo-task-manager';
+import Constants from 'expo-constants';
+
 
 export interface Global {
   btoa: any;
@@ -19,15 +21,13 @@ if (typeof global.self === 'undefined') {
   global.self = global;
 }
 
-// const MY_TASK_NAME = 'BACKGROUND-NOTIFICATION-TASK';
-
-/* TaskManager.defineTask(MY_TASK_NAME, ({ data, error }) => {
+TaskManager.defineTask(Constants.manifest?.extra?.task_name, ({ data, error }) => {
   if (error) {
     console.log(error);
   } else {
     console.log(data);
   }
-}); */
+});
 
 if (Device.modelName !== 'web') {
   require('react-native-get-random-values');

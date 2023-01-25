@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import { Alert } from 'react-native';
+import Constants from 'expo-constants';
+import * as Linking from 'expo-linking';
 import store from './store';
 import Splash from './splash';
 import Start from './start';
@@ -25,9 +28,22 @@ Notifications.setNotificationHandler({
   }),
 });
 
+const prefix = Linking.createURL('/');
+
 export default () => {
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
+  const linking = {
+    prefixes: [prefix],
+    config: {
+      screens: {
+        CreatorProfile: 'creatorprofile',
+        NFTDetail: 'nftdetail',
+      },
+    },
+  };
+
+  // TODO Move this to the new user screen, where we will register the user's expo push token in the db
   const notificationListener = useRef();
   const responseListener = useRef();
 
@@ -62,12 +78,12 @@ export default () => {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+        Alert.alert('Failed to get push token for push notification!');
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
     } else {
-      alert('Must use physical device for Push Notifications');
+      Alert.alert('Must use physical device for Push Notifications');
     }
 
     return token;
@@ -90,7 +106,7 @@ export default () => {
       });
 
     schedulePushNotification();
-
+    Notifications.registerTaskAsync(Constants.manifest?.extra?.task_name);
     return () => {
       Notifications.removeNotificationSubscription(
         notificationListener.current
