@@ -73,12 +73,12 @@
           "user_media"
         ]
       },
-      "chainName": "Alfajores Testnet",
-      "rpcUrl": "https://alfajores-forno.celo-testnet.org",
-      "chainId": 44787,
-      "neftmeErc721Address": "0x3A2Fa083d0fe3F5cE394FEDccBc9b6cf865d3018",
-      "neftmeViewContractAddress": "0x26c0964C568f836470691b7121f85B42f9b7dDea",
-      "neftmeErc20NEFTAddress": "0x6A50e7f557D2295F6af98fc10171ecDdF34400fB",
+      "chainName": "XDC Apothem Testnet",
+      "rpcUrl": "https://erpc.apothem.network",
+      "chainId": 51,
+      "neftmeErc721Address": "0xA034E6EBEA777edD88904a1A52eCcD9294B37187",
+      "neftmeViewContractAddress": "0x0AA0D48Ed839A744dC29a873cF8D2f5367dBD3CF",
+      "neftmeErc20NEFTAddress": "0xA9841d6f1CE897f5672Aa81834fF0934639aD1Fd",
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
         "staked": "Staked",
