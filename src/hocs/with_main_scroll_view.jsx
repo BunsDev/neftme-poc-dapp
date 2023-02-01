@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from 'react-native';
 
 const withMainScrollView = (showStatusBar, showBottomBar, backgroundColor = '#141316') => (WrappedComponent) => {
-  const wrapped = (props) => (
+  const Wrapped = (props) => (
     <>
       {showStatusBar && <StatusBar />}
       <ScrollView
@@ -24,7 +24,7 @@ const withMainScrollView = (showStatusBar, showBottomBar, backgroundColor = '#14
     </>
   );
 
-  return wrapped;
+  return Wrapped;
 };
 
 export default withMainScrollView;

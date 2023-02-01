@@ -4,7 +4,7 @@
     "slug": "neftmedapp",
     "owner": "neftme",
     "scheme": "neftme",
-    "description": "NEFTME",
+    "description": "Neftme dApp",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -48,27 +48,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      [
-        "expo-media-library",
-        {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
-          "isAccessMediaLocationEnabled": "true"
-        }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }
-      ],
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/icon.png",
-          "color": "#ffffff"
-        }
-      ]
+      "expo-build-properties"
     ],
     "extra": {
       "apiUrl": "https://seahorse-app-op3jy.ondigitalocean.app/neftme-poc-api2",

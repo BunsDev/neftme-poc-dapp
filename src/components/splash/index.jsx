@@ -20,7 +20,6 @@ const Splash = () => {
   const navigation = useNavigation();
   const connector = useWalletConnect();
   const { data: currentUser, isError, error } = useGetCurrentUserQuery();
-
   const navigateTo = useCallback(
     (route) => {
       navigation.dispatch(
@@ -52,7 +51,7 @@ const Splash = () => {
           if (await isNewUser()) {
             navigateTo({
               name: 'Start',
-              params: { screen: 'Categories' },
+              params: { screen: 'InviteCodeModal' },
             });
           } else {
             navigateTo({ name: 'Home' });

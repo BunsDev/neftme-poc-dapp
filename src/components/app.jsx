@@ -7,6 +7,8 @@ import * as Device from 'expo-device';
 import { Alert } from 'react-native';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setData, getData } from '@services/storage';
 import store from './store';
 import Splash from './splash';
 import Start from './start';
@@ -102,10 +104,17 @@ export default () => {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
-        console.log('o que e isto');
       });
 
     schedulePushNotification();
+    // AsyncStorage.clear();
+
+    (async () => {
+      if (await getData('requestInviteCode') === null) {
+        await setData('requestInviteCode', 'true');
+      }
+    })();
+
     Notifications.registerTaskAsync(Constants.manifest?.extra?.task_name);
     return () => {
       Notifications.removeNotificationSubscription(
