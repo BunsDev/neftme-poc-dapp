@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    width: '100%',
+    width: '90%',
   },
 });
 
@@ -99,7 +99,6 @@ const InviteCodeModal = () => {
               <Button
                 text="Submit"
                 onPress={() => console.log('a')}
-                textStyle={{}}
                 buttonStyle={styles.button}
               />
             </View>
