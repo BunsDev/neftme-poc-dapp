@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
+    borderWidth: 1,
+    borderColor: '#F6C138',
+    borderRadius: 10,
+    paddingHorizontal: 10,
   },
   button: {
     width: '100%',
