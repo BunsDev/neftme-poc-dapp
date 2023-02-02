@@ -78,7 +78,6 @@ const InviteCodeModal = () => {
   return (
     newUser && (
       <View style={styles.container}>
-        <Modal animationType="fade" transparent visible={isModalVisible}>
           <View style={styles.touchableOpacityStyle}>
             <View style={styles.individualSettingView}>
               <Text style={styles.bigText}>Welcome to NEFTME!</Text>
@@ -103,7 +102,6 @@ const InviteCodeModal = () => {
               />
             </View>
           </View>
-        </Modal>
       </View>
     )
   );
