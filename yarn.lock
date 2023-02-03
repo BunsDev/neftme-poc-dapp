@@ -7793,14 +7793,6 @@ expo-constants@~13.2.2, expo-constants@~13.2.4:
     "@expo/config" "~7.0.0"
     uuid "^3.3.2"
 
-expo-constants@~14.0.0:
-  version "14.0.2"
-  resolved "https://registry.npmjs.org/expo-constants/-/expo-constants-14.0.2.tgz"
-  integrity sha512-wzV3nrzTXTI8yG0tfas3fnqCfKV6YE+1GphEREyVDAShEB6mBInX1b6HgtpHFy2wOtnml+lPVmTCeGtjjLnZhA==
-  dependencies:
-    "@expo/config" "~7.0.2"
-    uuid "^3.3.2"
-
 expo-device@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npmjs.org/expo-device/-/expo-device-4.3.0.tgz"
@@ -7905,7 +7897,6 @@ expo-linking@^3.3.0:
   integrity sha512-wXPzI2kijnql2L2F6i8zP1zINTkYlcRXyh1iV3P6Bt57v6yZiiniZBnb6grJVj19LOmluNs0PYrbX1ZsHBChCg==
   dependencies:
     "@types/qs" "^6.5.3"
-    expo-constants "~14.0.0"
     invariant "^2.2.4"
     qs "^6.9.1"
     url-parse "^1.5.9"
@@ -7972,7 +7963,7 @@ expo-notifications@^0.17.0:
     assert "^2.0.0"
     badgin "^1.1.5"
     expo-application "~5.0.0"
-    expo-constants "~14.0.0"
+    expo-constants "~13.2.4"
     fs-extra "^9.1.0"
     uuid "^3.4.0"
 

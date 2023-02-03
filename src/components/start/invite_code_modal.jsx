@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Modal, Text, TextInput } from 'react-native';
-import { getData } from '@services/storage';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@library';
+import { postInvite } from '@services/invite';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,55 +55,53 @@ const styles = StyleSheet.create({
 });
 
 const InviteCodeModal = () => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const [newUser, setNewUser] = useState(true);
   const navigation = useNavigation();
+  const [code, setCode] = useState('');
 
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+  const submitCode = async () => {
+    const r = await postInvite(code);
+    navigation.navigate({
+      name: 'Start',
+      params: { screen: 'InfoScreen' },
+    });
+  };
 
-  useEffect(() => {
-    (async () => {
-      if ((await getData('requestInviteCode')) === 'true') {
-        setNewUser(true);
-      } else {
-        setNewUser(false);
-        navigation.navigate({
-          name: 'Start',
-          params: { screen: 'InfoScreen' },
-        });
-      }
-    })();
-  });
+  const onChangeHandler = (event) => {
+    setCode(event.target.value);
+  };
 
   return (
-    newUser && (
-      <View style={styles.container}>
-          <View style={styles.touchableOpacityStyle}>
-            <View style={styles.individualSettingView}>
-              <Text style={styles.bigText}>Welcome to NEFTME!</Text>
-            </View>
-            <View style={styles.individualSettingView}>
-              <Text style={styles.medText}>You are just one step away!</Text>
-            </View>
-            <View style={styles.individualSettingView}>
-              <Text style={styles.settingsFont}>
-                Please insert your invite code to proceed!
-              </Text>
-            </View>
+    <View style={styles.container}>
+      <View style={styles.touchableOpacityStyle}>
+        <View style={styles.individualSettingView}>
+          <Text style={styles.bigText}>Welcome to NEFTME!</Text>
+        </View>
+        <View style={styles.individualSettingView}>
+          <Text style={styles.medText}>You are just one step away!</Text>
+        </View>
+        <View style={styles.individualSettingView}>
+          <Text style={styles.settingsFont}>
+            Please insert your invite code to proceed!
+          </Text>
+        </View>
 
-            <View style={styles.individualSettingView}>
-              <TextInput style={styles.input} placeholder="AAAABBBB123" />
-            </View>
-            <View style={styles.individualSettingView}>
-              <Button
-                text="Submit"
-                onPress={() => console.log('a')}
-                buttonStyle={styles.button}
-              />
-            </View>
-          </View>
+        <View style={styles.individualSettingView}>
+          <TextInput
+            style={styles.input}
+            placeholder="AAAABBBB1234"
+            onChange={onChangeHandler}
+            value={code}
+          />
+        </View>
+        <View style={styles.individualSettingView}>
+          <Button
+            text="Submit"
+            onPress={() => submitCode(code)}
+            buttonStyle={styles.button}
+          />
+        </View>
       </View>
-    )
+    </View>
   );
 };
 
