@@ -1,11 +1,12 @@
 import Constants from 'expo-constants';
 import { getData } from './storage';
 
-export const postInvite = async (code) => {
+const postInvite = async (inviteCode) => {
   try {
 
     const formData = new FormData();
-    formData.append('code', code);
+
+    formData.append('invite_code', inviteCode);
 
     const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/invite`, {
       method: 'POST',
@@ -25,3 +26,4 @@ export const postInvite = async (code) => {
   }
 };
 
+export default postInvite;
