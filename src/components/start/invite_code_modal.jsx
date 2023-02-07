@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@library';
 import postInvite from '@services/invite';
+import { setData, getData } from '@services/storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
     borderColor: '#F6C138',
     borderRadius: 10,
     paddingHorizontal: 10,
+    color: '#FFF',
   },
   button: {
     width: '90%',
@@ -59,18 +61,13 @@ const InviteCodeModal = () => {
   const [inviteCode, setCode] = useState('');
 
   const submitCode = async () => {
-    console.log(inviteCode);
     const r = await postInvite(inviteCode);
-    console.log(r);
-    navigation.navigate({
+    setData('inviteId', r.invite.id);
+    // TODO guardar invite code
+    /* navigation.navigate({
       name: 'Start',
       params: { screen: 'InfoScreen' },
-    });
-  };
-
-  const onChangeHandler = (event) => {
-    console.log(event);
-    setCode(event.target.value);
+    }); */
   };
 
   return (
