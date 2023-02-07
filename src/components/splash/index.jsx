@@ -51,7 +51,7 @@ const Splash = () => {
           if (await isNewUser()) {
             navigateTo({
               name: 'Start',
-              params: { screen: 'InviteCodeModal' },
+              params: { screen: 'InviteCode' },
             });
           } else {
             navigateTo({ name: 'Home' });

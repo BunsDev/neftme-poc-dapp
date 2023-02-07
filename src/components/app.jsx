@@ -106,8 +106,7 @@ export default () => {
         console.log(response);
       });
 
-    schedulePushNotification();
-    // AsyncStorage.clear();
+    // schedulePushNotification();
 
     (async () => {
       if (await getData('requestInviteCode') === null) {

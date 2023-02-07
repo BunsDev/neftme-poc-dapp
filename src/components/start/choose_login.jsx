@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import {
-  Alert, Text, TouchableOpacity, View,
-} from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Loading, StatusBar } from '@library';
 import { doLogin } from '@services/login';
-import { removeData } from '@services/storage';
+import { removeData, getData, setData } from '@services/storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import NeftmeLogo from '@assets/icons/neftme_grey.svg';
 import { CommonActions, useNavigation } from '@react-navigation/native';
+import { updateInvite } from '@services/invite';
 import InstagramLogin from '../instagram_login';
 import styles from './styles';
 
@@ -21,11 +20,18 @@ const ChooseLogin = () => {
       const response = await doLogin('guest@neftme.com', 'neftmeTest');
       if (response?.success) {
         await removeData('newUser');
+        const r = await updateInvite(getData('invite_id'), USER ID);
+        if (r?.success) {
+          await setData('requestInviteCode', false);
+        }
+
         setIsLoading(false);
-        navigation.dispatch(CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        }));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          })
+        );
       } else {
         setIsLoading(false);
         Alert.alert('Something went wrong, please try again');
@@ -60,7 +66,7 @@ const ChooseLogin = () => {
             text="Create new account"
             textStyle={styles.newAccountButtonText}
             buttonStyle={[styles.newAccountButton, styles.disabledButton]}
-            onPress={() => { }}
+            onPress={() => {}}
           />
         </View>
       </LinearGradient>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@library';
 import postInvite from '@services/invite';
-import { setData, getData } from '@services/storage';
+import { setData } from '@services/storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,18 +56,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const InviteCodeModal = () => {
+const InviteCode = () => {
   const navigation = useNavigation();
   const [inviteCode, setCode] = useState('');
 
   const submitCode = async () => {
     const r = await postInvite(inviteCode);
-    setData('inviteId', r.invite.id);
-    // TODO guardar invite code
-    /* navigation.navigate({
-      name: 'Start',
-      params: { screen: 'InfoScreen' },
-    }); */
+    if (r?.success) {
+      setData('invite_id', r?.invite?.id);
+      navigation.navigate({
+        name: 'Start',
+        params: { screen: 'InfoScreen' },
+      });
+    } else {
+      setCode('');
+      Alert.alert('You entered an invalid Invite Code!');
+    }
   };
 
   return (
@@ -105,4 +109,4 @@ const InviteCodeModal = () => {
   );
 };
 
-export default InviteCodeModal;
+export default InviteCode;
