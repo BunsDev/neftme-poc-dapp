@@ -63,7 +63,7 @@ const InviteCode = () => {
   const submitCode = async () => {
     const r = await postInvite(inviteCode);
     if (r?.success) {
-      setData('invite_id', r?.invite?.id);
+      setData('invite_id', r?.invite?.id.toString());
       navigation.navigate({
         name: 'Start',
         params: { screen: 'InfoScreen' },

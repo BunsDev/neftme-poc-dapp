@@ -7,20 +7,24 @@ import { LinearGradient } from 'expo-linear-gradient';
 import NeftmeLogo from '@assets/icons/neftme_grey.svg';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { updateInvite } from '@services/invite';
+import { useGetCurrentUserQuery } from '@features/current_user';
 import InstagramLogin from '../instagram_login';
 import styles from './styles';
 
 const ChooseLogin = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
+  const { data: currentUser } = useGetCurrentUserQuery();
 
   const onSkipPress = async () => {
     setIsLoading(true);
     try {
       const response = await doLogin('guest@neftme.com', 'neftmeTest');
+
       if (response?.success) {
         await removeData('newUser');
-        const r = await updateInvite(getData('invite_id'), USER ID);
+        console.log(currentUser);
+        const r = await updateInvite(getData('invite_id'), currentUser.id);
         if (r?.success) {
           await setData('requestInviteCode', false);
         }
@@ -38,6 +42,7 @@ const ChooseLogin = () => {
       }
     } catch (err) {
       setIsLoading(false);
+      console.log(err);
       Alert.alert('Something went wrong, please try again');
     }
   };
