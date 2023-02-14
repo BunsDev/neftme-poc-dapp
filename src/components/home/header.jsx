@@ -5,6 +5,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { ProfileImage } from '@library';
 import BellIcon from '@assets/icons/bell.svg';
+import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
+
 import { useGetCurrentUserQuery } from '@features/current_user';
 import styles from './styles';
 
@@ -96,6 +98,11 @@ const Header = () => {
               <View>
                 <BellIcon style={styles.bellIcon} width={25} height={22} />
                 <View style={styles.notificationBadge} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <View>
+                <ChallengeIcon style={styles.bellIcon} width={35} height={30} />
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
