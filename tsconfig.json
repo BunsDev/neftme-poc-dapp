@@ -4,5 +4,6 @@
     "esModuleInterop": true,
     "strict": true,
     "jsx": "react-native"
-  }
+  },
+  "include": ["src/components", "custom.d.ts"]
 }

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
   View,
-  Image,
   TouchableOpacity,
-  Text,
   StyleSheet,
   ImageBackground,
 } from 'react-native';
