@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'row',
-    marginLeft: '20%',
     marginTop: '10%',
   },
   selected: {
@@ -60,6 +59,9 @@ const options = [
   },
   {
     text: 'Around You',
+  },
+  {
+    text: 'Cross Path',
   },
 ];
 
