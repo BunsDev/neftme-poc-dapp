@@ -8,14 +8,12 @@ import BellIcon from '@assets/icons/bell.svg';
 import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
 import { useGetCurrentUserQuery } from '@features/current_user';
 import styles from './styles';
-import CentralChallengeModal from '../challenges/central_challenge';
 
 const logo = require('@assets/logo_home.webp');
 
 const Header = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [challengeModalVisible, setchallengeModalVisible] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
 
 
@@ -91,9 +89,6 @@ const Header = () => {
           </View>
         </Modal>
       </View>
-      <View style={styles.centeredView}>
-        <CentralChallengeModal isVisible={challengeModalVisible} setIsVisible={setchallengeModalVisible}/>
-      </View>
       <View style={styles.header}>
         <View style={styles.subHeaderRight}>
           <Image source={logo} style={styles.logo} />
@@ -106,7 +101,7 @@ const Header = () => {
                 <View style={styles.notificationBadge} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setchallengeModalVisible(true)}>
+            <TouchableOpacity onPress={() => navigation.navigate('StartChallenge')}>
               <View>
                 <ChallengeIcon style={styles.bellIcon} width={35} height={30} />
               </View>

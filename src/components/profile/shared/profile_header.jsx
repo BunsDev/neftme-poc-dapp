@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, View,
+  TouchableOpacity, StyleSheet, View,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import Burger from '@assets/icons/burger.svg';
@@ -93,18 +93,18 @@ const ProfileHeader = ({
         isSettingsModalVisible={isSettingsModalVisible}
         setSettingsModalVisible={setSettingsModalVisible}
       />
-      <Pressable style={styles.backIcon} onPress={goBack}>
+      <TouchableOpacity style={styles.backIcon} onPress={goBack}>
         <BackIcon width={30} height={30} />
-      </Pressable>
+      </TouchableOpacity>
       {isCurrentUser && (
-        <Pressable
+        <TouchableOpacity
           style={styles.settingsBar}
           onPress={
             () => setSettingsModalVisible((prevValue) => !prevValue)
           }
         >
           <Burger width={70} height={70} />
-        </Pressable>
+        </TouchableOpacity>
       )}
     </View>
   );

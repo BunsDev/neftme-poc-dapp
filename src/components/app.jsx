@@ -12,6 +12,7 @@ import MyProfile from './profile/my_profile';
 import NFTDetail from './nft_detail';
 import CreateNFT from './create_nft';
 import Search from './search';
+import StartChallenge from './challenges/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default () => (
         <Stack.Screen name="NFTDetail" component={NFTDetail} />
         <Stack.Screen name="CreateNFT" component={CreateNFT} />
         <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name="StartChallenge" component={StartChallenge} />
       </Stack.Navigator>
     </NavigationContainer>
   </Provider>
