@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
+import CentralChallengeModal from './challenge_modal';
 
 const styles = StyleSheet.create({
   container: {
@@ -68,8 +69,14 @@ const SelectUser: React.FC<Props> = () => {
   const [selected, setSelected] = useState(0);
   const [search, setSearch] = useState('');
 
+  // TEMPORARY
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
+      <CentralChallengeModal
+        isVisible={modalVisible}
+        setIsVisible={setModalVisible}
+      />
       <TouchableOpacity style={styles.backIcon}>
         <BackIcon width={25} height={25} />
       </TouchableOpacity>
@@ -78,9 +85,12 @@ const SelectUser: React.FC<Props> = () => {
           <TouchableOpacity
             onPress={() => setSelected(index)}
             style={styles.individualText}
+            key={`option_${item.text}`}
           >
-            <View style={selected === index ? styles.selected : null}>
-              <Text style={[styles.textStyle]}>{item.text}</Text>
+            <View key={`option_${item.text}`} style={selected === index ? styles.selected : null}>
+              <Text key={`option_${item.text}`} style={[styles.textStyle]}>
+                {item.text}
+              </Text>
             </View>
           </TouchableOpacity>
         ))}
@@ -95,7 +105,9 @@ const SelectUser: React.FC<Props> = () => {
           />
         ) : (
           <View style={styles.aroundYouContainer}>
-            <Text style={[styles.textStyle]}>Coming Soon!</Text>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={[styles.textStyle]}>Coming Soon!</Text>
+            </TouchableOpacity>
           </View>
         )}
       </View>
