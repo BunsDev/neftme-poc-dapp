@@ -7,7 +7,6 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
-  Switch,
 } from 'react-native';
 import Button from '../library/button';
 
@@ -53,6 +52,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: '60%',
     margin: 12,
     borderWidth: 1,
     borderColor: '#000',
@@ -61,26 +61,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#FFF',
   },
-  hiddenContainer: {
-    flexDirection: 'row',
-    marginTop: '8%',
-    marginLeft: '5%',
-    alignItems: 'center',
-  },
-  hiddenText: {
-    fontWeight: '500',
-    fontSize: 18,
-    color: '#FFF',
-  },
-  switchButton: {
-    marginLeft: '55%',
-  },
   nextButton: {
     fontWeight: '700',
     fontSize: 16,
     alignContent: 'center',
     marginHorizontal: '5%',
     marginTop: '30%',
+  },
+  valueContainer: {
+    marginTop: '10%',
+  },
+  valueSubContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  needMoreText: {
+    color: '#FFF',
+    fontWeight: '300',
+    fontSize: 13,
+  },
+  valueText: {
+    color: '#FFF',
+    fontWeight: '500',
+    fontSize: 18,
+    marginLeft: '5%',
   },
 });
 
@@ -89,12 +93,11 @@ export type Props = {
   setIsVisible: Function;
 };
 
-const CentralChallengeModal: React.FC<Props> = ({
+const SetChallengeValueModal: React.FC<Props> = ({
   isVisible,
   setIsVisible,
 }) => {
-  const [challengeDescription, setChallengeDescription] = useState('');
-  const [hiddenEnabled, sethiddenEnabled] = useState(false);
+  const [challengeValue, setValue] = useState(0);
 
   return (
     <Modal
@@ -117,29 +120,23 @@ const CentralChallengeModal: React.FC<Props> = ({
                   Challenge @Make Dynamic
                 </Text>
               </View>
-              <TextInput
-                style={styles.input}
-                placeholder="Search"
-                onChange={(event) =>
-                  setChallengeDescription(event.nativeEvent.text)
-                }
-                value={challengeDescription}
-              />
-              <View style={styles.hiddenContainer}>
-                <Text style={styles.hiddenText}>Hidden</Text>
-                <Switch
-                  style={styles.switchButton}
-                  trackColor={{ false: '#767577', true: '#f5dd4b' }}
-                  thumbColor={hiddenEnabled ? '#3e3e3e' : '#f4f3f4'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={() => sethiddenEnabled(!hiddenEnabled)}
-                  value={hiddenEnabled}
-                />
+              <View style={styles.valueContainer}>
+                <Text style={styles.valueText}>Value</Text>
+
+                <View style={styles.valueSubContainer}>
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="numeric"
+                    onChange={(event) => setValue(event.nativeEvent.target)}
+                    value={`${challengeValue}`}
+                    maxLength={10}
+                  />
+                  <TouchableOpacity>
+                    <Text style={styles.needMoreText}>Need more?</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <Button
-                buttonStyle={styles.nextButton}
-                text="Next"
-              />
+              <Button buttonStyle={styles.nextButton} text="Challenge" />
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -148,4 +145,4 @@ const CentralChallengeModal: React.FC<Props> = ({
   );
 };
 
-export default CentralChallengeModal;
+export default SetChallengeValueModal;
