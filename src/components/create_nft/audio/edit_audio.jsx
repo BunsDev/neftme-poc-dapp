@@ -125,7 +125,7 @@ const EditAudio = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const audioDir =
-    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
+    FileSystem.documentDirectory + Constants.expoConfig.extra.localAudioDirectory;
 
   const loadContent = async () => {
     try {
@@ -266,7 +266,7 @@ const EditAudio = () => {
               screen: 'CreateNFTDetails',
               params: {
                 resource: section.audioURI,
-                resourceType: Constants.manifest.extra.mediaType.sound,
+                resourceType: Constants.expoConfig.extra.mediaType.sound,
                 duration: section.duration,
               },
             })

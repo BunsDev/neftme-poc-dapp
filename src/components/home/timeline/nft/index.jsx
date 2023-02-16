@@ -20,7 +20,7 @@ const Nft = ({ nft }) => {
   const navigation = useNavigation();
   const navigateToProfile = () =>
     navigation.navigate('CreatorProfile', { username: nft.username });
-  const constants = Constants.manifest.extra;
+  const constants = Constants.expoConfig.extra;
   const [muted, setIsMuted] = useState(false);
   const video = useRef(null);
   const [videoStatus, setVideoStatus] = useState({});

@@ -76,7 +76,7 @@ const EditImage = () => {
         screen: 'CreateNFTDetails',
         params: {
           resource: route.params.resource,
-          resourceType: Constants.manifest.extra.mediaType.image,
+          resourceType: Constants.expoConfig.extra.mediaType.image,
         },
       });
     } else {
@@ -84,7 +84,7 @@ const EditImage = () => {
         screen: 'CreateNFTDetails',
         params: {
           resource: selectedImage,
-          resourceType: Constants.manifest.extra.mediaType.image,
+          resourceType: Constants.expoConfig.extra.mediaType.image,
         },
       });
     }

@@ -12,8 +12,6 @@ function AudioSlider({ resource }): JSX.Element {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [soundObject, setSoundObject] = useState<Audio.Sound>();
   const [statusObject, setStatusObject] = useState<AVPlaybackStatus>();
-  const audioDir =
-    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
 
   const loadContent = async () => {
     try {

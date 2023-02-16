@@ -6,8 +6,6 @@ import AudioNFT from './audio/audio_nft';
 import nftOptions from './nft_options';
 import NFTOptionItem from './nft_option_item';
 
-const { width } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   menuContainer: {
     paddingTop: 7,
