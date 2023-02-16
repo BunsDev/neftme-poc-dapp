@@ -101,47 +101,47 @@ const SetChallengeValueModal: React.FC<Props> = ({
 
   return (
     <Modal
-      animationType="fade"
-      transparent
-      visible={isVisible}
-      onRequestClose={() => {
-        setIsVisible(!isVisible);
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => setIsVisible(!isVisible)}
-        style={styles.touchOutsideCloseModal}
+        animationType="fade"
+        transparent
+        visible={isVisible}
+        onRequestClose={() => {
+          setIsVisible(!isVisible);
+        }}
       >
-        <TouchableWithoutFeedback>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={styles.challengeTextContainer}>
-                <Text style={styles.challengeText}>
-                  Challenge @Make Dynamic
-                </Text>
-              </View>
-              <View style={styles.valueContainer}>
-                <Text style={styles.valueText}>Value</Text>
-
-                <View style={styles.valueSubContainer}>
-                  <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    onChange={(event) => setValue(event.nativeEvent.target)}
-                    value={`${challengeValue}`}
-                    maxLength={10}
-                  />
-                  <TouchableOpacity>
-                    <Text style={styles.needMoreText}>Need more?</Text>
-                  </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setIsVisible(!isVisible)}
+          style={styles.touchOutsideCloseModal}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View style={styles.challengeTextContainer}>
+                  <Text style={styles.challengeText}>
+                    Challenge @Make Dynamic
+                  </Text>
                 </View>
+                <View style={styles.valueContainer}>
+                  <Text style={styles.valueText}>Value</Text>
+
+                  <View style={styles.valueSubContainer}>
+                    <TextInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      onChange={(event) => setValue(event.nativeEvent.target)}
+                      value={`${challengeValue}`}
+                      maxLength={10}
+                    />
+                    <TouchableOpacity>
+                      <Text style={styles.needMoreText}>Need more?</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <Button buttonStyle={styles.nextButton} text="Challenge" />
               </View>
-              <Button buttonStyle={styles.nextButton} text="Challenge" />
             </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </TouchableOpacity>
-    </Modal>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
   );
 };
 

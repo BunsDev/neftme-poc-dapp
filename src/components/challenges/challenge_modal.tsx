@@ -136,10 +136,7 @@ const CentralChallengeModal: React.FC<Props> = ({
                   value={hiddenEnabled}
                 />
               </View>
-              <Button
-                buttonStyle={styles.nextButton}
-                text="Next"
-              />
+              <Button buttonStyle={styles.nextButton} text="Next" />
             </View>
           </View>
         </TouchableWithoutFeedback>

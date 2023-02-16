@@ -7,9 +7,10 @@ import {
   TextInput,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import CentralChallengeModal from './challenge_modal';
 import SetChallengeValueModal from './set_challenge_value_modal';
+import ChallengeSuccessModal from './challenge_success_modal';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,6 +78,7 @@ const SelectUser: React.FC<Props> = () => {
   // TODO - TEMPORARY Move the modal to the correct place
   const [modalVisible, setModalVisible] = useState(false);
   const [valueModalVisible, setvalueModalVisible] = useState(false);
+  const [challengeSuccessModalVisible, setChallengeSuccessModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -87,6 +89,10 @@ const SelectUser: React.FC<Props> = () => {
       <SetChallengeValueModal
         isVisible={valueModalVisible}
         setIsVisible={setvalueModalVisible}
+      />
+      <ChallengeSuccessModal
+        isVisible={challengeSuccessModalVisible}
+        setIsVisible={setChallengeSuccessModalVisible}
       />
       <TouchableOpacity
         style={styles.backIcon}
@@ -135,6 +141,15 @@ const SelectUser: React.FC<Props> = () => {
               >
                 <Text style={[styles.textStyle]}>
                   Set value and challenge modal
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.aroundYouContainer}>
+              <TouchableOpacity
+                onPress={() => setChallengeSuccessModalVisible(!challengeSuccessModalVisible)}
+              >
+                <Text style={[styles.textStyle]}>
+                  Challenge Successful Modal
                 </Text>
               </TouchableOpacity>
             </View>
