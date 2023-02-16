@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CentralChallengeModal from './challenge_modal';
 import SetChallengeValueModal from './set_challenge_value_modal';
 
@@ -71,6 +72,7 @@ export type Props = {};
 const SelectUser: React.FC<Props> = () => {
   const [selected, setSelected] = useState(0);
   const [search, setSearch] = useState('');
+  const navigation = useNavigation();
 
   // TODO - TEMPORARY Move the modal to the correct place
   const [modalVisible, setModalVisible] = useState(false);
@@ -82,8 +84,14 @@ const SelectUser: React.FC<Props> = () => {
         isVisible={modalVisible}
         setIsVisible={setModalVisible}
       />
-      <SetChallengeValueModal isVisible={valueModalVisible} setIsVisible={setvalueModalVisible}/>
-      <TouchableOpacity style={styles.backIcon}>
+      <SetChallengeValueModal
+        isVisible={valueModalVisible}
+        setIsVisible={setvalueModalVisible}
+      />
+      <TouchableOpacity
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}
+      >
         <BackIcon width={25} height={25} />
       </TouchableOpacity>
       <View style={styles.textContainer}>
@@ -113,15 +121,21 @@ const SelectUser: React.FC<Props> = () => {
             value={search}
           />
         ) : (
-          <View >
+          <View>
             <View style={styles.aroundYouContainer}>
               <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={[styles.textStyle]}>Set desc and hidden modal</Text>
+                <Text style={[styles.textStyle]}>
+                  Set desc and hidden modal
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.aroundYouContainer}>
-              <TouchableOpacity onPress={() => setvalueModalVisible(!modalVisible)}>
-                <Text style={[styles.textStyle]}>Set value and challenge modal</Text>
+              <TouchableOpacity
+                onPress={() => setvalueModalVisible(!modalVisible)}
+              >
+                <Text style={[styles.textStyle]}>
+                  Set value and challenge modal
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
