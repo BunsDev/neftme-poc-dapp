@@ -122,6 +122,7 @@ const CommandCentre: React.FC = () => {
           <Text style={styles.statusREText}>RE</Text>
         </View>
       </View>
+      {/* TODO Change this to flat list when dynamic */}
       <View style={styles.challengeItemContainer}>
         <ReceivedChallengeItem challenge={c} />
         <ReceivedChallengeItem challenge={c} />
