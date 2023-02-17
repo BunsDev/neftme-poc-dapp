@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Switch,
 } from 'react-native';
-import Button from '../library/button';
+import Button from '../../library/button';
 
 const styles = StyleSheet.create({
   container: {
