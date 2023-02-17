@@ -8,8 +8,12 @@ import Challenge from '../../../model/challenge_model';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
-    height: '10%',
-    width: '85%',
+    height: '100%',
+    width: '100%',
+    borderRadius: 20,
+    paddingTop: 20,
+    flexDirection: 'row',
+    marginTop: '5%',
   },
   receivedSentContainer: {
     flexDirection: 'row',
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   challengeTextStyle: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
     color: '#000',
     marginLeft: '5%',
@@ -42,12 +46,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: '2%',
   },
-  selected: {
-    borderBottomColor: 'white',
-    borderBottomWidth: 2,
+  statusText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#000',
+    marginLeft: '8%',
   },
-  individualText: {
-    paddingHorizontal: 20,
+  remainingTimeText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#000',
+    marginLeft: '18%',
   },
 });
 
@@ -65,6 +74,8 @@ const ReceivedChallengeItem: React.FC<Props> = ({ challenge }) => {
   return (
     <View style={styles.container}>
         <Text style={styles.challengeTextStyle}>{challenge.getUser()}</Text>
+        <Text style={styles.statusText}>pending</Text>
+        <Text style={styles.remainingTimeText}>24H</Text>
     </View>
   );
 };

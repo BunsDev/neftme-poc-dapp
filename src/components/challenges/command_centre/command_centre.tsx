@@ -53,17 +53,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: '#FFF',
-    marginHorizontal: '10%',
+    paddingHorizontal: '17%',
   },
   statusREContainer: {
     flexDirection: 'row',
-    marginLeft: '65%',
+    marginLeft: '35%',
     marginTop: '5%',
   },
   challengeItemContainer: {
-    marginLeft: '5%',
-    height: '50%',
-    backgroundColor: '#000',
+    marginHorizontal: '5%',
+    height: '10%',
   },
 });
 
@@ -83,7 +82,7 @@ const CommandCentre: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [valueModalVisible, setvalueModalVisible] = useState(false);
 
-  const c = new Challenge('luis', 'luis', 'nft', 'desc', 1, true);
+  const c = new Challenge('luisneves0.5', 'luis', 'nft', 'desc', 1, true);
 
   return (
     <View style={styles.container}>
@@ -124,6 +123,8 @@ const CommandCentre: React.FC = () => {
         </View>
       </View>
       <View style={styles.challengeItemContainer}>
+        <ReceivedChallengeItem challenge={c} />
+        <ReceivedChallengeItem challenge={c} />
         <ReceivedChallengeItem challenge={c} />
       </View>
     </View>
