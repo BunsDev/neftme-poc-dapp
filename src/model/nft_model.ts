@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
-export class NFTModelClass {
+export default class NFTModelClass {
   private resource: string;
 
   private resource_type: string;
