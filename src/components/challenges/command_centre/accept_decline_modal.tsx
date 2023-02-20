@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
   Modal,
   TouchableOpacity,
   Text,
-  TextInput,
   TouchableWithoutFeedback,
-  Switch,
 } from 'react-native';
 import Button from '../../library/button';
 import Challenge from '../../../model/challenge_model';

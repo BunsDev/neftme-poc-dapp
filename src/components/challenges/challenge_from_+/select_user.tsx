@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
-import CentralChallengeModal from './challenge_modal';
-import SetChallengeValueModal from './set_challenge_value_modal';
-import ChallengeSuccessModal from './challenge_success_modal';
+import CentralChallengeModal from '../shared/challenge_modal';
+import SetChallengeValueModal from '../shared/set_challenge_value_modal';
+import ChallengeSuccessModal from '../shared/challenge_success_modal';
 
 const styles = StyleSheet.create({
   container: {
