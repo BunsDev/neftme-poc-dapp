@@ -5,6 +5,7 @@ import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
 import { useNavigation } from '@react-navigation/native';
 import Challenge from '../../../model/challenge_model';
 import ReceivedChallengeItem from './received_challenge_item';
+import AcceptDeclineModal from './accept_decline_modal';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,12 +81,16 @@ const CommandCentre: React.FC = () => {
   const navigation = useNavigation<any>();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [valueModalVisible, setvalueModalVisible] = useState(false);
 
-  const c = new Challenge('luisneves0.5', 'luis', 'nft', 'desc', 1, true);
+  const c = new Challenge('luisneves0.5', 'luis', 'nft', 'Send nudes', 1, true);
 
   return (
     <View style={styles.container}>
+      <AcceptDeclineModal
+        isVisible={modalVisible}
+        setIsVisible={setModalVisible}
+        challenge={c}
+      />
       <TouchableOpacity
         style={styles.backIcon}
         onPress={() => navigation.goBack()}
@@ -124,9 +129,21 @@ const CommandCentre: React.FC = () => {
       </View>
       {/* TODO Change this to flat list when dynamic */}
       <View style={styles.challengeItemContainer}>
-        <ReceivedChallengeItem challenge={c} />
-        <ReceivedChallengeItem challenge={c} />
-        <ReceivedChallengeItem challenge={c} />
+        <ReceivedChallengeItem
+          challenge={c}
+          isModalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+        <ReceivedChallengeItem
+          challenge={c}
+          isModalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+        <ReceivedChallengeItem
+          challenge={c}
+          isModalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
       </View>
     </View>
   );

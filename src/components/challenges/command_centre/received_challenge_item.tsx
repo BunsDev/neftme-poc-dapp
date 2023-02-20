@@ -8,7 +8,7 @@ import Challenge from '../../../model/challenge_model';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
-    height: '100%',
+    height: '90%',
     width: '100%',
     borderRadius: 20,
     paddingTop: 20,
@@ -62,21 +62,23 @@ const styles = StyleSheet.create({
 
 export type Props = {
   challenge: Challenge;
+  isModalVisible: boolean;
+  setModalVisible: Function;
 };
 
-const ReceivedChallengeItem: React.FC<Props> = ({ challenge }) => {
-  const [selected, setSelected] = useState(0);
-  const navigation = useNavigation<any>();
-
-  // TODO - TEMPORARY Move the modal to the correct place
-  const [modalVisible, setModalVisible] = useState(false);
-
+const ReceivedChallengeItem: React.FC<Props> = ({
+  challenge,
+  setModalVisible,
+  isModalVisible,
+}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={() => setModalVisible(!isModalVisible)}>
+      <View style={styles.container}>
         <Text style={styles.challengeTextStyle}>{challenge.getUser()}</Text>
         <Text style={styles.statusText}>pending</Text>
         <Text style={styles.remainingTimeText}>24H</Text>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
