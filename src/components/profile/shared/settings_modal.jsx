@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import {
-  StyleSheet, View, Modal, TouchableOpacity, Pressable, Text, Alert,
+  StyleSheet, View, Modal, TouchableOpacity, Text, Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import VectorIcon from '@assets/icons/Vector.svg';
@@ -117,38 +117,38 @@ const SettingsModal = ({
 
           <View style={styles.individualSettingView}>
             <WalletIcon width={16} height={16} />
-            <Pressable
+            <TouchableOpacity
               onPress={() => disconnectWalletAndNavigate()}
             >
               <Text style={styles.settingsFont}>Disconnect Wallet</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.individualSettingView}>
             <Icon width={16} height={16} />
-            <Pressable
+            <TouchableOpacity
               onPress={() => Alert.alert('Available soon!')}
             >
               <Text style={styles.settingsFont}>Settings</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.individualSettingView}>
             <VectorIcon width={16} height={16} />
-            <Pressable
+            <TouchableOpacity
               onPress={() => Alert.alert('Available soon!')}
             >
               <Text style={styles.settingsFont}>Switch Account</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.individualSettingView}>
             <ExitIcon width={16} height={16} />
-            <Pressable
+            <TouchableOpacity
               onPress={() => disconnectAccountAndNavigate()}
             >
               <Text style={styles.settingsFont}>Logout</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
         </View>

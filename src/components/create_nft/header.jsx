@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, Text, View,
+  TouchableOpacity, StyleSheet, Text, View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -55,15 +55,15 @@ const Header = ({ step, showNext, onPress }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.centerHorVert} onPress={navigation.goBack}>
+      <TouchableOpacity style={styles.centerHorVert} onPress={navigation.goBack}>
         <Text style={styles.button}>Back</Text>
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.navDots}>
         <View style={[styles.dot, step === 1 ? styles.activeDot : {}]} />
         <View style={[styles.dot, styles.marginX8, step === 2 ? styles.activeDot : {}]} />
         <View style={[styles.dot, step === 3 ? styles.activeDot : {}]} />
       </View>
-      <Pressable style={styles.centerHorVert}>
+      <TouchableOpacity style={styles.centerHorVert}>
         <Text
           style={[
             styles.button,
@@ -74,7 +74,7 @@ const Header = ({ step, showNext, onPress }) => {
         >
           Next
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

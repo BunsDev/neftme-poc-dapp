@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NFTCommentsPropTypes } from '@utils/proptypes';
 import {
   Alert,
-  Pressable,
+  TouchableOpacity,
   ScrollView,
   Text,
   TextInput,
@@ -82,9 +82,9 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
           <View style={styles.header}>
             <Text style={styles.title}>{`${comments.length} comments`}</Text>
             <TouchableOpacity>
-              <Pressable onPress={closeModal}>
+              <TouchableOpacity onPress={closeModal}>
                 <CloseIcon />
-              </Pressable>
+              </TouchableOpacity>
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -107,7 +107,7 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
           </ScrollView>
           {!writeNewComment && (
             <View style={styles.commentPlaceholderContainer}>
-              <Pressable onPress={() => setWriteNewComment(true)}>
+              <TouchableOpacity onPress={() => setWriteNewComment(true)}>
                 <Text
                   style={{
                     color: newComment ? '#FFF' : 'rgba(255,255,255,0.54)',
@@ -115,7 +115,7 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
                 >
                   {newComment || 'Add comment...'}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           )}
           {writeNewComment && (
@@ -139,9 +139,9 @@ const Comments = ({ comments, closeModal, nftTokenId }) => {
                 style={styles.newCommentTextInput}
                 onChange={(event) => setNewComment(event.nativeEvent.text)}
               />
-              <Pressable style={styles.justifyCenter} onPress={postComment}>
+              <TouchableOpacity style={styles.justifyCenter} onPress={postComment}>
                 <SendCommentIcon width={24} height={24} />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           )}
         </View>

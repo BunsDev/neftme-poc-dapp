@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
   chip: {
@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
 });
 
 const SelectMore = ({ onPress }) => (
-  <Pressable style={styles.chip} onPress={onPress}>
+  <TouchableOpacity style={styles.chip} onPress={onPress}>
     <Text style={styles.text}>Select more from library</Text>
-  </Pressable>
+  </TouchableOpacity>
 );
 
 SelectMore.propTypes = {

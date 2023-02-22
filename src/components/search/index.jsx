@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { withMainScrollView } from '@hocs';
 import {
-  Text, FlatList, Pressable, Image, SafeAreaView, TextInput, View,
+  FlatList, Image, SafeAreaView, TextInput, View,
 } from 'react-native';
-import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
 import { SectionHeader } from '@library';
 import { getFeaturedProfiles } from '@services/user';
 import TrendingCard from './trending_card';
 import styles from './stylesheet';
 
-const search_icon = require('@assets/search.png');
+const searchIcon = require('@assets/search.png');
 
 const Search = () => {
   const navigation = useNavigation();
@@ -27,7 +26,7 @@ const Search = () => {
         <View style={styles.container}>
           <View style={styles.inputSection}>
             <Image
-              source={search_icon}
+              source={searchIcon}
               style={styles.imageIconSearch}
             />
 

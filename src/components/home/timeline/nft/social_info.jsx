@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NFTPropTypes } from '@utils/proptypes';
 import {
-  Alert, Pressable, Text, TouchableOpacity, View,
+  Alert, TouchableOpacity, Text, TouchableOpacity, View,
 } from 'react-native';
 import { Loading } from '@library';
 import CommentIcon from '@assets/icons/comment.svg';
@@ -51,10 +51,10 @@ const SocialInfo = ({ nft }) => {
     <View style={styles.detailsContainer}>
       <Loading visible={isLoading} />
       <View style={styles.iconTextContainer}>
-        <Pressable style={styles.iconTextContainer} onPress={() => setShowCommentsModal(true)}>
+        <TouchableOpacity style={styles.iconTextContainer} onPress={() => setShowCommentsModal(true)}>
           <CommentIcon width={18} height={17} />
           <Text style={styles.detailText}>{`${nft.comments.length} comments`}</Text>
-        </Pressable>
+        </TouchableOpacity>
         {showCommentsModal && (
           <CommentsModal
             comments={nft.comments}
@@ -71,10 +71,10 @@ const SocialInfo = ({ nft }) => {
         </TouchableOpacity>
         <Text style={styles.detailText}>{nft.likes}</Text>
       </View>
-      <Pressable style={[styles.iconTextContainer, styles.shareContainer]} onPress={() => Alert.alert('Available soon')}>
+      <TouchableOpacity style={[styles.iconTextContainer, styles.shareContainer]} onPress={() => Alert.alert('Available soon')}>
         <Text style={styles.shareText}>Share</Text>
         <ShareIcon width={12.8} heigth={16} />
-      </Pressable>
+      </TouchableOpacity>
       <TouchableOpacity onPress={onReportAbusePress} style={{ marginRight: 16 }}>
         {nft.currentUserReportedAbuse
           ? <ReportAbuse width={22} heigth={22} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   GestureResponderEvent,
-  Pressable,
+  TouchableOpacity,
   StyleSheet,
   Text,
   TextStyle,
@@ -60,9 +60,9 @@ const SectionHeader: React.FC<Props> = ({
       </View>
       <View style={styles.subHeaderLeftContainer}>
         {onSeeAllClick ? (
-          <Pressable style={styles.seeAllText} onPress={onSeeAllClick}>
+          <TouchableOpacity style={styles.seeAllText} onPress={onSeeAllClick}>
             <Text style={styles.seeAllText}>Refresh</Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : (
           <Text style={styles.seeAllText}>See All</Text>
         )}

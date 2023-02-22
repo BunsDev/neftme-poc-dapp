@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CoverImage, ProfileImage } from '@library';
 import { pluralizeFollowers } from '@utils/words';
@@ -11,7 +11,7 @@ const ProfileCard = ({ profile }) => {
   const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: profile.username });
 
   return (
-    <Pressable style={styles.profileItem} onPress={navigateToProfile}>
+    <TouchableOpacity style={styles.profileItem} onPress={navigateToProfile}>
       <CoverImage
         coverImage={profile.coverImage}
         coverImageWrapperStyle={styles.profileItemHeaderImageWrapper}
@@ -36,7 +36,7 @@ const ProfileCard = ({ profile }) => {
           avatarHeight={35}
         />
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

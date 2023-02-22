@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ProfileImage } from '@library';
 import {
-  StyleSheet, Text, View, Pressable,
+  StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import TokenIcon from '@assets/icons/token.svg';
 import { abbreviateNumber } from '@utils/numbers';
@@ -95,7 +95,7 @@ const StakerItem = ({ stakerInfo }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable
+      <TouchableOpacity
         onPress={navigateToProfile}
       >
         <ProfileImage
@@ -108,7 +108,7 @@ const StakerItem = ({ stakerInfo }) => {
             backgroundColor: staker?.profileColor,
           }}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.textBox}>
         <Text style={styles.name}>{staker.name}</Text>
         <View style={styles.descriptionAddress}>

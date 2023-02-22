@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ProfileDataDefaultProps, ProfileDataPropTypes } from '@utils/proptypes';
 import {
-  Alert, Pressable, Text, View,
+  Alert, TouchableOpacity, Text, View,
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { ProfileImage, TruncatedText } from '@library';
@@ -52,9 +52,9 @@ const ProfileData = ({ profile, ProfileButton }) => {
             <>
               <Text style={[styles.nameSubtext, styles.separatorText]}>.</Text>
               <Text style={styles.walletAddress}>{`${profile.walletAddress.slice(0, 5)}...${profile.walletAddress.slice(-5)}`}</Text>
-              <Pressable onPress={copyWalletAddress}>
+              <TouchableOpacity onPress={copyWalletAddress}>
                 <CopyIcon width={12.67} height={14.67} />
-              </Pressable>
+              </TouchableOpacity>
             </>
           ) : null}
         </View>

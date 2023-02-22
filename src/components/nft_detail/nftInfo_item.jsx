@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ProfileImage } from '@library';
 import {
-  StyleSheet, Text, View, Alert, Pressable,
+  StyleSheet, Text, View, Alert, TouchableOpacity,
 } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import CopyIcon from '@assets/icons/copy.svg';
@@ -115,7 +115,7 @@ const NftInfoItem = ({ nftInfo, isCreator }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable
+      <TouchableOpacity
         onPress={navigateToProfile}
       >
         <ProfileImage
@@ -128,12 +128,12 @@ const NftInfoItem = ({ nftInfo, isCreator }) => {
           avatarWidth={30}
           avatarHeight={30}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.textBox}>
         <Text style={styles.name}>{user.name}</Text>
         <View style={styles.descriptionAddress}>
           <Text style={styles.description}>{text}</Text>
-          <Pressable onPress={copyWalletAddress} style={styles.walletPressable}>
+          <TouchableOpacity onPress={copyWalletAddress} style={styles.walletPressable}>
             <Text style={styles.address}>
               {' '}
               •
@@ -141,7 +141,7 @@ const NftInfoItem = ({ nftInfo, isCreator }) => {
               {`${addr?.slice(0, 5)}...${addr?.slice(-5)}`}
             </Text>
             <CopyIcon width={12.67} height={14.67} style={styles.copyIcon} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

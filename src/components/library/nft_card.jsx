@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { abbreviateNumber } from '@utils/numbers';
 import { convertFromNFTAmount } from '@utils/nft';
@@ -87,13 +87,13 @@ const NftCard = ({ nft }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable
+      <TouchableOpacity
         onPress={() =>
           navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })
         }
       >
         <Image source={{ uri: nft.resource }} style={styles.image} />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.tokenContainer}>
         <View style={styles.stakedContainer}>
           <TokenIcon width={13.56} height={13.1} style={styles.tokenIcon} />

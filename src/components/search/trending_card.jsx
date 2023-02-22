@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Image, Pressable, Text, View,
+  Image, TouchableOpacity, Text, View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './stylesheet';
@@ -11,7 +11,7 @@ const TrendingCard = ({ trending }) => {
   const navigateToProfile = () => navigation.navigate('CreatorProfile', { username: trending.username });
 
   return (
-    <Pressable style={styles.trendingItem} onPress={navigateToProfile}>
+    <TouchableOpacity style={styles.trendingItem} onPress={navigateToProfile}>
       <View style={styles.trendingItemImage}>
         <Image style={styles.imageTrendingStyle} source={{ uri: 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png' }} />
       </View>
@@ -22,7 +22,7 @@ const TrendingCard = ({ trending }) => {
       </View>
 
       <Text style={styles.trendingTextSupporters}>10% goes to 5k supporters</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

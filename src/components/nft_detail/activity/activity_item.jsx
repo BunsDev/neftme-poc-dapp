@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Constants from 'expo-constants';
 import { ProfileImage } from '@library';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { strIsEqual } from '@utils/words';
 import { useGetCurrentUserQuery } from '@features/current_user';
@@ -103,14 +103,14 @@ const ActivityItem = ({
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable onPress={navigateToProfile}>
+      <TouchableOpacity onPress={navigateToProfile}>
         <ProfileImage
           profileImage={user.profileImage}
           imageStyle={styles.image}
           avatarWidth={30}
           avatarHeight={30}
         />
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.reviewBox}>
         <Text style={styles.description}>{text}</Text>
         <View style={styles.descriptionAddress}>
@@ -122,9 +122,9 @@ const ActivityItem = ({
       {text === makeOfferText &&
         strIsEqual(owner, currentUser.walletAddress) &&
         !alreadyAccepted() && (
-          <Pressable style={styles.reviewButton} onPress={selectEvent}>
+          <TouchableOpacity style={styles.reviewButton} onPress={selectEvent}>
             <Text style={styles.reviewText}>Review</Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
     </View>
   );

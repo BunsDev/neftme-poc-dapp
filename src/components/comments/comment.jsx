@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NFTCommentPropTypes } from '@utils/proptypes';
 import {
-  Alert, Pressable, Text, View,
+  Alert, TouchableOpacity, Text, View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import TimeAgo from 'javascript-time-ago';
@@ -61,11 +61,11 @@ const Comment = ({ comment, nftTokenId, setIsLoading }) => {
         </View>
       </View>
       <View style={styles.likesContainer}>
-        <Pressable onPress={onHeartPress}>
+        <TouchableOpacity onPress={onHeartPress}>
           {comment.currentUserLikes ? (
             <FilledHeartIcon width={14} height={12} />
           ) : <HeartIcon width={14} height={12} />}
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.totalLikesText}>
           {
             comment.totalLikes > 999

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 const Indicator = ({
@@ -10,7 +10,7 @@ const Indicator = ({
 }) => (
   <View style={styles.indicatorView}>
     {data.map((value, index) => value.image && (
-      <Pressable
+      <TouchableOpacity
         key={value.id}
         style={
           index === currentIndex

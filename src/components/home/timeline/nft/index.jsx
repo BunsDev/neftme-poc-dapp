@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NFTPropTypes } from '@utils/proptypes';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, TouchableOpacity, Text, View } from 'react-native';
 // import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileImage, TruncatedText } from '@library';
@@ -109,7 +109,7 @@ const Nft = ({ nft }) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.nftHeader}>
-        <Pressable onPress={navigateToProfile}>
+        <TouchableOpacity onPress={navigateToProfile}>
           <ProfileImage
             profileImage={nft.profilePhoto}
             containerStyle={{
@@ -120,7 +120,7 @@ const Nft = ({ nft }) => {
             avatarWidth={30}
             avatarHeight={30}
           />
-        </Pressable>
+        </TouchableOpacity>
         <View style={styles.nftHeaderTitle}>
           <Text style={styles.nftHeaderName}>{nft.name}</Text>
           <Text style={styles.nftHeaderFollowers}>{`${
@@ -130,13 +130,13 @@ const Nft = ({ nft }) => {
       </View>
       {/* TODO: ADD Save Favorite feature;
         <SaveFavoriteIcon style={styles.saveFavoriteIcon} width={20} height={20} /> */}
-      {/* <Pressable
+      {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('NFTDetail', { nftTokenId: nft.tokenId })
           }
         > */}
       {nftByType()}
-      {/* </Pressable> */}
+      {/* </TouchableOpacity> */}
       <SocialInfo nft={nft} />
       <TruncatedText text={nft.description} textStyle={styles.nftDescription} />
       <View style={styles.horizontalLine} />

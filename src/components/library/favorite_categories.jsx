@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, Text, View,
+  TouchableOpacity, StyleSheet, Text, View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -56,7 +56,7 @@ const FavoriteCategories = ({
     {title && <Text style={styles.header}>Favorite Categories</Text>}
     <View style={[styles.listContainer, listContainerStyle]}>
       {allCategories.map(({ id, category }) => (
-        <Pressable
+        <TouchableOpacity
           style={[styles.category, userCategories.includes(id) ? styles.selectedContainer : {}]}
           key={category}
           onPress={() => onCategorySelect(id)}
@@ -66,7 +66,7 @@ const FavoriteCategories = ({
           >
             {category}
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       ))}
     </View>
   </View>

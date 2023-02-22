@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Pressable, ScrollView, View } from 'react-native';
+import { FlatList, Image, TouchableOpacity, ScrollView, View } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Constants from 'expo-constants';
@@ -172,9 +172,9 @@ const NFTDetail = () => {
       <Loading visible={isLoading} />
       {isLoading ? null : (
         <>
-          <Pressable style={styles.backIcon} onPress={navigation.goBack}>
+          <TouchableOpacity style={styles.backIcon} onPress={navigation.goBack}>
             <BackIcon width={18.67} height={18.67} />
-          </Pressable>
+          </TouchableOpacity>
           <Image source={{ uri: nftData.resource }} style={styles.image} />
           <View>
             <SocialInfo nft={nftData} />

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, Text, View,
+  TouchableOpacity, StyleSheet, Text, View,
 } from 'react-native';
 import CloseIcon from '@assets/icons/close_input.svg';
 import { CustomTextInput } from '@library';
@@ -54,11 +54,11 @@ const SocialMediaLinksField = ({
         <CloseIcon style={styles.closeIcon} onPress={() => removeSocialIndex(index)} />
       </View>
     ))}
-    <Pressable style={styles.addUrlButton} onPress={() => onSocialMediaLinksChange('', undefined)}>
+    <TouchableOpacity style={styles.addUrlButton} onPress={() => onSocialMediaLinksChange('', undefined)}>
       <Text style={styles.addUrlButtonText}>
         Add URL
       </Text>
-    </Pressable>
+    </TouchableOpacity>
   </View>
 );
 

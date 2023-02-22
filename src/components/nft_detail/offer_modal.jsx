@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import {
   KeyboardAvoidingView,
   Modal,
-  Pressable,
-  Text,
   TouchableOpacity,
+  Text,
   TouchableWithoutFeedback,
   View,
   Alert,
@@ -168,14 +167,14 @@ const OfferModal = ({
               <TouchableWithoutFeedback>
                 <View style={styles.acceptDenyContainer}>
                   <View style={styles.offerAndAmountBox}>
-                    <Pressable onPress={navigateToProfile}>
+                    <TouchableOpacity onPress={navigateToProfile}>
                       <ProfileImage
                         profileImage={chosenUser.profileImage}
                         imageStyle={styles.image}
                         avatarWidth={30}
                         avatarHeight={30}
                       />
-                    </Pressable>
+                    </TouchableOpacity>
                     <View>
                       <Text style={styles.description}>Made Offer</Text>
                       <Text style={styles.description}>

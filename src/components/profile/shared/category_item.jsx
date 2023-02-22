@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Pressable, StyleSheet, Text, View,
+  TouchableOpacity, StyleSheet, Text, View,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -34,10 +34,10 @@ const CategoryItem = ({
   index, item, selectedCategoryId, setSelectedCategory,
 }) => (
   <View key={`icon_profile_${index}`} style={styles.container}>
-    <Pressable style={styles.item} onPress={() => setSelectedCategory(item)}>
+    <TouchableOpacity style={styles.item} onPress={() => setSelectedCategory(item)}>
       <Text style={styles.itemName}>{item.name}</Text>
       <item.Icon width={item.width} height={item.height} style={styles.alignCenter} />
-    </Pressable>
+    </TouchableOpacity>
     {item.id === selectedCategoryId && <View style={styles.selected} />}
   </View>
 );
