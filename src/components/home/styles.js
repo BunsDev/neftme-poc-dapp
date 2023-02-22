@@ -6,35 +6,22 @@ export default StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginRight: 18,
   },
   subHeaderRight: {
-    flex: 0.5,
+    flex: 1,
   },
   subHeaderLeftContainer: {
-    flex: 0.5,
-    alignItems: 'flex-end',
+    flex: 1,
     justifyContent: 'center',
+    marginRight: '5%',
   },
   subHeaderLeft: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   logo: {
     width: 130,
     height: 56,
-  },
-  bellIcon: {
-    marginRight: 28,
-  },
-  notificationBadge: {
-    backgroundColor: '#FD0025',
-    width: 9,
-    height: 9,
-    position: 'absolute',
-    borderRadius: 20,
-    left: 15,
-    top: -2,
   },
   profilePhoto: {
     width: 48,

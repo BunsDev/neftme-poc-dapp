@@ -3,6 +3,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
 import DMIcon from '@assets/icons/direct_message.svg';
+import BalanceCoinIcon from '@assets/icons/balance_coin.svg';
 import styles from './styles';
 
 const logo = require('@assets/logo_home.webp');
@@ -18,16 +19,23 @@ const Header = () => {
         </View>
         <View style={styles.subHeaderLeftContainer}>
           <View style={styles.subHeaderLeft}>
+
             <TouchableOpacity
               onPress={() => navigation.navigate('StartChallenge')}
             >
               <View>
-                <ChallengeIcon style={styles.bellIcon} width={35} height={30} />
+                <ChallengeIcon width={35} height={30} />
               </View>
             </TouchableOpacity>
+
+            <TouchableOpacity>
+              <BalanceCoinIcon width={30} height={30} />
+            </TouchableOpacity>
+
             <TouchableOpacity>
               <DMIcon width={30} height={30} />
             </TouchableOpacity>
+
           </View>
         </View>
       </View>
