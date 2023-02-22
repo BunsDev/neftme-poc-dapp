@@ -7,7 +7,7 @@ import SearchIcon from '@assets/icons/search.svg';
 import BellIcon from '@assets/icons/bell.svg';
 import { ProfileImage } from '@library';
 import { useGetCurrentUserQuery } from '@features/current_user';
-import NotificationModal from '../home/notification_modal';
+import NotificationModal from './notification_modal';
 
 const styles = StyleSheet.create({
   bottomBar: {

@@ -7,7 +7,6 @@ import { ProfileImage, TruncatedText } from '@library';
 import Constants from 'expo-constants';
 import { pluralizeFollowers } from '@utils/words';
 import { Video, Audio } from 'expo-av';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import SpeakerIcon from '@assets/icons/speaker.svg';
 import MutedSpeakerIcon from '@assets/icons/muted_speaker.svg';
 import SocialInfo from './social_info';

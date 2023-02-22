@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NFTPropTypes } from '@utils/proptypes';
 import {
-  Alert, TouchableOpacity, Text, TouchableOpacity, View,
+  Alert, TouchableOpacity, Text, View,
 } from 'react-native';
 import { Loading } from '@library';
 import CommentIcon from '@assets/icons/comment.svg';

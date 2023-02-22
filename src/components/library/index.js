@@ -1,4 +1,4 @@
-export { default as BottomBar } from './bottom_bar';
+export { default as BottomBar } from './bottom_bar/bottom_bar';
 export { default as Button } from './button';
 export { default as CoverImage } from './cover_image';
 export { default as CustomTextInput } from './custom_text_input';
