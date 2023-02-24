@@ -7,9 +7,11 @@ import FeaturedProfiles from './featured_profiles';
 import Timeline from './timeline';
 
 const Home = () => (
-  <View style={styles.mainView}>
-    <Header />
-    <FeaturedProfiles />
+  <View>
+    <View style={styles.mainView}>
+      <Header />
+      <FeaturedProfiles />
+    </View>
     <Timeline />
   </View>
 );

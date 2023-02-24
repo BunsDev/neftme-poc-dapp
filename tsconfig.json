@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "strict": true,
-    "jsx": "react-native"
+    "jsx": "react-native",
+    "strictNullChecks": true
   },
   "include": ["src/components", "custom.d.ts", "src/"]
 }

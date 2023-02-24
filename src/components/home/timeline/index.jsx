@@ -5,6 +5,7 @@ import { Loading, SectionHeader } from '@library';
 import { fetchAllNFTs, selectNFTs } from '@features/nft';
 import Nft from './nft';
 import styles from './styles';
+import ChallengeItem from './challenges/challenge';
 
 const Timeline = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,13 @@ const Timeline = () => {
     <View style={styles.timelineContainer}>
       <SectionHeader title="Following" onSeeAllClick={onRefreshClick} containerStyle={styles.headerStyle} />
       <Loading visible={isLoading} />
+      <ChallengeItem nft={{}} />
+      <ChallengeItem nft={{}} />
+      <ChallengeItem nft={{}} />
+      <ChallengeItem nft={{}} />
+
       {nftsStore.status === 'succeeded' && nftsStore.nfts.length ? (
-        nftsStore.nfts.map((nft) => <Nft key={`nft_${nft.tokenId}`} nft={nft} />)
+        nftsStore.nfts.map((nft) => <ChallengeItem key={`nft_${nft.tokenId}`} nft={nft} />)
       ) : null}
     </View>
   );
