@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Image, TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  Text,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 // import SaveFavoriteIcon from '@assets/icons/save_favorite.svg';
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
@@ -57,6 +64,11 @@ const styles = StyleSheet.create({
     marginTop: '8%',
     marginLeft: '5%',
   },
+  insideImages: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 10,
+  },
 });
 
 const ChallengeItem: React.FC<Props> = ({ challenge }) => {
@@ -71,6 +83,7 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
   const [videoStatus, setVideoStatus] = useState<AVPlaybackStatusSuccess>();
   const [audioInfo, setAudio] = useState<ISoundInfo>();
   const [challengeNFT, setChallengeNFT] = useState<NFTModelClass | null>(null);
+  const [selected, setSelected] = useState<boolean>(true);
 
   useEffect(() => {
     const getAudio = async () => {
@@ -157,21 +170,36 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
     }
   };
 
+  const switchImages = () => {
+    setSelected(!selected);
+  };
+
+  // TODO make dynamic
+
   return (
     <View style={styles.container}>
       <Image
         source={{
-          uri: 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
+          uri: selected
+            ? 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png'
+            : 'https://picsum.photos/200/300',
         }}
-        style={styles.image}
+        style={selected ? styles.image : styles.imageOverlay}
       />
       <View style={styles.imageOverlayContainer}>
-        <Image
-          source={{
-            uri: 'https://picsum.photos/200/300',
-          }}
-          style={styles.imageOverlay}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => switchImages()}
+          style={selected ? styles.imageOverlay : styles.image}
+        >
+          <Image
+            source={{
+              uri: selected
+                ? 'https://picsum.photos/200/300'
+                : 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
+            }}
+            style={styles.insideImages}
+          />
+        </TouchableWithoutFeedback>
       </View>
       {nftByType()}
       {/* </TouchableOpacity>
