@@ -18,6 +18,8 @@ import {
 } from 'expo-av';
 import SpeakerIcon from '@assets/icons/speaker.svg';
 import MutedSpeakerIcon from '@assets/icons/muted_speaker.svg';
+import CommentIcon from '@assets/icons/comment_icon.svg';
+import LikeIcon from '@assets/icons/like_icon.svg';
 import { TruncatedText } from '../../../library';
 import SocialInfo from '../nft/social_info';
 import Challenge from '../../../../model/challenge_model';
