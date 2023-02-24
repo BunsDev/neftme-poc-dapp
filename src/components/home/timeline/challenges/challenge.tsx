@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Image,
   TouchableOpacity,
-  Text,
   View,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -20,6 +19,8 @@ import SpeakerIcon from '@assets/icons/speaker.svg';
 import MutedSpeakerIcon from '@assets/icons/muted_speaker.svg';
 import CommentIcon from '@assets/icons/comment_icon.svg';
 import LikeIcon from '@assets/icons/like_icon.svg';
+import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
+import RealmojiIcon from '@assets/icons/realmoji_icon.svg';
 import { TruncatedText } from '../../../library';
 import SocialInfo from '../nft/social_info';
 import Challenge from '../../../../model/challenge_model';
@@ -39,9 +40,7 @@ interface ISoundInfo {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 10,
-    backgroundColor: '#FFF',
-    height: 500,
+    height: 540,
     marginVertical: 5,
   },
   nftDescription: {
@@ -70,6 +69,16 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     borderRadius: 10,
+  },
+  iconsContainer: {
+    position: 'absolute',
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    marginTop: '64.5%',
+    marginRight: '10%',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: 100,
   },
 });
 
@@ -186,13 +195,31 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
             ? 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png'
             : 'https://picsum.photos/200/300',
         }}
-        style={selected ? styles.image : styles.imageOverlay}
+        style={styles.insideImages}
       />
+      <View style={styles.iconsContainer}>
+        <TouchableOpacity>
+          <CommentIcon width={30} height={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <CommentIcon width={30} height={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <LikeIcon width={30} height={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <ChallengeIcon width={30} height={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <RealmojiIcon width={30} height={30} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.imageOverlayContainer}>
-        <TouchableWithoutFeedback
-          onPress={() => switchImages()}
-          style={selected ? styles.imageOverlay : styles.image}
-        >
+        <TouchableWithoutFeedback onPress={() => switchImages()}>
           <Image
             source={{
               uri: selected
