@@ -3,9 +3,14 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import ChallengeIcon from '@assets/icons/challenge_header_icon.svg';
 import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
 import Challenge from '../../../model/challenge_model';
 import ReceivedChallengeItem from './received_challenge_item';
 import AcceptDeclineModal from './accept_decline_modal';
+import {
+  getChallengesSentByUser,
+  getChallengesReceivedByUser,
+} from '../../../services/challenge/challenge';
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +89,15 @@ const CommandCentre: React.FC = () => {
 
   const c = new Challenge('luisneves0.5', 'luis', 'nft', 'Send nudes', 1, true);
 
+  const receivedResponse = useQuery(['receivedChallenges'], () =>
+    getChallengesReceivedByUser('17')
+  );
+
+  const sentResponse = useQuery(['sentChallenges'], () =>
+    getChallengesSentByUser('17')
+  );
+
+
   return (
     <View style={styles.container}>
       <AcceptDeclineModal
@@ -128,17 +142,8 @@ const CommandCentre: React.FC = () => {
         </View>
       </View>
       {/* TODO Change this to flat list when dynamic */}
+      {selected === 0 ? <View /> : <View />}
       <View style={styles.challengeItemContainer}>
-        <ReceivedChallengeItem
-          challenge={c}
-          isModalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-        />
-        <ReceivedChallengeItem
-          challenge={c}
-          isModalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-        />
         <ReceivedChallengeItem
           challenge={c}
           isModalVisible={modalVisible}

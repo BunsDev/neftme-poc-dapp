@@ -25,6 +25,7 @@ import { TruncatedText } from '../../../library';
 import SocialInfo from '../nft/social_info';
 import Challenge from '../../../../model/challenge_model';
 import NFTModelClass from '../../../../model/nft_model';
+import PostChallenge from '../../../../services/challenge/challenge';
 
 const audioDefaultImage = require('@assets/audio_default_image.png');
 
@@ -185,6 +186,13 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
     setSelected(!selected);
   };
 
+  const createChallenge = async () => {
+    const c: Challenge = new Challenge('', '17', '1', 'desc', 12, false);
+    const r = await PostChallenge(c);
+    console.log(r);
+
+  };
+
   // TODO make dynamic
 
   return (
@@ -210,7 +218,7 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
           <LikeIcon width={30} height={30} />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => createChallenge()}>
           <ChallengeIcon width={30} height={30} />
         </TouchableOpacity>
 

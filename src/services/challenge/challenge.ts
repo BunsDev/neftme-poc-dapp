@@ -45,3 +45,35 @@ export const deleteChallenge = async (id: any) => {
 
   return true;
 };
+
+export const getChallengesSentByUser = async (user_id: string)=> {
+  const response = await fetch(`${Constants?.expoConfig?.extra?.apiUrl}/challenge/sent/${user_id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${await getData('auth_token')}`,
+    },
+  });
+
+  if (response?.status !== 200) return null;
+
+  return response.json();
+};
+
+export const getChallengesReceivedByUser = async (user_id: string) => {
+  const response = await fetch(`${Constants?.expoConfig?.extra?.apiUrl}/challenge/received/${user_id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${await getData('auth_token')}`,
+    },
+  });
+
+  if (response?.status !== 200) return false;
+
+  return true;
+};
