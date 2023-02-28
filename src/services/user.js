@@ -9,6 +9,28 @@ export const isNewUser = async () => {
   }
 };
 
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${await getData('auth_token')}`,
+      },
+    });
+
+    if (response?.status !== 200) {
+      return {};
+    }
+
+    return await response.json();
+  } catch (err) {
+    return {};
+  }
+};
+
 export const getUserByWallet = async (walletAddress) => {
   try {
     const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user?wallet_address=${walletAddress}`, {

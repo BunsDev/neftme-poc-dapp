@@ -8,9 +8,11 @@ import {
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@tanstack/react-query';
 import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
 import ChallengeSuccessModal from '../shared/challenge_success_modal';
+import { getAllUsers } from '../../../services/user';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +82,14 @@ const SelectUser: React.FC<Props> = () => {
   const [valueModalVisible, setvalueModalVisible] = useState(false);
   const [challengeSuccessModalVisible, setChallengeSuccessModalVisible] =
     useState(false);
+  const [searchInput, setSearchInput] = useState('');
+
+  const allUsers = useQuery(['allUsers', searchInput], () => getAllUsers(), {
+    // only fetch search terms longer than 2 characters
+    enabled: searchInput?.length > 2,
+    // refresh cache after 10 seconds (watch the network tab!)
+    staleTime: 10 * 1000,
+  });
 
   return (
     <View style={styles.container}>
