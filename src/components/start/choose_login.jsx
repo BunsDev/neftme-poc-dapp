@@ -56,11 +56,12 @@ const ChooseLogin = () => {
         </View>
         <View style={styles.mainContainer}>
           <InstagramLogin />
+          <Text style={styles.orText}>Or</Text>
           <Button
             text="Create new account"
             textStyle={styles.newAccountButtonText}
-            buttonStyle={[styles.newAccountButton, styles.disabledButton]}
-            onPress={() => { }}
+            buttonStyle={styles.newAccountButton}
+            onPress={() => navigation.navigate('CreateAccount')}
           />
         </View>
       </LinearGradient>

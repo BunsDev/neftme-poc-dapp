@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { getData } from './storage';
+import { getData, setData } from './storage';
 
 export const isNewUser = async () => {
   try {
@@ -11,15 +11,18 @@ export const isNewUser = async () => {
 
 export const getUserByWallet = async (walletAddress) => {
   try {
-    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user?wallet_address=${walletAddress}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
+    const response = await fetch(
+      `${Constants.expoConfig.extra.apiUrl}/user?wallet_address=${walletAddress}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${await getData('auth_token')}`,
+        },
+      }
+    );
 
     if (response?.status !== 200) {
       return {};
@@ -33,15 +36,18 @@ export const getUserByWallet = async (walletAddress) => {
 
 export const getUserByUsername = async (username) => {
   try {
-    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user?username=${username}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
+    const response = await fetch(
+      `${Constants.expoConfig.extra.apiUrl}/user?username=${username}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${await getData('auth_token')}`,
+        },
+      }
+    );
 
     if (response?.status !== 200) {
       return {};
@@ -79,15 +85,18 @@ export const getProfileData = async () => {
 
 export const getFeaturedProfiles = async () => {
   try {
-    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/featured_profiles`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
+    const response = await fetch(
+      `${Constants.expoConfig.extra.apiUrl}/featured_profiles`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${await getData('auth_token')}`,
+        },
+      }
+    );
 
     if (response?.status !== 200) {
       return [];
@@ -104,7 +113,7 @@ export const saveProfilePhoto = async (
   resource,
   getContractMethods,
   mintNFT,
-  connector,
+  connector
 ) => {
   try {
     const nft = {
@@ -115,9 +124,13 @@ export const saveProfilePhoto = async (
     };
 
     const contractMethods = await getContractMethods(
-      Constants.expoConfig.extra.neftmeErc721Address,
+      Constants.expoConfig.extra.neftmeErc721Address
     );
-    const mintedNFT = await mintNFT(contractMethods, nft, connector.accounts[0]);
+    const mintedNFT = await mintNFT(
+      contractMethods,
+      nft,
+      connector.accounts[0]
+    );
     return mintedNFT?.success ? mintedNFT.url : false;
   } catch (err) {
     return false;
@@ -126,13 +139,16 @@ export const saveProfilePhoto = async (
 
 export const followUser = async (userId) => {
   try {
-    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user/${userId}/follow`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
+    const response = await fetch(
+      `${Constants.expoConfig.extra.apiUrl}/user/${userId}/follow`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${await getData('auth_token')}`,
+        },
+      }
+    );
 
     if (response?.status !== 204) {
       return false;
@@ -146,13 +162,16 @@ export const followUser = async (userId) => {
 
 export const unfollowUser = async (userId) => {
   try {
-    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user/${userId}/unfollow`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${await getData('auth_token')}`,
-      },
-    });
+    const response = await fetch(
+      `${Constants.expoConfig.extra.apiUrl}/user/${userId}/unfollow`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${await getData('auth_token')}`,
+        },
+      }
+    );
 
     if (response?.status !== 204) {
       return false;
@@ -161,5 +180,37 @@ export const unfollowUser = async (userId) => {
     return true;
   } catch (err) {
     return false;
+  }
+};
+
+export const createAccount = async (username, email, password) => {
+  try {
+    const response = await fetch(`${Constants.expoConfig.extra.apiUrl}/user`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    if (response?.status !== 200) {
+      return {
+        success: false,
+      };
+    }
+    const body = await response.json();
+    if (!body?.token) {
+      return { success: false };
+    }
+    await setData('newUser', 'true');
+    return {
+      success: await setData('auth_token', body.token),
+    };
+  } catch (err) {
+    return {
+      success: false,
+    };
   }
 };
