@@ -24,7 +24,6 @@ export const getAllUsers = async () => {
     if (response?.status !== 200) {
       return {};
     }
-
     return await response.json();
   } catch (err) {
     return {};
