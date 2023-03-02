@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
-import Autocomplete from 'react-native-autocomplete-input';
+import AutoComplete from 'react-native-autocomplete-input';
 import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
 import ChallengeSuccessModal from '../shared/challenge_success_modal';
-import { getAllUsers } from '../../../services/user';
-import UserModelClass from '../../../model/user_model';
+import { getAllUsers, searchUserByPrompt, getUserByWallet } from '../../../services/user';
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const options = [
+const typeOtions = [
   {
     text: 'Search',
   },
@@ -85,49 +78,14 @@ const SelectUser: React.FC<Props> = () => {
     useState(false);
   const [searchInput, setSearchInput] = useState('');
 
-  const allUsers = useQuery(['allUsers', searchInput], () => getAllUsers(), {
-    // only fetch search terms longer than 2 characters
-    // enabled: searchInput?.length > 2,
-    // refresh cache after 10 seconds (watch the network tab!)
-    // staleTime: 10 * 1000,
-  });
-
-  // For Filtered Data
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  // For Selected Data
-  const [selectedUser, setSelectedUser] = useState();
-
-  const a = (text: string, user: any) => {
-    const name = user.username;
-
-    const r = allUsers.data.filter(
-      (aaa: any) => aaa.username.search(text) >= 0
-    );
-    // return name.search(text) >= 0;
-    return r;
-
-    // const a = allUsers.data.filter(user.search(text) >= 0);
-  };
-
-  const findFilm = (text: string) => {
-    // Method called every time when we change the value of the input
-
-    if (text) {
-      // Making a case insensitive regular expression
-      const regex = new RegExp(`${text.trim()}`, 'i');
-      // Setting the filtered film array according the query
-      // user.username.search(regex) >= 0
-
-      setFilteredUsers(
-        allUsers.data.filter((searchedUser: any) =>
-          searchedUser.username.includes(text)
-        )
-      );
-    } else {
-      // If the query is null then return blank
-      setFilteredUsers([]);
+  const allUsers = useQuery(
+    ['allUsers', searchInput],
+    () => searchUserByPrompt(searchInput),
+    {
+      enabled: searchInput?.length > 2,
+      staleTime: 10 * 1000,
     }
-  };
+  );
 
   return (
     <View style={styles.container}>
@@ -150,7 +108,7 @@ const SelectUser: React.FC<Props> = () => {
         <BackIcon width={25} height={25} />
       </TouchableOpacity>
       <View style={styles.textContainer}>
-        {options.map((item: any, index) => (
+        {typeOtions.map((item: any, index) => (
           <TouchableOpacity
             onPress={() => setSelected(index)}
             style={styles.individualText}
@@ -169,21 +127,19 @@ const SelectUser: React.FC<Props> = () => {
       </View>
       <View style={styles.searchContainer}>
         {selected === 0 ? (
-          <Autocomplete
+          <AutoComplete
             autoCapitalize="none"
             autoCorrect={false}
             containerStyle={styles.autocompleteContainer}
             // Data to show in suggestion
-            data={filteredUsers}
+            data={allUsers.data}
             // Default value if you want to set something in input
-            defaultValue={
-              JSON.stringify(selectedUser?.username) === '{}' ? '' : 'Search'
-            }
+            placeholderTextColor="#000"
+            placeholder="Search"
             // Onchange of the text changing the state of the query
             // Which will trigger the findFilm method
             // To show the suggestions
-            onChangeText={(text) => findFilm(text)}
-            placeholder="Search"
+            onChangeText={(text) => setSearchInput(text)}
             flatListProps={{
               renderItem: (obj: any) => (
                 // For the suggestion view
@@ -194,7 +150,9 @@ const SelectUser: React.FC<Props> = () => {
                     height: 45,
                   }}
                 >
-                  <Text style={{ color: '#000', fontSize: 12 }}>{obj.item.username}</Text>
+                  <Text style={{ color: '#000', fontSize: 12 }}>
+                    {obj.item.username}
+                  </Text>
                 </TouchableOpacity>
               ),
             }}
