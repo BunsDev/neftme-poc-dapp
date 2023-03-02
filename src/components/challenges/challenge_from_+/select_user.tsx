@@ -4,10 +4,11 @@ import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import AutoComplete from 'react-native-autocomplete-input';
+import { ProfileImage } from '../../library';
 import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
 import ChallengeSuccessModal from '../shared/challenge_success_modal';
-import { getAllUsers, searchUserByPrompt, getUserByWallet } from '../../../services/user';
+import { searchUserByPrompt } from '../../../services/user';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'column',
     marginTop: '13%',
+    marginHorizontal: '5%',
   },
   input: {
     height: 40,
@@ -50,6 +52,28 @@ const styles = StyleSheet.create({
   },
   aroundYouContainer: {
     alignSelf: 'center',
+  },
+  searchBar: {
+    backgroundColor: '#41414A',
+    borderRadius: 10,
+  },
+  resultItem: {
+    backgroundColor: '#13131F',
+    paddingVertical: 10,
+    height: 45,
+    paddingHorizontal: '30%',
+  },
+  resultText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  nftProfilePhoto: {
+    marginLeft: 16,
+    marginRight: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 60,
   },
 });
 
@@ -77,15 +101,15 @@ const SelectUser: React.FC<Props> = () => {
   const [challengeSuccessModalVisible, setChallengeSuccessModalVisible] =
     useState(false);
   const [searchInput, setSearchInput] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
-  const allUsers = useQuery(
-    ['allUsers', searchInput],
-    () => searchUserByPrompt(searchInput),
-    {
-      enabled: searchInput?.length > 2,
-      staleTime: 10 * 1000,
-    }
-  );
+  useQuery(['allUsers', searchInput], () => searchUserByPrompt(searchInput), {
+    onSuccess(data) {
+      setFilteredUsers(data);
+    },
+    enabled: searchInput?.length > 1,
+    staleTime: 5 * 1000,
+  });
 
   return (
     <View style={styles.container}>
@@ -130,9 +154,9 @@ const SelectUser: React.FC<Props> = () => {
           <AutoComplete
             autoCapitalize="none"
             autoCorrect={false}
-            containerStyle={styles.autocompleteContainer}
+            containerStyle={styles.searchBar}
             // Data to show in suggestion
-            data={allUsers.data}
+            data={filteredUsers}
             // Default value if you want to set something in input
             placeholderTextColor="#000"
             placeholder="Search"
@@ -145,14 +169,15 @@ const SelectUser: React.FC<Props> = () => {
                 // For the suggestion view
                 <TouchableOpacity
                   onPress={() => console.log(obj)}
-                  style={{
-                    paddingVertical: 10,
-                    height: 45,
-                  }}
+                  style={styles.resultItem}
                 >
-                  <Text style={{ color: '#000', fontSize: 12 }}>
-                    {obj.item.username}
-                  </Text>
+                  <ProfileImage
+                    profileImage={obj.item.profile_image}
+                    imageStyle={styles.nftProfilePhoto}
+                    avatarWidth={30}
+                    avatarHeight={30}
+                  />
+                  <Text style={styles.resultText}>{obj.item.username}</Text>
                 </TouchableOpacity>
               ),
             }}
