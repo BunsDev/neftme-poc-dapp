@@ -134,10 +134,12 @@ const SelectUser: React.FC<Props> = () => {
       horizontal={false}
       showsHorizontalScrollIndicator={false}
       data={filteredUsers}
-      keyExtractor={(item) => item.username}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={(item) => item?.username}
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={() => console.log(item)}
+          onPress={() => navigation.navigate('WriteChallenge')}
           style={styles.resultItem}
         >
           <ProfileImage
