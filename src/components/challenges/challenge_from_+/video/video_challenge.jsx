@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
 import VideoStartIcon from '@assets/icons/video_start.svg';
 import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
-import GalleryIcon from '@assets/icons/galery.svg';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import styles from '../image_video_shared/photo_video_styles';
 import CameraOptions from '../image_video_shared/camera_options';
+import Challenge from '../../../../model/challenge_model';
 
-const VideoChallenge = () => {
+const VideoChallenge = ({ challenge }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
@@ -49,24 +49,13 @@ const VideoChallenge = () => {
   };
 
   if (video) {
-    navigation.navigate('CreateNFT', {
-      screen: 'EditVideo',
-      params: {
-        resource: video?.uri,
-      },
-    });
+    navigation.navigate('FinalizeChallenge');
     /* if this set is not present, if you take a picture,
        discard it and come back to the camera screen, when making any action (changing camera, flash)
        it will return to the editing screen
     */
     setVideo(undefined);
   }
-
-  const goToGallery = () => {
-    navigation.navigate('CreateNFT', {
-      screen: 'VideoGallery',
-    });
-  };
 
   return (
     <Camera
@@ -86,17 +75,14 @@ const VideoChallenge = () => {
             )}
             <GreyRingIcon style={styles.greyRing} />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.gallery}
-            onPress={() => goToGallery()}
-          >
-            <GalleryIcon />
-            <Text style={styles.galleryText}>Gallery</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Camera>
   );
+};
+
+VideoChallenge.propTypes = {
+  challenge: PropTypes.shape(Challenge).isRequired,
 };
 
 export default VideoChallenge;

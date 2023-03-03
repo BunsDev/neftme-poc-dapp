@@ -4,12 +4,12 @@ import {
   TextInput,
   StyleSheet,
   Text,
-  Switch,
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Challenge from '../../../../model/challenge_model';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 174, 240, 0.27)',
     borderRadius: 8,
     padding: 16,
-    marginTop: '10%',
+    marginTop: '30%',
     flexDirection: 'row',
     marginHorizontal: '5%',
     height: '45%',
@@ -29,18 +29,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 16,
     color: '#F8F8F8',
-  },
-  hiddenContainer: {
-    flexDirection: 'row',
-    marginTop: 100,
-    marginHorizontal: '5%',
-    alignItems: 'center',
-  },
-  hiddenText: {
-    fontWeight: '500',
-    fontSize: 18,
-    color: '#FFF',
-    paddingRight: '66%',
   },
   closeKeyboard: {
     flex: 1,
@@ -60,30 +48,22 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
 });
-const TextChallenge = () => {
+
+export type Props = {
+  challenge: Challenge;
+};
+
+const TextChallenge: React.FC<Props> = ({ challenge }) => {
   const [challengeText, setChallengeText] = useState('');
-  const [isHidden, setIsHidden] = useState(false);
   const navigation = useNavigation<any>();
 
-  const toggle = () => {
-    setIsHidden(!isHidden);
+  const nextStep = () => {
+    challenge.setDescription(challengeText);
+    navigation.navigate('FinalizeChallenge', { challenge });
   };
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={styles.hiddenContainer}>
-          <Text style={styles.hiddenText}>Hidden</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isHidden ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggle}
-            value={isHidden}
-          />
-        </View>
-      </TouchableWithoutFeedback>
-
       <View style={styles.inputContainer}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.closeKeyboard}>
@@ -100,10 +80,7 @@ const TextChallenge = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={navigation.navigate}
-      >
+      <TouchableOpacity style={styles.button} onPress={() => nextStep()}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>

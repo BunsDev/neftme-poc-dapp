@@ -5,6 +5,7 @@ import AudioNFT from './audio/audio_nft';
 import ChallengeOptionItem from './challenge_option_item';
 import challengeTypes from './challenge_types';
 import TextChallenge from './text/text_challenge';
+import Challenge from '../../../model/challenge_model';
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -18,7 +19,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const WriteChallenge = () => {
+export type Props = {
+    challenge : Challenge
+}
+
+const WriteChallenge: React.FC<Props> = ({challenge}) => {
   const [selectedChallengeType, setselectedChallengeType] = useState(
     challengeTypes[1]
   );
@@ -27,13 +32,13 @@ const WriteChallenge = () => {
   const returnChallengeType = () => {
     switch (selectedChallengeType) {
       case challengeTypeArray[1]:
-        return <TextChallenge />;
+        return <TextChallenge challenge={challenge}/>;
       case challengeTypeArray[0]:
-        return <VideoNFT />;
+        return <VideoNFT challenge={challenge}/>;
       case challengeTypeArray[2]:
         return <AudioNFT />;
       default:
-        return <VideoNFT />;
+        return <VideoNFT challenge={challenge}/>;
     }
   };
 

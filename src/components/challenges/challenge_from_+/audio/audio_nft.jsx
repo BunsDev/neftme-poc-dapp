@@ -80,25 +80,12 @@ const AudioChallenge = () => {
   const [isRecording, setIsRecording] = useState(false);
   const navigation = useNavigation();
   const constants = Constants.expoConfig.extra;
-  const audioDir =
-    FileSystem.documentDirectory + constants.localAudioDirectory;
+  const audioDir = FileSystem.documentDirectory + constants.localAudioDirectory;
 
   // TODO Colocar funções na pasta utils e importar
 
-  const navigateToEditAudio = (nft) => {
-    if (nft) {
-      navigation.navigate('CreateNFT', {
-        screen: 'EditAudio',
-        params: {
-          nft,
-        },
-      });
-    } else {
-      navigation.navigate('CreateNFT', {
-        screen: 'EditAudio',
-        params: {},
-      });
-    }
+  const finalizeChallenge = () => {
+    navigation.navigate('FinalizeChallenge');
   };
 
   const startRecording = async () => {
@@ -188,7 +175,7 @@ const AudioChallenge = () => {
         undefined
       );
 
-      navigateToEditAudio(nft);
+      finalizeChallenge(nft);
     } catch (err) {
       // console.log(err);
     }
@@ -227,7 +214,7 @@ const AudioChallenge = () => {
           <GreyRingIcon style={styles.greyRing} />
         </TouchableOpacity>
         <View style={styles.galleryAudios}>
-          <TouchableOpacity onPress={() => navigateToEditAudio()}>
+          <TouchableOpacity onPress={() => finalizeChallenge()}>
             <SmallMicrophoneIcon style={styles.smallMicrophone} />
             <Text style={styles.galleryText}>Gallery</Text>
           </TouchableOpacity>

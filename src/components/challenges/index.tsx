@@ -6,6 +6,7 @@ import WriteChallenge from './challenge_from_+/write_challenge';
 import TextChallenge from './challenge_from_+/text/text_challenge';
 import AudioChallenge from './challenge_from_+/audio/audio_nft';
 import VideoChallenge from './challenge_from_+/video/video_challenge';
+import FinalizeChallenge from './challenge_from_+/finalize_challenge';
 const Stack = createNativeStackNavigator();
 
 const StartChallenge = () => (
@@ -19,6 +20,7 @@ const StartChallenge = () => (
     <Stack.Screen name="AudioChallenge" component={AudioChallenge} />
     <Stack.Screen name="VideoChallenge" component={VideoChallenge} />
     <Stack.Screen name="TextChallenge" component={TextChallenge} />
+    <Stack.Screen name="FinalizeChallenge" component={FinalizeChallenge} />
   </Stack.Navigator>
 );
 

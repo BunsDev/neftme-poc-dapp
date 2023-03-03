@@ -28,6 +28,30 @@ export default class Challenge {
     this.hidden = hidden;
   }
 
+  setUser(user: string) {
+    this.user = user;
+  }
+
+  setUserChallenged(userChallenged: string) {
+    this.user_challenged = userChallenged;
+  }
+
+  setNFT(nft: string) {
+    this.nft = nft;
+  }
+
+  setDescription(description: string) {
+    this.description = description;
+  }
+
+  setValue(value: number) {
+    this.value = value;
+  }
+
+  setHidden(hidden: boolean) {
+    this.hidden = hidden;
+  }
+
   getUser(): string {
     return this.user;
   }

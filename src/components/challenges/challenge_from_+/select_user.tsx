@@ -17,6 +17,7 @@ import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
 import ChallengeSuccessModal from '../shared/challenge_success_modal';
 import { searchUserByPrompt } from '../../../services/user';
+import Challenge from '../../../model/challenge_model';
 
 const styles = StyleSheet.create({
   container: {
@@ -129,6 +130,12 @@ const SelectUser: React.FC<Props> = () => {
     />
   );
 
+  const navigateToWriteChallenge = (username : string ) => {
+    const c = new Challenge('', username, '', '', 0, false);
+
+    navigation.navigate('WriteChallenge', { challenge: c });
+  };
+
   const renderList = () => (
     <FlatList
       horizontal={false}
@@ -139,7 +146,7 @@ const SelectUser: React.FC<Props> = () => {
       keyExtractor={(item) => item?.username}
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={() => navigation.navigate('WriteChallenge')}
+          onPress={() => navigateToWriteChallenge(item?.username)}
           style={styles.resultItem}
         >
           <ProfileImage
