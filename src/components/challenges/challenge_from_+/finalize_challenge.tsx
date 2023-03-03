@@ -7,12 +7,11 @@ import {
   Switch,
   Image,
   TextInput,
-  ImageBackground,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import BackIcon from '@assets/icons/back.svg';
-import { useNavigation } from '@react-navigation/native';
-import Challenge from '../../../model/challenge_model';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import PostChallenge from '../../../services/challenge/challenge';
 
 const styles = StyleSheet.create({
@@ -93,15 +92,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export type Props = {
-  challenge: Challenge;
-};
+export type Props = {};
 
-const FinalizeChallenge: React.FC<Props> = ({ challenge }) => {
+const FinalizeChallenge: React.FC<Props> = () => {
   const navigation = useNavigation<any>();
   const [isHidden, setIsHidden] = useState(false);
   const [description, setDescription] = useState('');
   const [challengeValue, setChallengeValue] = useState('');
+  const route = useRoute();
+  const challenge = route?.params?.challenge;
 
   const toggle = () => {
     setIsHidden(!isHidden);
@@ -112,9 +111,9 @@ const FinalizeChallenge: React.FC<Props> = ({ challenge }) => {
     challenge.setValue(Number.parseFloat(challengeValue));
     const r = await PostChallenge(challenge);
     if (r.success) {
-      Alert.alert('success');
+      Alert.alert('Success!');
     } else {
-      Alert.alert('error', r.error);
+      Alert.alert('Error!', r.error);
     }
   };
 
@@ -131,12 +130,15 @@ const FinalizeChallenge: React.FC<Props> = ({ challenge }) => {
         />
       </View>
       <View style={styles.contentContainer}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
-          }}
-        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: 'https://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
+            }}
+          />
+        </TouchableWithoutFeedback>
+
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}

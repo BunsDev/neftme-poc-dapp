@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Challenge from '../../../../model/challenge_model';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export type Props = {
-  challenge: Challenge;
-};
+export type Props = {};
 
-const TextChallenge: React.FC<Props> = ({ challenge }) => {
+const TextChallenge: React.FC<Props> = () => {
   const [challengeText, setChallengeText] = useState('');
   const navigation = useNavigation<any>();
+  const route = useRoute();
+  const challenge = route?.params?.challenge;
 
   const nextStep = () => {
     challenge.setDescription(challengeText);

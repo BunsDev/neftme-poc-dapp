@@ -6,6 +6,7 @@ import ChallengeOptionItem from './challenge_option_item';
 import challengeTypes from './challenge_types';
 import TextChallenge from './text/text_challenge';
 import Challenge from '../../../model/challenge_model';
+import { useRoute } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -19,26 +20,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export type Props = {
-    challenge : Challenge
-}
+export type Props = {};
 
-const WriteChallenge: React.FC<Props> = ({challenge}) => {
+const WriteChallenge: React.FC<Props> = () => {
   const [selectedChallengeType, setselectedChallengeType] = useState(
     challengeTypes[1]
   );
   const challengeTypeArray = Array.from(challengeTypes);
+  const route = useRoute();
 
   const returnChallengeType = () => {
     switch (selectedChallengeType) {
       case challengeTypeArray[1]:
-        return <TextChallenge challenge={challenge}/>;
+        return <TextChallenge challenge={route?.params?.challenge} />;
       case challengeTypeArray[0]:
-        return <VideoNFT challenge={challenge}/>;
+        return <VideoNFT challenge={route?.params?.challenge} />;
       case challengeTypeArray[2]:
         return <AudioNFT />;
       default:
-        return <VideoNFT challenge={challenge}/>;
+        return <VideoNFT challenge={route?.params?.challenge} />;
     }
   };
 

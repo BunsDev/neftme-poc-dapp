@@ -8,10 +8,9 @@ import {
   FlatList,
 } from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
-import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import AutoComplete from 'react-native-autocomplete-input';
-import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 import { ProfileImage } from '../../library';
 import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
@@ -130,10 +129,12 @@ const SelectUser: React.FC<Props> = () => {
     />
   );
 
-  const navigateToWriteChallenge = (username : string ) => {
+  const navigateToWriteChallenge = (username: string) => {
     const c = new Challenge('', username, '', '', 0, false);
 
-    navigation.navigate('WriteChallenge', { challenge: c });
+    navigation.navigate('WriteChallenge', {
+      challenge: c,
+    });
   };
 
   const renderList = () => (
