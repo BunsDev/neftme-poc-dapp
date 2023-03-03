@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  FlatList,
+} from 'react-native';
 import BackIcon from '@assets/icons/back.svg';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import AutoComplete from 'react-native-autocomplete-input';
+import { ScrollView } from 'react-native-gesture-handler';
 import { ProfileImage } from '../../library';
 import CentralChallengeModal from '../shared/challenge_modal';
 import SetChallengeValueModal from '../shared/set_challenge_value_modal';
@@ -40,40 +48,42 @@ const styles = StyleSheet.create({
     marginTop: '13%',
     marginHorizontal: '5%',
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    borderColor: '#2B2F3A',
-    backgroundColor: '#2B2F3A',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    color: '#FFF',
-  },
+
   aroundYouContainer: {
     alignSelf: 'center',
-  },
-  searchBar: {
-    backgroundColor: '#41414A',
-    borderRadius: 10,
   },
   resultItem: {
     backgroundColor: '#13131F',
     paddingVertical: 10,
-    height: 45,
-    paddingHorizontal: '30%',
+    height: 85,
+    paddingHorizontal: '5%',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   resultText: {
     color: '#FFF',
     fontSize: 18,
     fontWeight: '500',
+    marginLeft: '5%',
   },
   nftProfilePhoto: {
-    marginLeft: 16,
-    marginRight: 16,
     width: 48,
     height: 48,
     borderRadius: 60,
+  },
+  searchBar: {
+    borderWidth: 0,
+  },
+  listContainer: {
+    borderWidth: 0,
+  },
+  input: {
+    height: 40,
+    borderWidth: 0,
+    backgroundColor: '#2B2F3A',
+    borderRadius: 10,
+    paddingHorizontal: '3%',
+    color: '#FFF',
   },
 });
 
@@ -107,9 +117,40 @@ const SelectUser: React.FC<Props> = () => {
     onSuccess(data) {
       setFilteredUsers(data);
     },
-    enabled: searchInput?.length > 1,
     staleTime: 5 * 1000,
   });
+
+  const renderInput = () => (
+    <TextInput
+      autoCapitalize="none"
+      style={styles.input}
+      placeholder="Search"
+      onChangeText={(text) => setSearchInput(text)}
+    />
+  );
+
+  const renderList = () => (
+    <FlatList
+      horizontal={false}
+      showsHorizontalScrollIndicator={false}
+      data={filteredUsers}
+      keyExtractor={(item) => item.username}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          onPress={() => console.log(item)}
+          style={styles.resultItem}
+        >
+          <ProfileImage
+            profileImage={item?.profile_image}
+            imageStyle={styles.nftProfilePhoto}
+            avatarWidth={30}
+            avatarHeight={30}
+          />
+          <Text style={styles.resultText}>{item?.username}</Text>
+        </TouchableOpacity>
+      )}
+    />
+  );
 
   return (
     <View style={styles.container}>
@@ -155,6 +196,8 @@ const SelectUser: React.FC<Props> = () => {
             autoCapitalize="none"
             autoCorrect={false}
             containerStyle={styles.searchBar}
+            inputContainerStyle={styles.input}
+            listContainerStyle={styles.listContainer}
             // Data to show in suggestion
             data={filteredUsers}
             // Default value if you want to set something in input
@@ -163,24 +206,8 @@ const SelectUser: React.FC<Props> = () => {
             // Onchange of the text changing the state of the query
             // Which will trigger the findFilm method
             // To show the suggestions
-            onChangeText={(text) => setSearchInput(text)}
-            flatListProps={{
-              renderItem: (obj: any) => (
-                // For the suggestion view
-                <TouchableOpacity
-                  onPress={() => console.log(obj)}
-                  style={styles.resultItem}
-                >
-                  <ProfileImage
-                    profileImage={obj.item.profile_image}
-                    imageStyle={styles.nftProfilePhoto}
-                    avatarWidth={30}
-                    avatarHeight={30}
-                  />
-                  <Text style={styles.resultText}>{obj.item.username}</Text>
-                </TouchableOpacity>
-              ),
-            }}
+            renderTextInput={renderInput}
+            renderResultList={renderList}
           />
         ) : (
           <View>
