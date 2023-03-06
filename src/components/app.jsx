@@ -18,6 +18,11 @@ import NFTDetail from './nft_detail';
 import CreateNFT from './create_nft';
 import Search from './search';
 import StartChallenge from './challenges/index';
+import Challenge from '../model/challenge_model';
+
+type ParamsList = {
+  challenge: Challenge,
+};
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();

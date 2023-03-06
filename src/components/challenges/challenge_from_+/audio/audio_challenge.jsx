@@ -10,8 +10,10 @@ import SmallMicrophoneIcon from '@assets/icons/small_microphone.svg';
 import { CountUp } from 'use-count-up';
 import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
+import PropTypes from 'prop-types';
 import { format, getDurationFormatted } from '../../../../utils/time';
 import NFTModelClass from '../../../../model/nft_model';
+import Challenge from '../../../../model/challenge_model';
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AudioChallenge = () => {
+const AudioChallenge = ({ challenge }) => {
   const [recordingAudio, setRecording] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const navigation = useNavigation();
@@ -85,7 +87,8 @@ const AudioChallenge = () => {
   // TODO Colocar funções na pasta utils e importar
 
   const finalizeChallenge = () => {
-    navigation.navigate('FinalizeChallenge');
+    // TODO set Resources
+    navigation.navigate('FinalizeChallenge', { challenge });
   };
 
   const startRecording = async () => {
@@ -223,4 +226,9 @@ const AudioChallenge = () => {
     </View>
   );
 };
+
+AudioChallenge.propTypes = {
+  challenge: PropTypes.shape(Challenge).isRequired,
+};
+
 export default AudioChallenge;

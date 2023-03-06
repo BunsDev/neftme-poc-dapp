@@ -4,7 +4,7 @@ import SelectUser from './challenge_from_+/select_user';
 import CommandCentre from './command_centre/command_centre';
 import WriteChallenge from './challenge_from_+/write_challenge';
 import TextChallenge from './challenge_from_+/text/text_challenge';
-import AudioChallenge from './challenge_from_+/audio/audio_nft';
+import AudioChallenge from './challenge_from_+/audio/audio_challenge';
 import VideoChallenge from './challenge_from_+/video/video_challenge';
 import FinalizeChallenge from './challenge_from_+/finalize_challenge';
 const Stack = createNativeStackNavigator();

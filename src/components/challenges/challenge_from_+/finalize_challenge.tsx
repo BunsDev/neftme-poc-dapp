@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import PostChallenge from '../../../services/challenge/challenge';
+import ChallengeSuccessModal from '../shared/challenge_success_modal';
 
 const styles = StyleSheet.create({
   container: {
@@ -99,6 +100,7 @@ const FinalizeChallenge: React.FC<Props> = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [description, setDescription] = useState('');
   const [challengeValue, setChallengeValue] = useState('');
+  const [successModal, setSuccessModal] = useState(false);
   const route = useRoute();
   const challenge = route?.params?.challenge;
 
@@ -119,6 +121,10 @@ const FinalizeChallenge: React.FC<Props> = () => {
 
   return (
     <View style={styles.container}>
+      <ChallengeSuccessModal
+        setIsVisible={setSuccessModal}
+        isVisible={successModal}
+      />
       <View style={styles.hiddenContainer}>
         <Text style={styles.hiddenText}>Hidden</Text>
         <Switch

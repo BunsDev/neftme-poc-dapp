@@ -26,6 +26,12 @@ const VideoChallenge = ({ challenge }) => {
     requestPermissions();
   });
 
+  const nextStep = () => {
+    // TODO set Resources
+    // challenge.setDescription(challengeText);
+    navigation.navigate('FinalizeChallenge', { challenge });
+  };
+
   const recordVideo = () => {
     setIsRecording(true);
     const options = {
