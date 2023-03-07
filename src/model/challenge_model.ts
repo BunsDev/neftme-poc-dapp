@@ -3,9 +3,11 @@ export default class Challenge {
 
   private user_challenged: string;
 
-  private nft: string;
+  private challenge_resource: string;
 
-  private description: string;
+  private challenge_resource_type: string;
+
+  private extra_description: string;
 
   private value: number;
 
@@ -15,17 +17,23 @@ export default class Challenge {
   constructor(
     user: string,
     user_challenged: string,
-    nft: string,
+    challenge_resource: string,
+    challenge_resource_type: string,
     description: string,
     value: number,
     hidden: boolean
   ) {
     this.user = user;
     this.user_challenged = user_challenged;
-    this.nft = nft;
-    this.description = description;
+    this.challenge_resource = challenge_resource;
+    this.extra_description = description;
+    this.challenge_resource_type = challenge_resource_type;
     this.value = value;
     this.hidden = hidden;
+  }
+
+  setChallengeResourceType(challenge_resource_type: string) {
+    this.challenge_resource_type = challenge_resource_type;
   }
 
   setUser(user: string) {
@@ -36,12 +44,12 @@ export default class Challenge {
     this.user_challenged = userChallenged;
   }
 
-  setNFT(nft: string) {
-    this.nft = nft;
+  setExtraDescription(challenge_resource: string) {
+    this.challenge_resource = challenge_resource;
   }
 
-  setDescription(description: string) {
-    this.description = description;
+  setDescription(extra_description: string) {
+    this.extra_description = extra_description;
   }
 
   setValue(value: number) {
@@ -60,12 +68,16 @@ export default class Challenge {
     return this.user_challenged;
   }
 
-  getNft(): string {
-    return this.nft;
+  getChallengeResource(): string {
+    return this.challenge_resource;
+  }
+
+  getChallengeResourceType(): string {
+    return this.challenge_resource_type;
   }
 
   getDescription(): string {
-    return this.description;
+    return this.extra_description;
   }
 
   getValue(): number {

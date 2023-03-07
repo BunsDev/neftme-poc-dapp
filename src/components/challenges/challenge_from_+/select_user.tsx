@@ -130,7 +130,7 @@ const SelectUser: React.FC<Props> = () => {
   );
 
   const navigateToWriteChallenge = (username: string) => {
-    const c = new Challenge('', username, '', '', 0, false);
+    const c = new Challenge('', username, '', '', '', 0, false);
 
     navigation.navigate('WriteChallenge', {
       challenge: c,

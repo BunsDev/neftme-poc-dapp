@@ -37,7 +37,7 @@ const WriteChallenge: React.FC<Props> = () => {
       case challengeTypeArray[0]:
         return <VideoNFT challenge={challenge} />;
       case challengeTypeArray[2]:
-        return <AudioNFT />;
+        return <AudioNFT challenge={challenge}/>;
       default:
         return <VideoNFT challenge={challenge} />;
     }

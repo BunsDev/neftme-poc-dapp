@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Challenge from '../../../../model/challenge_model';
 
 const styles = StyleSheet.create({
