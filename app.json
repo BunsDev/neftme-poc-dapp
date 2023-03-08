@@ -73,12 +73,12 @@
           "user_media"
         ]
       },
-      "chainName": "XDC Apothem Testnet",
-      "rpcUrl": "https://erpc.apothem.network",
-      "chainId": 51,
-      "neftmeErc721Address": "0xA034E6EBEA777edD88904a1A52eCcD9294B37187",
-      "neftmeViewContractAddress": "0x0AA0D48Ed839A744dC29a873cF8D2f5367dBD3CF",
-      "neftmeErc20NEFTAddress": "0xA9841d6f1CE897f5672Aa81834fF0934639aD1Fd",
+      "chainName": "Fantom Testnet",
+      "rpcUrl": "https://rpc.testnet.fantom.network",
+      "chainId": 4002,
+      "neftmeErc721Address": "0x920fcC23a70479C2a96714569Ce0C1d9737C956f",
+      "neftmeViewContractAddress": "0xFbcd5892aAeF78B3d3906D028c2a312380b2a2E9",
+      "neftmeErc20NEFTAddress": "0xa0F5f70Ed7bBF58C9696d4BF322D5C7177767f23",
       "neftTokenImageUrl": "https://neftme.com/logo_color.png",
       "nftActivity": {
         "staked": "Staked",
