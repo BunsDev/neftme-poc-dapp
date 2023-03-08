@@ -7,8 +7,9 @@ export default async (challenge: Challenge) => {
 
     const formData = new FormData();
     formData.append('user_challenged', challenge.getUserChallenged());
-    formData.append('nft', challenge.getNft());
-    formData.append('description', challenge.getDescription());
+    formData.append('challenge_resource', challenge.getChallengeResource());
+    formData.append('challenge_resource_type', challenge.getChallengeResourceType());
+    formData.append('extra_description', challenge.getDescription());
     formData.append('value', `${challenge.getValue()}`);
     formData.append('hidden', `${challenge.getHidden()}`);
 

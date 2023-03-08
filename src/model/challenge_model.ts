@@ -19,14 +19,14 @@ export default class Challenge {
     user_challenged: string,
     challenge_resource: string,
     challenge_resource_type: string,
-    description: string,
+    extra_description: string,
     value: number,
     hidden: boolean
   ) {
     this.user = user;
     this.user_challenged = user_challenged;
     this.challenge_resource = challenge_resource;
-    this.extra_description = description;
+    this.extra_description = extra_description;
     this.challenge_resource_type = challenge_resource_type;
     this.value = value;
     this.hidden = hidden;
@@ -44,7 +44,7 @@ export default class Challenge {
     this.user_challenged = userChallenged;
   }
 
-  setExtraDescription(challenge_resource: string) {
+  setChallengeResource(challenge_resource: string) {
     this.challenge_resource = challenge_resource;
   }
 

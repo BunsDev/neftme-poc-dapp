@@ -6,6 +6,7 @@ import VideoStopIcon from '@assets/icons/stop_video_nft.svg';
 import GreyRingIcon from '@assets/icons/video_photo_nft_grey_ring.svg';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import Constants from 'expo-constants';
 import styles from '../image_video_shared/photo_video_styles';
 import CameraOptions from '../image_video_shared/camera_options';
 import Challenge from '../../../../model/challenge_model';
@@ -17,6 +18,7 @@ const VideoChallenge = ({ challenge }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
   const navigation = useNavigation();
+  const constants = Constants.expoConfig.extra;
 
   const requestPermissions = async () => {
     await Camera.requestCameraPermissionsAsync();
@@ -25,12 +27,6 @@ const VideoChallenge = ({ challenge }) => {
   useEffect(() => {
     requestPermissions();
   });
-
-  const nextStep = () => {
-    // TODO set Resources
-    // challenge.setDescription(challengeText);
-    navigation.navigate('FinalizeChallenge', { challenge });
-  };
 
   const recordVideo = () => {
     setIsRecording(true);
@@ -55,7 +51,9 @@ const VideoChallenge = ({ challenge }) => {
   };
 
   if (video) {
-    navigation.navigate('FinalizeChallenge');
+    challenge.setChallengeResource(video?.uri);
+    challenge.setChallengeResourceType(constants.mediaType.video);
+    navigation.navigate('FinalizeChallenge', { challenge });
     /* if this set is not present, if you take a picture,
        discard it and come back to the camera screen, when making any action (changing camera, flash)
        it will return to the editing screen

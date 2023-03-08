@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 import Challenge from '../../../../model/challenge_model';
 
 const styles = StyleSheet.create({
@@ -56,9 +57,11 @@ export type Props = {
 const TextChallenge: React.FC<Props> = ({ challenge }) => {
   const [challengeText, setChallengeText] = useState('');
   const navigation = useNavigation<any>();
+  const constants = Constants?.expoConfig?.extra;
 
   const nextStep = () => {
     challenge.setDescription(challengeText);
+    challenge.setChallengeResourceType(constants?.mediaType.text);
     navigation.navigate('FinalizeChallenge', { challenge });
   };
 

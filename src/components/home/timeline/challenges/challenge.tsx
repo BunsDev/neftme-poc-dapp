@@ -187,7 +187,7 @@ const ChallengeItem: React.FC<Props> = ({ challenge }) => {
   };
 
   const createChallenge = async () => {
-    const c: Challenge = new Challenge('', '17', '1', 'desc', 12, false);
+    const c: Challenge = new Challenge('', 'neftmeguest', '', 'jpg', 'descricao', 500, false);
     const r = await PostChallenge(c);
     console.log(r);
 
