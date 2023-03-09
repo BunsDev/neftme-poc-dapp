@@ -86,8 +86,10 @@ const AudioChallenge = ({ challenge }) => {
 
   // TODO Colocar funções na pasta utils e importar
 
-  const finalizeChallenge = () => {
+  const finalizeChallenge = (localURI) => {
     // TODO set Resources
+    challenge.setChallengeResource(localURI);
+    challenge.setChallengeResourceType(constants.mediaType.audio);
     navigation.navigate('FinalizeChallenge', { challenge });
   };
 
@@ -168,20 +170,7 @@ const AudioChallenge = ({ challenge }) => {
     const { status } = await recordingAudio.createNewLoadedSoundAsync();
     const localURI = await downloadAudioToLocalStorage(recordingAudio.getURI());
 
-    try {
-      const nft = new NFTModelClass(
-        localURI,
-        constants.mediaType.audio,
-        undefined,
-        undefined,
-        getDurationFormatted(status.durationMillis),
-        undefined
-      );
-
-      finalizeChallenge(nft);
-    } catch (err) {
-      // console.log(err);
-    }
+    finalizeChallenge(localURI);
   };
 
   return (
