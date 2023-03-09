@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 const CreateNFTDetails = () => {
   const route = useRoute();
-  const constants = Constants.manifest.extra;
+  const constants = Constants.expoConfig.extra;
   const navigation = useNavigation();
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState(undefined);

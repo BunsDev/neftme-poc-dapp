@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal, Text, Image, TouchableOpacity, View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileImage } from '@library';
 import BellIcon from '@assets/icons/bell.svg';
-import { useGetCurrentUserQuery } from '@features/current_user';
+import {
+  useGetCurrentUserQuery,
+  useUpdateCurrentUserMutation,
+} from '@features/current_user';
 import styles from './styles';
+import { getData } from '../../services/storage';
 
 const logo = require('@assets/logo_home.webp');
 
@@ -14,6 +18,18 @@ const Header = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
+  const [updateCurrentUser] = useUpdateCurrentUserMutation();
+
+  useEffect(() => {
+    (async () => {
+      const pushToken = await getData('push_token');
+      if (!currentUser.pushToken && pushToken) {
+        updateCurrentUser({
+          push_token: pushToken,
+        });
+      }
+    })();
+  }, [currentUser, updateCurrentUser]);
 
   return (
     <View>

@@ -75,7 +75,7 @@ const EditVideo = () => {
   const [selectedVideo, setSelectedVideo] = useState(route.params.resource);
   const [videoImage, setVideoImage] = useState();
   const [muted, setIsMuted] = useState(false);
-  const constants = Constants.manifest.extra;
+  const constants = Constants.expoConfig.extra;
 
   const generateThumbnail = async () => {
     try {

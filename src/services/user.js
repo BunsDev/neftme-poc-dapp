@@ -192,7 +192,12 @@ export const createAccount = async (username, email, password) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        push_token: await getData('push_token'),
+      }),
     });
 
     if (response?.status !== 200) {
