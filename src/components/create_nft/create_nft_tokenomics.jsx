@@ -17,7 +17,7 @@ const CreateNFTTokenomics = () => {
   const { getContractMethods } = useSmartContract();
   const [isLoading, setIsLoading] = useState(false);
   const [communityPercentage, setCommunityPercentage] = useState(0);
-  const constants = Constants.manifest.extra;
+  const constants = Constants.expoConfig.extra;
   const nftModelObject = route.params?.nft;
 
   const onMintNFTPress = async () => {

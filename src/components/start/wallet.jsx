@@ -57,7 +57,7 @@ const Wallet = () => {
       if (connector) {
         if (
           connector.connected &&
-          connector.chainId === Constants.manifest.extra.chainId
+          connector.chainId === Constants.expoConfig.extra.chainId
         ) {
           const response = await updateCurrentUser({
             walletAddress: connector.accounts[0],
@@ -78,11 +78,11 @@ const Wallet = () => {
           }
         } else if (
           connector.connected &&
-          connector.chainId !== Constants.manifest.extra.chainId
+          connector.chainId !== Constants.expoConfig.extra.chainId
         ) {
           Alert.alert(
             'Wrong blockchain',
-            `You are not connected to the correct network. You should be connected to ${Constants.manifest.extra.chainName}. To proceed, please switch network`,
+            `You are not connected to the correct network. You should be connected to ${Constants.expoConfig.extra.chainName}. To proceed, please switch network`,
             [{ text: 'Switch', onPress: changeToCorrectChain }]
           );
         }

@@ -79,9 +79,9 @@ const AudioNFT = () => {
   const [recordingAudio, setRecording] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const navigation = useNavigation();
-  const constants = Constants.manifest.extra;
+  const constants = Constants.expoConfig.extra;
   const audioDir =
-    FileSystem.documentDirectory + Constants.manifest.extra.localAudioDirectory;
+    FileSystem.documentDirectory + constants.localAudioDirectory;
 
   // TODO Colocar funções na pasta utils e importar
 
